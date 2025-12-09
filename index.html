@@ -138,17 +138,39 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
 </section>
 
 <!-- SIGNUP -->
+<!-- SIGNUP -->
 <section id="signup" class="section">
   <h2>Early Access Signup</h2>
-  <p class="section-sub">Data direct founder tak ✨</p>
+  <p class="section-sub">Direct message aapke founder tak ✨</p>
 
   <form onsubmit="sendWhatsApp(); return false;">
     <input type="text" id="name" placeholder="Naam" required>
-    <input type="text" id="mobile" placeholder="WhatsApp" required>
+    <input type="text" id="mobile" placeholder="WhatsApp Number" required>
     <input type="text" id="city" placeholder="City" required>
     <br>
-    <button type="submit" class="btn btn-primary">Submit & WhatsApp</button>
+    <button type="submit" class="btn btn-primary">Submit on WhatsApp</button>
   </form>
+</section>
+
+<script>
+function sendWhatsApp() {
+  let name = document.getElementById("name").value;
+  let mobile = document.getElementById("mobile").value;
+  let city = document.getElementById("city").value;
+
+  let message = `New PAY KARO Signup%0A%0A` +
+                `👤 Name: ${name}%0A` +
+                `📞 WhatsApp: ${mobile}%0A` +
+                `📍 City: ${city}`;
+
+  // 👉 Ye aapka number hai
+  let whatsappNum = "9300594567";
+
+  window.open(`https://wa.me/${whatsappNum}?text=${message}`, "_blank");
+  alert("Thank you! WhatsApp open ho raha hai 🙌");
+}
+</script>
+
 </section>
 
 <!-- CTA -->
@@ -184,4 +206,5 @@ function sendWhatsApp(){
 
 </body>
 </html>
+
 
