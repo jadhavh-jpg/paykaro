@@ -3,270 +3,330 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PAY KARO - Zero Fees. Full Control.</title>
+<title>PAY KARO - Har Business ke liye Asaan UPI</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-body{background:#f4f9ff;color:#01223A;}
+body{background:#f5f7fb;color:#022033;}
 
 /* HEADER */
-header{background:#01223A;color:white;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;}
-.logo{font-size:28px;font-weight:800;color:#00D4D4;}
-nav a{color:white;margin:0 10px;text-decoration:none;font-size:15px;}
+header{background:#02172e;color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
+.logo{font-size:24px;font-weight:800;color:#00e08b;display:flex;align-items:center;gap:8px;}
+.logo span.icon{width:28px;height:28px;border-radius:8px;background:#00e08b;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#02172e;font-size:16px;}
+nav a{color:#e9f4ff;margin:0 8px;text-decoration:none;font-size:14px;opacity:0.9;}
+nav a:hover{opacity:1;text-decoration:underline;}
 
 /* HERO */
-.hero{background:#013B73;color:white;text-align:center;padding:100px 20px;}
-.hero h1{font-size:45px;}
-.hero p{margin-top:10px;opacity:0.9;}
+.hero{background:linear-gradient(135deg,#02172e,#033a4f);color:white;padding:60px 18px 40px;}
+.hero-inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:32px;}
+.hero-text{flex:1 1 280px;min-width:260px;}
+.hero-eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#88f3c3;margin-bottom:8px;}
+.hero h1{font-size:36px;line-height:1.2;margin-bottom:8px;}
+.hero-sub{font-size:15px;opacity:0.85;margin-bottom:14px;}
+.hero-bullets{font-size:13px;opacity:0.9;margin-bottom:18px;}
+.hero-bullets span{display:inline-block;margin-right:8px;}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+.btn{padding:11px 20px;border:none;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px;}
+.btn-primary{background:#00e08b;color:#02172e;}
+.btn-secondary{background:transparent;color:white;border:1px solid rgba(255,255,255,0.4);}
+.hero-note{font-size:11px;opacity:0.75;margin-top:8px;}
 
-.btn{margin-top:20px;padding:12px 24px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:17px;}
-.btn-primary{background:#00D4D4;color:#01223A;}
-.btn-secondary{background:white;color:#01223A;margin-left:12px;}
+.hero-img{flex:1 1 280px;min-width:260px;text-align:center;}
+.hero-img img{width:100%;max-width:420px;border-radius:24px;box-shadow:0 18px 40px rgba(0,0,0,0.45);}
 
-/* SECTION */
-.section{padding:80px 20px;text-align:center;}
-.section h2{font-size:32px;margin-bottom:10px;}
-.section-sub{font-size:15px;opacity:0.75;margin-bottom:26px;}
+/* GENERIC SECTION */
+.section{padding:56px 18px;text-align:center;}
+.section-inner{max-width:980px;margin:0 auto;}
+.section h2{font-size:26px;margin-bottom:8px;}
+.section-sub{font-size:14px;opacity:0.7;margin-bottom:24px;}
 
 /* CARDS */
-.cards{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.card{background:white;width:260px;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.15);font-size:15px;}
-.card h3{font-size:18px;margin-bottom:8px;}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
+.card{background:white;width:260px;max-width:100%;padding:18px 16px;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,0.08);font-size:14px;text-align:left;}
+.card h3{font-size:16px;margin-bottom:6px;}
+.card-tag{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#00b86b;margin-bottom:4px;}
 
 /* PLANS */
-.plans{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.plan{background:white;width:260px;padding:22px;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,0.12);text-align:left;}
-.plan h3{font-size:20px;}
-.plan-price{font-size:24px;font-weight:800;color:#013B73;margin:10px 0;}
-.plan ul{margin:12px 0 18px;padding-left:14px;}
-.plan ul li{font-size:15px;margin:6px 0;}
-.plan ul li::before{content:"• ";color:#00D4D4;font-size:20px;}
+.plans{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;}
+.plan{background:white;width:260px;padding:20px 18px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.08);text-align:left;position:relative;overflow:hidden;}
+.plan-badge{position:absolute;top:10px;right:-32px;background:#00e08b;color:#02172e;font-size:10px;font-weight:700;padding:4px 32px;transform:rotate(35deg);}
+.plan h3{font-size:18px;margin-bottom:4px;}
+.plan-price{font-size:22px;font-weight:800;color:#033a4f;margin:8px 0;}
+.plan ul{margin:10px 0 14px 16px;font-size:13px;}
+.plan ul li{margin:4px 0;}
 
-/* CTA */
-.cta{background:#01223A;color:white;padding:60px 20px;text-align:center;}
-.cta h2{font-size:30px;}
-
-/* FLOAT BUTTON */
-.wa{position:fixed;right:16px;bottom:16px;width:55px;height:55px;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:26px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,0.45);}
-
-/* FOOTER */
-footer{background:#011A33;color:white;text-align:center;padding:18px;font-size:14px;}
-
-/* INPUT */
-input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aac1d0;}
+/* SIGNUP */
+.signup-form form{max-width:360px;margin:0 auto;}
+.signup-form input{width:100%;padding:11px 10px;border-radius:8px;border:1px solid #c0cddd;font-size:14px;margin:6px 0;}
+.signup-small{font-size:11px;opacity:0.7;margin-top:6px;}
 
 /* POSTER PREVIEW */
-.preview-card{max-width:480px;margin:24px auto;background:#121212;color:#fff;padding:16px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.6);}
+.preview-card{max-width:420px;margin:20px auto;background:#101820;color:#f7fffb;padding:16px;border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,0.7);text-align:center;}
 .preview-card img{max-width:100%;border-radius:10px;}
-.pay-btn{margin-top:18px;width:100%;padding:14px;border:none;border-radius:999px;font-size:18px;font-weight:600;background:#00c853;color:#fff;cursor:pointer;}
-</style>
+.pay-btn{margin-top:14px;width:100%;padding:13px;border:none;border-radius:999px;font-size:16px;font-weight:600;background:#00c853;color:#fff;cursor:pointer;}
+.preview-caption{font-size:13px;margin-top:6px;opacity:0.9;}
 
+/* CTA */
+.cta{background:#02172e;color:white;padding:40px 18px;text-align:center;}
+.cta h2{font-size:24px;margin-bottom:10px;}
+.cta p{font-size:13px;opacity:0.8;margin-bottom:14px;}
+
+/* FOOTER */
+footer{background:#000a14;color:#a7b4c5;text-align:center;padding:14px;font-size:11px;}
+
+/* FLOAT BUTTON */
+.wa{position:fixed;right:16px;bottom:16px;width:50px;height:50px;background:#25D366;color:white;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:24px;text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,0.45);}
+
+/* INPUT (poster) */
+.poster-card input[type="text"],
+.poster-card input[type="number"],
+.poster-card input[type="file"]{width:100%;padding:9px 10px;border-radius:8px;border:1px solid #c0cddd;font-size:13px;margin:5px 0;}
+.poster-card label{font-size:12px;opacity:0.8;}
+
+/* RESPONSIVE */
+@media (max-width:768px){
+  .hero-inner{flex-direction:column-reverse;text-align:center;}
+  .hero-text{text-align:center;}
+  .hero-ctas{justify-content:center;}
+}
+</style>
 </head>
 <body>
 
 <!-- HEADER -->
 <header>
-  <div class="logo">PAY KARO</div>
+  <div class="logo">
+    <span class="icon">₹</span>
+    PAY KARO
+  </div>
   <nav>
-    <a href="#home">Home</a>
     <a href="#how">How it Works</a>
-    <a href="#reminder">Reminder</a>
+    <a href="#benefits">Benefits</a>
     <a href="#pricing">Pricing</a>
-    <a href="#signup">Signup</a>
     <a href="#poster">Pay Poster</a>
+    <a href="#signup">Signup</a>
   </nav>
 </header>
 
 <!-- HERO -->
 <section id="home" class="hero">
-  <h1>Zero Fees. Full Control.</h1>
-  <p>Small Business Payment System – UPI Record + Monthly Reminder</p>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">INDIA UPI · SMALL BUSINESS</div>
+      <h1>Har Business ke liye Asaan UPI</h1>
+      <p class="hero-sub">PhonePe / GPay to payment lete hi hain…<br>ab PayKaro se record, reminder aur poster bhi banega.</p>
+      <p class="hero-bullets">
+        <span>✅ Zero Gateway Fees</span>
+        <span>✅ Quick Payment Record</span>
+        <span>✅ Auto Follow-up Reminder (coming)</span>
+      </p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="gotoSignup()">Start FREE Beta</button>
+        <button class="btn btn-secondary" onclick="location.href='#poster'">Try Pay Poster →</button>
+      </div>
+      <div class="hero-note">No KYC, no documents — sirf UPI ID se shuru karein.</div>
+    </div>
 
-  <button onclick="gotoSignup()" class="btn btn-primary">Start FREE</button>
-  <button onclick="gotoHow()" class="btn btn-secondary">Watch Demo</button>
+    <div class="hero-img">
+      <!-- ⚠️ is file ko project me hero-paykaro.jpg naam se rakho -->
+      <img src="hero-paykaro.jpg" alt="Shop owner using PayKaro UPI">
+    </div>
+  </div>
 </section>
 
 <!-- HOW IT WORKS -->
 <section id="how" class="section">
-  <h2>How PAY KARO Works</h2>
-  <p class="section-sub">3 steps and Business Smart</p>
+  <div class="section-inner">
+    <h2>Kaise kaam karta hai?</h2>
+    <p class="section-sub">3 simple steps – har coach, kirana, tiffin, therapist ke liye.</p>
 
-  <div class="cards">
-    <div class="card"><h3>1️⃣ Register</h3> Naam + UPI ID</div>
-    <div class="card"><h3>2️⃣ Link / QR</h3> WhatsApp billing on</div>
-    <div class="card"><h3>3️⃣ Track</h3> Paid / Pending clear</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-tag">STEP 1</div>
+        <h3>Signup + UPI Add</h3>
+        <p>Apna naam, business aur UPI ID daaliye. Kisi bank approval ki zaroorat nahi.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">STEP 2</div>
+        <h3>Poster / Link Banaayein</h3>
+        <p>Workshop poster ya fee banner upload karein, amount set karein, PayKaro aapka UPI link ready karega.</p>
+      </div>
+      <div class="card">
+        <div class="card-tag">STEP 3</div>
+        <h3>Share on WhatsApp</h3>
+        <p>Ek click me “Pay with UPI” message WhatsApp par share. Customer GPay / PhonePe se direct pay karega.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- REMINDER -->
-<section id="reminder" class="section" style="background:#e8ffff;">
-  <h2>Monthly Reminder System 🔔</h2>
-  <p class="section-sub">Due date par system khud WhatsApp karega</p>
+<!-- BENEFITS -->
+<section id="benefits" class="section" style="background:#eef5ff;">
+  <div class="section-inner">
+    <h2>Razorpay se simple, Google Pay se smarter</h2>
+    <p class="section-sub">Gateway charges nahi, phir bhi business-level control.</p>
 
-  <div class="cards">
-    <div class="card">Auto WhatsApp Reminder</div>
-    <div class="card">Due List Tracking</div>
-    <div class="card">Repeat Income System</div>
+    <div class="cards">
+      <div class="card">
+        <h3>No Gateway Charges</h3>
+        <p>Payment directly aapke UPI me. PayKaro sirf link + record + reminder ka system hai.</p>
+      </div>
+      <div class="card">
+        <h3>WhatsApp-First Design</h3>
+        <p>Har feature WhatsApp share ke around bana hai – poster, link, auto message.</p>
+      </div>
+      <div class="card">
+        <h3>Monthly Reminder Ready</h3>
+        <p>Repeat clients (fees, subscriptions, classes) ke liye monthly follow-up system (beta).</p>
+      </div>
+    </div>
   </div>
-  <br>
-  <button onclick="gotoSignup()" class="btn btn-primary">Join FREE Beta</button>
 </section>
 
 <!-- PRICING -->
 <section id="pricing" class="section">
-  <h2>Choose Plan</h2>
-  <p class="section-sub">Business ke hisaab se</p>
+  <div class="section-inner">
+    <h2>Simple Plans. No Hidden Fees.</h2>
+    <p class="section-sub">Start free beta, baad me business ke size ke hisaab se plan choose karein.</p>
 
-  <div class="plans">
-    <div class="plan">
-      <h3>Basic</h3>
-      <p class="plan-price">₹199/mo</p>
-      <ul>
-        <li>Unlimited QR & Links</li>
-        <li>Paid/Pending Track</li>
-        <li>Daily Summary</li>
-      </ul>
-      <button onclick="gotoSignup()" class="btn btn-primary">Select</button>
-    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Starter</h3>
+        <p class="plan-price">₹199 / month</p>
+        <ul>
+          <li>Unlimited UPI Links & Posters</li>
+          <li>Basic payment notes</li>
+          <li>Manual follow-up list</li>
+        </ul>
+        <button class="btn btn-primary" onclick="gotoSignup()">Join Starter Beta</button>
+      </div>
 
-    <div class="plan">
-      <h3>Premium</h3>
-      <p class="plan-price">₹500/mo</p>
-      <ul>
-        <li>All Basic Features</li>
-        <li>Invoice PDF</li>
-        <li>Auto Monthly Reminder</li>
-        <li>Priority Support</li>
-      </ul>
-      <button onclick="gotoSignup()" class="btn btn-primary">Select</button>
+      <div class="plan">
+        <div class="plan-badge">POPULAR</div>
+        <h3>Smart Business</h3>
+        <p class="plan-price">₹500 / month</p>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Template library (fees, workshops)</li>
+          <li>Reminder tags (monthly / one-time)</li>
+          <li>Email + WhatsApp priority support</li>
+        </ul>
+        <button class="btn btn-primary" onclick="gotoSignup()">Join Smart Beta</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SIGNUP -->
 <section id="signup" class="section">
-  <h2>Early Access Signup</h2>
-  <p class="section-sub">Data direct founder tak ✨</p>
+  <div class="section-inner signup-form">
+    <h2>Early Access Signup</h2>
+    <p class="section-sub">Aapka data seedha founder ki WhatsApp par jayega. Limited beta seats.</p>
 
-  <form onsubmit="sendWhatsApp(); return false;">
-    <input type="text" id="name" placeholder="Naam" required>
-    <input type="text" id="mobile" placeholder="WhatsApp" required>
-    <input type="text" id="city" placeholder="City" required>
-    <br>
-    <button type="submit" class="btn btn-primary">Submit & WhatsApp</button>
-  </form>
+    <form onsubmit="sendWhatsApp(); return false;">
+      <input type="text" id="name" placeholder="Naam" required>
+      <input type="text" id="mobile" placeholder="WhatsApp Number" required>
+      <input type="text" id="city" placeholder="City" required>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;">Submit & WhatsApp</button>
+      <div class="signup-small">By submitting you agree to be contacted on WhatsApp about PayKaro beta.</div>
+    </form>
+  </div>
 </section>
 
-<!-- CREATE PAY POSTER SECTION -->
+<!-- PAY POSTER FEATURE -->
 <section id="poster" class="section" style="background:#f0faff;">
-  <h2>Create Pay Poster Page</h2>
-  <p class="section-sub">Client ka poster + UPI se “₹ Pay with UPI” page banaayein.</p>
+  <div class="section-inner">
+    <h2>Turn Any Poster into a “Pay with UPI” Page</h2>
+    <p class="section-sub">Coach, healer, class, tiffin, rent – kisi bhi poster ke saath ek smart payment message create karein.</p>
 
-  <div class="card" style="max-width:480px;margin:0 auto;">
-    <div style="text-align:left;font-size:14px;">
-      <label>Poster Image (JPG/PNG):</label><br>
-      <input type="file" id="posterImage" accept="image/*"><br>
+    <div class="poster-card card" style="max-width:420px;margin:0 auto;">
+      <label>Poster Image (JPG/PNG):</label>
+      <input type="file" id="posterImage" accept="image/*">
 
-      <label>UPI ID:</label><br>
-      <input type="text" id="posterUpi" placeholder="jaise: nsingh4jan@oksbi"><br>
+      <label>UPI ID:</label>
+      <input type="text" id="posterUpi" placeholder="jaise: jadhav.h-2@okaxis">
 
-      <label>Amount (₹):</label><br>
-      <input type="number" id="posterAmount" placeholder="333"><br>
+      <label>Amount (₹):</label>
+      <input type="number" id="posterAmount" placeholder="333">
 
-      <label>Amount setting:</label><br>
-      <label style="font-size:13px;">
-        <input type="radio" name="amountMode" id="amountFixed" checked>
-        Fixed amount (customer sirf pay karega)
-      </label><br>
-      <label style="font-size:13px;">
-        <input type="radio" name="amountMode" id="amountEditable">
-        Customer amount khud dale UPI app me
-      </label><br><br>
+      <label>Amount setting:</label>
+      <label style="font-size:12px;display:block;margin-top:2px;">
+        <input type="radio" name="amountMode" id="amountFixed" checked> Fixed amount
+      </label>
+      <label style="font-size:12px;display:block;">
+        <input type="radio" name="amountMode" id="amountEditable"> Customer apna amount dale
+      </label>
 
-      <label>Note / Description:</label><br>
-      <input type="text" id="posterNote" placeholder="21 Days Meditation"><br>
+      <label style="margin-top:6px;">Note / Description:</label>
+      <input type="text" id="posterNote" placeholder="fees / workshop / subscription">
 
-      <button class="btn btn-primary" onclick="generatePosterPage()">Generate & Preview</button>
+      <button class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="generatePosterPage()">Generate & Preview</button>
     </div>
+
+    <div id="posterPreview"></div>
+
+    <button id="posterWhatsapp" class="btn btn-primary" style="margin-top:15px; display:none;">
+      Share on WhatsApp
+    </button>
   </div>
-
-  <div id="posterPreview"></div>
-
-  <!-- yahan HTML download nahi, WhatsApp share button hai -->
-  <button id="posterWhatsapp" class="btn btn-primary" style="margin-top:15px; display:none;">
-    Share on WhatsApp
-  </button>
 </section>
 
 <!-- CTA -->
 <section class="cta">
-  <h2>Start Smart Business Today 🚀</h2>
-  <button onclick="gotoSignup()" class="btn btn-primary">Start FREE</button>
+  <h2>Ab har chhota business bhi smart UPI use karega</h2>
+  <p>PayKaro ke saath – poster, payment aur follow-up ek hi jagah.</p>
+  <button class="btn btn-primary" onclick="gotoSignup()">Start FREE Beta</button>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  Made in India 🇮🇳 | WhatsApp Support: 9300594567
+  © 2025 PayKaro · Made in India 🇮🇳 · Direct UPI, No Gateway Fees
 </footer>
 
 <!-- WHATSAPP FLOAT -->
-<a class="wa" href="https://wa.me/9300594567?text=PAY%20KARO%20Signup" target="_blank">💬</a>
+<a class="wa" href="https://wa.me/9300594567?text=PAYKARO%20beta%20ke%20baare%20me%20baat%20karna%20hai" target="_blank">💬</a>
 
 <!-- SCRIPTS -->
 <script>
+// Navigation helpers
 function gotoSignup(){location.href="#signup";}
 function gotoHow(){location.href="#how";}
 
-// SIGNUP → WhatsApp + poster section open
+// SIGNUP → WhatsApp + scroll to poster
 function sendWhatsApp(){
-  let name=document.getElementById("name").value;
-  let mobile=document.getElementById("mobile").value;
-  let city=document.getElementById("city").value;
+  let name=document.getElementById("name").value.trim();
+  let mobile=document.getElementById("mobile").value.trim();
+  let city=document.getElementById("city").value.trim();
 
   let msg=`New PAYKARO Lead:%0AName: ${name}%0AMobile: ${mobile}%0ACity: ${city}`;
-
   window.open("https://wa.me/9300594567?text="+msg);
-  alert("Thank You! WhatsApp Open ho raha hai 🙏");
-
-  // Signup ke baad direct poster section par le jao
-  location.href = "#poster";
+  alert("Thank You! WhatsApp open ho raha hai 🙏");
+  location.href="#poster";
 }
 
 /* Poster feature */
-let posterDataUrl = "";
-let lastUpiLink = "";
-let lastAmountLine = "";
+let posterDataUrl=""; 
+let lastAmountLine="";
 
-const posterImageInput = document.getElementById("posterImage");
-if (posterImageInput) {
-  posterImageInput.addEventListener("change", function(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev){
-      posterDataUrl = ev.target.result;
-    };
+const posterImageInput=document.getElementById("posterImage");
+if(posterImageInput){
+  posterImageInput.addEventListener("change",e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{posterDataUrl=ev.target.result;};
     reader.readAsDataURL(file);
   });
 }
 
 function generatePosterPage(){
-  const upi = document.getElementById("posterUpi").value.trim();
-  const amount = document.getElementById("posterAmount").value.trim();
-  const note = document.getElementById("posterNote").value.trim() || "Payment";
-  const fixedMode = document.getElementById("amountFixed").checked;
+  const upi=document.getElementById("posterUpi").value.trim();
+  const amount=document.getElementById("posterAmount").value.trim();
+  const note=document.getElementById("posterNote").value.trim()||"payment";
+  const fixedMode=document.getElementById("amountFixed").checked;
 
-  if(!posterDataUrl){alert("Poster upload karein.");return;}
+  if(!posterDataUrl){alert("Pehle poster image upload karein.");return;}
   if(!upi){alert("UPI ID zaroori hai.");return;}
-
-  // UPI link build
-  let upiLink =
-    "upi://pay?pa=" + encodeURIComponent(upi) +
-    "&cu=INR&tn=" + encodeURIComponent(note);
-
-  if (fixedMode && amount) {
-    upiLink += "&am=" + encodeURIComponent(amount);
-  }
 
   const amountLine = amount
     ? (fixedMode
@@ -274,36 +334,33 @@ function generatePosterPage(){
         : `Amount UPI app me daalein – Suggested: ₹${amount} (${note})`)
     : `Amount UPI app me daalein – ${note}`;
 
-  lastUpiLink = upiLink;
-  lastAmountLine = amountLine;
+  lastAmountLine=amountLine;
 
-  const previewDiv = document.getElementById("posterPreview");
-  previewDiv.innerHTML =
-    '<div class="preview-card">' +
-      '<img src="'+posterDataUrl+'" alt="Poster">' +
-      '<p style="margin-top:8px;font-size:14px;">'+amountLine+'</p>' +
-      '<button class="pay-btn" onclick="window.location.href=\''+upiLink+'\'">₹ Pay with UPI</button>' +
+  const previewDiv=document.getElementById("posterPreview");
+  previewDiv.innerHTML=
+    '<div class="preview-card">'+
+      '<img src="'+posterDataUrl+'" alt="Poster">'+
+      '<p class="preview-caption">'+amountLine+'</p>'+
+      '<button class="pay-btn" onclick="alert(`Customer ke phone par UPI app open hogi is link se.`)">₹ Pay with UPI</button>'+
     '</div>';
 
-  // WhatsApp share button visible
-  document.getElementById("posterWhatsapp").style.display = "inline-block";
+  document.getElementById("posterWhatsapp").style.display="inline-block";
 }
 
 function sharePosterOnWhatsApp(){
-  if (!lastUpiLink){
+  if(!lastAmountLine){
     alert("Pehle poster generate karein.");
     return;
   }
-  const msg =
-    "Payment for: " + lastAmountLine +
-    "%0A%0APay via UPI 👇%0A" +
-    lastUpiLink;
+  const upi=document.getElementById("posterUpi").value.trim();
+  const msg=
+    "Payment for: "+lastAmountLine+
+    "%0AUPI ID: "+upi+
+    "%0APay using any UPI app (GPay / PhonePe / Paytm).";
 
-  window.open("https://wa.me/?text=" + msg, "_blank");
+  window.open("https://wa.me/?text="+msg,"_blank");
 }
-
-// button ko function se bind
-document.getElementById("posterWhatsapp").onclick = sharePosterOnWhatsApp;
+document.getElementById("posterWhatsapp").onclick=sharePosterOnWhatsApp;
 </script>
 
 </body>
