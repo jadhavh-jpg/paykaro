@@ -152,6 +152,71 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
     <button type="submit" class="btn btn-primary">Submit on WhatsApp</button>
   </form>
 </section>
+<!-- CREATE PAY POSTER -->
+<section id="poster" class="section">
+  <h2>Create Pay Poster Page</h2>
+  <p class="section-sub">Poster upload karein + UPI dalein → Payment page download</p>
+
+  <div class="card" style="max-width:480px;margin:0 auto;">
+    <label>Select Poster:</label><br>
+    <input type="file" id="posterImage" accept="image/*"><br><br>
+
+    <label>UPI ID:</label><br>
+    <input type="text" id="posterUpi" placeholder="jaise: ns@oksbi" style="width:100%;"><br><br>
+
+    <label>Amount (₹):</label><br>
+    <input type="number" id="posterAmount" placeholder="333" style="width:100%;"><br><br>
+
+    <label>Note:</label><br>
+    <input type="text" id="posterNote" placeholder="Fees" style="width:100%;"><br><br>
+
+    <button class="btn btn-primary" style="width:100%;" onclick="generatePosterPage()">Generate & Preview</button>
+  </div>
+
+  <div id="posterPreview" style="margin-top:25px;"></div>
+  <a id="posterDownload" href="#" download="pay-poster.html"
+     style="display:none;margin-top:15px;" class="btn btn-secondary">Download Payment Page</a>
+</section>
+let posterDataUrl="";
+
+document.getElementById("posterImage").addEventListener("change", function(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    posterDataUrl=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function generatePosterPage(){
+  const upi=document.getElementById("posterUpi").value.trim();
+  const amount=document.getElementById("posterAmount").value.trim();
+  const note=document.getElementById("posterNote").value.trim()||"Payment";
+
+  if(!posterDataUrl){alert("Poster upload karein");return;}
+  if(!upi){alert("UPI ID zaroori hai");return;}
+
+  const upiLink=`upi://pay?pa=${encodeURIComponent(upi)}&am=${encodeURIComponent(amount)}&cu=INR&tn=${encodeURIComponent(note)}`;
+
+  document.getElementById("posterPreview").innerHTML=
+  `<div style="max-width:480px;margin:0 auto;background:#121212;color:#fff;padding:16px;border-radius:12px;">
+     <img src="${posterDataUrl}" style="width:100%;border-radius:10px;">
+     <button style="margin-top:18px;width:100%;padding:14px;border:none;border-radius:999px;font-size:18px;background:#00c853;color:#fff;"
+        onclick="window.location.href='${upiLink}'">₹ Pay with UPI</button>
+   </div>`;
+
+  const pageHtml=`<!DOCTYPE html><html><body>
+  <img src="${posterDataUrl}" style="width:100%;">
+  <button onclick="window.location.href='${upiLink}'"
+      style="width:100%;padding:14px;border:none;border-radius:999px;font-size:18px;background:#00c853;color:#fff;">
+      ₹ Pay with UPI</button>
+  </body></html>`;
+
+  const blob=new Blob([pageHtml],{type:"text/html"});
+  document.getElementById("posterDownload").href=URL.createObjectURL(blob);
+  document.getElementById("posterDownload").style.display="inline-block";
+}
 
 <script>
 function sendWhatsApp() {
@@ -207,6 +272,7 @@ function sendWhatsApp(){
 
 </body>
 </html>
+
 
 
 
