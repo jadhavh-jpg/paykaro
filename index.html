@@ -177,6 +177,25 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
   <a id="posterDownload" href="#" download="pay-poster.html"
      style="display:none;margin-top:15px;" class="btn btn-secondary">Download Payment Page</a>
 </section>
+
+<script>
+function sendWhatsApp() {
+  let name = document.getElementById("name").value;
+  let mobile = document.getElementById("mobile").value;
+  let city = document.getElementById("city").value;
+
+  let message = `New PAY KARO Signup%0A%0A` +
+                `👤 Name: ${name}%0A` +
+                `📞 WhatsApp: ${mobile}%0A` +
+                `📍 City: ${city}`;
+
+  // 👉 Ye aapka number hai
+  let whatsappNum = "9300594567";
+
+  window.open(`https://wa.me/${whatsappNum}?text=${message}`, "_blank");
+  alert("Thank you! WhatsApp open ho raha hai 🙌");
+}
+</script>
 let posterDataUrl="";
 
 document.getElementById("posterImage").addEventListener("change", function(e){
@@ -218,25 +237,6 @@ function generatePosterPage(){
   document.getElementById("posterDownload").style.display="inline-block";
 }
 
-<script>
-function sendWhatsApp() {
-  let name = document.getElementById("name").value;
-  let mobile = document.getElementById("mobile").value;
-  let city = document.getElementById("city").value;
-
-  let message = `New PAY KARO Signup%0A%0A` +
-                `👤 Name: ${name}%0A` +
-                `📞 WhatsApp: ${mobile}%0A` +
-                `📍 City: ${city}`;
-
-  // 👉 Ye aapka number hai
-  let whatsappNum = "9300594567";
-
-  window.open(`https://wa.me/${whatsappNum}?text=${message}`, "_blank");
-  alert("Thank you! WhatsApp open ho raha hai 🙌");
-}
-</script>
-
 </section>
 
 <!-- CTA -->
@@ -272,6 +272,7 @@ function sendWhatsApp(){
 
 </body>
 </html>
+
 
 
 
