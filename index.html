@@ -192,9 +192,10 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
 
   <div id="posterPreview"></div>
 
-  <a id="posterDownload" href="#" download="pay-poster.html" style="display:none;">
-    <button class="btn btn-secondary" style="margin-top:15px;">Download Payment Page (HTML)</button>
-  </a>
+  <!-- yahan HTML download nahi, WhatsApp share button hai -->
+  <button id="posterWhatsapp" class="btn btn-primary" style="margin-top:15px; display:none;">
+    Share on WhatsApp
+  </button>
 </section>
 
 <!-- CTA -->
@@ -216,6 +217,7 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
 function gotoSignup(){location.href="#signup";}
 function gotoHow(){location.href="#how";}
 
+// SIGNUP → WhatsApp + poster section open
 function sendWhatsApp(){
   let name=document.getElementById("name").value;
   let mobile=document.getElementById("mobile").value;
@@ -225,10 +227,15 @@ function sendWhatsApp(){
 
   window.open("https://wa.me/9300594567?text="+msg);
   alert("Thank You! WhatsApp Open ho raha hai 🙏");
+
+  // Signup ke baad direct poster section par le jao
+  location.href = "#poster";
 }
 
 /* Poster feature */
 let posterDataUrl = "";
+let lastUpiLink = "";
+let lastAmountLine = "";
 
 const posterImageInput = document.getElementById("posterImage");
 if (posterImageInput) {
@@ -257,19 +264,19 @@ function generatePosterPage(){
     "upi://pay?pa=" + encodeURIComponent(upi) +
     "&cu=INR&tn=" + encodeURIComponent(note);
 
-  // Agar fixed mode ON hai aur amount diya hai, to amount fix
   if (fixedMode && amount) {
     upiLink += "&am=" + encodeURIComponent(amount);
   }
 
-  // Amount line text
   const amountLine = amount
     ? (fixedMode
         ? `Pay ₹${amount} – ${note}`
         : `Amount UPI app me daalein – Suggested: ₹${amount} (${note})`)
     : `Amount UPI app me daalein – ${note}`;
 
-  // Preview on same page
+  lastUpiLink = upiLink;
+  lastAmountLine = amountLine;
+
   const previewDiv = document.getElementById("posterPreview");
   previewDiv.innerHTML =
     '<div class="preview-card">' +
@@ -278,37 +285,25 @@ function generatePosterPage(){
       '<button class="pay-btn" onclick="window.location.href=\''+upiLink+'\'">₹ Pay with UPI</button>' +
     '</div>';
 
-  // Build downloadable HTML page
-  const pageHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Pay with UPI - PAY KARO</title>
-<style>
-body{font-family:Arial,sans-serif;background:#121212;color:#fff;text-align:center;padding:20px;}
-.card{max-width:480px;margin:0 auto;background:#1e1e1e;border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,0.6);}
-.card img{max-width:100%;border-radius:10px;}
-.pay-btn{margin-top:18px;width:100%;padding:14px;border:none;border-radius:999px;font-size:18px;font-weight:600;background:#00c853;color:#fff;cursor:pointer;}
-</style>
-</head>
-<body>
-<div class="card">
-  <img src="${posterDataUrl}" alt="Poster">
-  <p style="margin-top:8px;font-size:14px;">
-    ${amountLine}
-  </p>
-  <button class="pay-btn" onclick="window.location.href='${upiLink}'">₹ Pay with UPI</button>
-</div>
-</body>
-</html>`;
-
-  const blob = new Blob([pageHtml], {type:"text/html"});
-  const url = URL.createObjectURL(blob);
-  const dl = document.getElementById("posterDownload");
-  dl.href = url;
-  dl.style.display = "block";
+  // WhatsApp share button visible
+  document.getElementById("posterWhatsapp").style.display = "inline-block";
 }
+
+function sharePosterOnWhatsApp(){
+  if (!lastUpiLink){
+    alert("Pehle poster generate karein.");
+    return;
+  }
+  const msg =
+    "Payment for: " + lastAmountLine +
+    "%0A%0APay via UPI 👇%0A" +
+    lastUpiLink;
+
+  window.open("https://wa.me/?text=" + msg, "_blank");
+}
+
+// button ko function se bind
+document.getElementById("posterWhatsapp").onclick = sharePosterOnWhatsApp;
 </script>
 
 </body>
