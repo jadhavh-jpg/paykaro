@@ -173,6 +173,16 @@ input{padding:12px;margin:6px;width:260px;border-radius:6px;border:1px solid #aa
       <label>Amount (₹):</label><br>
       <input type="number" id="posterAmount" placeholder="333"><br>
 
+      <label>Amount setting:</label><br>
+      <label style="font-size:13px;">
+        <input type="radio" name="amountMode" id="amountFixed" checked>
+        Fixed amount (customer sirf pay karega)
+      </label><br>
+      <label style="font-size:13px;">
+        <input type="radio" name="amountMode" id="amountEditable">
+        Customer amount khud dale UPI app me
+      </label><br><br>
+
       <label>Note / Description:</label><br>
       <input type="text" id="posterNote" placeholder="21 Days Meditation"><br>
 
@@ -237,20 +247,34 @@ function generatePosterPage(){
   const upi = document.getElementById("posterUpi").value.trim();
   const amount = document.getElementById("posterAmount").value.trim();
   const note = document.getElementById("posterNote").value.trim() || "Payment";
+  const fixedMode = document.getElementById("amountFixed").checked;
 
   if(!posterDataUrl){alert("Poster upload karein.");return;}
   if(!upi){alert("UPI ID zaroori hai.");return;}
 
-  const upiLink =
+  // UPI link build
+  let upiLink =
     "upi://pay?pa=" + encodeURIComponent(upi) +
-    "&am=" + encodeURIComponent(amount) +
     "&cu=INR&tn=" + encodeURIComponent(note);
+
+  // Agar fixed mode ON hai aur amount diya hai, to amount fix
+  if (fixedMode && amount) {
+    upiLink += "&am=" + encodeURIComponent(amount);
+  }
+
+  // Amount line text
+  const amountLine = amount
+    ? (fixedMode
+        ? `Pay ₹${amount} – ${note}`
+        : `Amount UPI app me daalein – Suggested: ₹${amount} (${note})`)
+    : `Amount UPI app me daalein – ${note}`;
 
   // Preview on same page
   const previewDiv = document.getElementById("posterPreview");
   previewDiv.innerHTML =
     '<div class="preview-card">' +
       '<img src="'+posterDataUrl+'" alt="Poster">' +
+      '<p style="margin-top:8px;font-size:14px;">'+amountLine+'</p>' +
       '<button class="pay-btn" onclick="window.location.href=\''+upiLink+'\'">₹ Pay with UPI</button>' +
     '</div>';
 
@@ -271,6 +295,9 @@ body{font-family:Arial,sans-serif;background:#121212;color:#fff;text-align:cente
 <body>
 <div class="card">
   <img src="${posterDataUrl}" alt="Poster">
+  <p style="margin-top:8px;font-size:14px;">
+    ${amountLine}
+  </p>
   <button class="pay-btn" onclick="window.location.href='${upiLink}'">₹ Pay with UPI</button>
 </div>
 </body>
