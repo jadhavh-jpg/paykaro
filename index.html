@@ -2,304 +2,171 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pay Karo | Simple UPI Payment Gateway for India</title>
+<title>Pay Karo | UPI Payment Gateway</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial}
-body{background:#f5f8fc;color:#0f2a44;line-height:1.5}
-a{text-decoration:none;color:inherit}
+body{background:#f5f8fc;color:#0f2a44}
 .hidden{display:none}
-
-/* HEADER */
 header{
-  background:#02172e;
-  color:#fff;
-  padding:14px 32px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:100;
+  background:#02172e;color:#fff;
+  padding:14px 28px;
+  display:flex;justify-content:space-between;align-items:center
 }
-.logo{font-size:24px;font-weight:800;color:#00e08b}
-nav a{
-  margin:0 14px;
-  font-size:14px;
-  opacity:.9
+.logo{font-size:22px;font-weight:800;color:#00e08b}
+button{
+  padding:12px 22px;border:none;border-radius:999px;
+  background:#00e08b;color:#02172e;
+  font-weight:800;cursor:pointer
 }
-nav a:hover{opacity:1}
-.nav-btn{
-  background:#00e08b;
-  color:#02172e;
-  padding:10px 18px;
-  border-radius:999px;
-  border:none;
-  font-weight:700;
-  cursor:pointer
-}
-
-/* HERO */
-.hero{
-  background:linear-gradient(135deg,#02172e,#033a4f);
-  color:#fff;
-  padding:90px 20px;
-}
-.hero-inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:40px;
-  flex-wrap:wrap
-}
-.hero-text{flex:1}
-.hero-text h1{
-  font-size:44px;
-  line-height:1.2;
-  margin-bottom:14px
-}
-.hero-text p{
-  font-size:17px;
-  opacity:.9;
-  margin-bottom:24px
-}
-.hero-actions button{margin-right:10px}
-.hero-img{flex:1;text-align:center}
-.hero-img img{
-  width:100%;
-  max-width:460px;
-  border-radius:22px;
-  box-shadow:0 20px 40px rgba(0,0,0,.4)
-}
-
-/* BUTTONS */
-.btn-primary{
-  background:#00e08b;
-  color:#02172e;
-  padding:14px 26px;
-  border-radius:999px;
-  border:none;
-  font-weight:800;
-  font-size:15px;
-  cursor:pointer
-}
-.btn-outline{
-  background:transparent;
-  border:1px solid rgba(255,255,255,.4);
-  color:#fff;
-  padding:14px 26px;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer
-}
-
-/* SECTIONS */
-.section{padding:80px 20px}
-.section-inner{max-width:1100px;margin:auto;text-align:center}
-.section h2{font-size:34px;margin-bottom:10px}
-.section-sub{opacity:.7;margin-bottom:40px}
-
-/* CARDS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:24px
-}
-.card{
-  background:#fff;
-  padding:28px;
-  border-radius:18px;
-  box-shadow:0 12px 30px rgba(0,0,0,.08);
-  text-align:left
-}
-.card h3{margin-bottom:8px}
-
-/* TRUST */
-.trust{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-top:30px;
-  font-size:14px
-}
-
-/* CTA */
-.cta{
-  background:#02172e;
-  color:#fff;
-  padding:80px 20px;
-  text-align:center
-}
-.cta h2{font-size:36px;margin-bottom:12px}
-.cta p{opacity:.8;margin-bottom:24px}
-
-/* FOOTER */
-footer{
-  background:#000a14;
-  color:#9fb4cc;
-  padding:20px;
-  text-align:center;
-  font-size:12px
-}
-
-/* FORMS */
-.form{
-  max-width:420px;
-  margin:40px auto;
-  background:#fff;
-  padding:30px;
-  border-radius:20px;
+.section{padding:70px 20px}
+.container{
+  max-width:420px;margin:auto;background:#fff;
+  padding:30px;border-radius:20px;
   box-shadow:0 20px 40px rgba(0,0,0,.12)
 }
-.form input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #ccd6e3
+input{
+  width:100%;padding:12px;margin:8px 0;
+  border-radius:10px;border:1px solid #ccd6e3
+}
+.cards{display:flex;gap:20px;flex-wrap:wrap}
+.card{
+  background:#fff;padding:20px;border-radius:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);width:240px
+}
+footer{
+  background:#000a14;color:#9fb4cc;
+  padding:16px;text-align:center;font-size:12px
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="logo">₹ Pay Karo</div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="#pricing">Pricing</a>
-  </nav>
-  <button class="nav-btn" onclick="openSignup()">Sign Up</button>
+  <button id="authBtn" onclick="openLogin()">Login</button>
 </header>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <h1>Simple & Secure<br>UPI Payment Gateway</h1>
-      <p>
-        Accept payments using UPI payment pages, posters & links.
-        No gateway fees. Money comes directly to your UPI.
-      </p>
-
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="openSignup()">Get Started Free</button>
-        <button class="btn-outline">View Demo</button>
-      </div>
-
-      <div class="trust">
-        <span>🔒 Secure UPI</span>
-        <span>🇮🇳 Made for India</span>
-        <span>💸 No Gateway Fees</span>
-        <span>📱 GPay • PhonePe • Paytm</span>
-      </div>
-    </div>
-
-    <div class="hero-img">
-      <img src="hero.png" alt="Pay Karo Dashboard">
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" class="section">
-  <div class="section-inner">
-    <h2>Our Services</h2>
-    <p class="section-sub">Everything you need to collect payments digitally</p>
-
-    <div class="cards">
-      <div class="card">
-        <h3>UPI Payment Pages</h3>
-        <p>Create professional payment pages for fees, services & workshops.</p>
-      </div>
-      <div class="card">
-        <h3>Pay Poster</h3>
-        <p>Share posters with built-in payment option on WhatsApp.</p>
-      </div>
-      <div class="card">
-        <h3>Direct UPI Payments</h3>
-        <p>Payments go directly to your UPI — no holding wallet.</p>
-      </div>
-      <div class="card">
-        <h3>WhatsApp Ready</h3>
-        <p>Built specially for WhatsApp-based businesses.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about" class="section" style="background:#eef5ff">
-  <div class="section-inner">
-    <h2>About Pay Karo</h2>
-    <p class="section-sub">
-      Pay Karo is built for Indian small businesses who want
-      a simple, transparent and reliable way to collect payments.
-    </p>
-
-    <p style="max-width:760px;margin:auto">
-      Unlike traditional payment gateways, Pay Karo focuses on
-      simplicity. No complex dashboards, no heavy onboarding,
-      no confusing charges — just clean UPI-based payments
-      that work the way Indian businesses operate.
-    </p>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing" class="section">
-  <div class="section-inner">
-    <h2>Simple Pricing</h2>
-    <p class="section-sub">No hidden fees. No gateway cuts.</p>
-
-    <div class="cards">
-      <div class="card">
-        <h3>Free</h3>
-        <p><strong>₹0 / month</strong></p>
-        <p>Basic payment pages & posters</p>
-      </div>
-      <div class="card">
-        <h3>Pro</h3>
-        <p><strong>₹499 / month</strong></p>
-        <p>Advanced features & priority support</p>
-      </div>
-    </div>
+<!-- HOME -->
+<section id="home" class="section">
+  <div class="container">
+    <h2>Simple & Secure UPI Payments</h2>
+    <p>Accept payments using UPI pages & posters.</p>
+    <button onclick="openSignup()">Get Started Free</button>
   </div>
 </section>
 
 <!-- SIGNUP -->
 <section id="signup" class="section hidden">
-  <div class="form">
+  <div class="container">
     <h2>Create Account</h2>
-    <input placeholder="Full Name">
-    <input placeholder="Mobile Number">
-    <input placeholder="Email">
-    <button class="btn-primary" style="width:100%">Sign Up</button>
+    <input id="sEmail" placeholder="Email">
+    <input id="sPassword" type="password" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+    <p style="margin-top:10px;font-size:13px">
+      Already have account? <a href="#" onclick="openLogin()">Login</a>
+    </p>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
-  <h2>Start Accepting Payments Today</h2>
-  <p>Free signup • No documents • Direct UPI</p>
-  <button class="btn-primary" onclick="openSignup()">Create Free Account</button>
+<!-- LOGIN -->
+<section id="login" class="section hidden">
+  <div class="container">
+    <h2>Login</h2>
+    <input id="lEmail" placeholder="Email">
+    <input id="lPassword" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="section hidden">
+  <div class="container">
+    <h2>Welcome 👋</h2>
+    <p id="userEmail"></p>
+
+    <div class="cards" style="margin-top:20px">
+      <div class="card">
+        <h3>Create Payment Page</h3>
+        <button onclick="alert('Next: Razorpay integration')">Open</button>
+      </div>
+      <div class="card">
+        <h3>Create Pay Poster</h3>
+        <button onclick="alert('Poster flow ready')">Open</button>
+      </div>
+    </div>
+
+    <button style="margin-top:20px" onclick="logout()">Logout</button>
+  </div>
 </section>
 
 <footer>
-  © 2025 Pay Karo · Secure UPI Payments · Made in India 🇮🇳
+  © 2025 Pay Karo · Secure UPI · Made in India 🇮🇳
 </footer>
 
 <script>
-function openSignup(){
-  document.getElementById("signup").classList.remove("hidden");
-  window.scrollTo({top:document.getElementById("signup").offsetTop,behavior:"smooth"});
+/* ================= FIREBASE CONFIG =================
+   ⚠️ YAHAN APNI REAL VALUES PASTE KARO
+*/
+const firebaseConfig = {
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE",
+  storageBucket: "PASTE_HERE",
+  messagingSenderId: "PASTE_HERE",
+  appId: "PASTE_HERE"
+};
+// ===================================================
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+/* UI helpers */
+function hideAll(){
+  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
 }
+function openSignup(){hideAll();signup.classList.remove("hidden")}
+function openLogin(){hideAll();login.classList.remove("hidden")}
+
+/* AUTH */
+function signup(){
+  auth.createUserWithEmailAndPassword(
+    sEmail.value, sPassword.value
+  ).then(()=>alert("Signup successful"))
+   .catch(e=>alert(e.message));
+}
+
+function login(){
+  auth.signInWithEmailAndPassword(
+    lEmail.value, lPassword.value
+  ).catch(e=>alert(e.message));
+}
+
+function logout(){
+  auth.signOut();
+}
+
+/* AUTH STATE */
+auth.onAuthStateChanged(user=>{
+  if(user){
+    hideAll();
+    dashboard.classList.remove("hidden");
+    userEmail.innerText = user.email;
+    authBtn.innerText="Logout";
+    authBtn.onclick=logout;
+  }else{
+    hideAll();
+    home.classList.remove("hidden");
+    authBtn.innerText="Login";
+    authBtn.onclick=openLogin;
+  }
+});
 </script>
 
 </body>
