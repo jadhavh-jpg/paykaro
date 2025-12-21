@@ -3,163 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PAY KARO - Har Business ke liye Asaan UPI</title>
+<title>Pay Karo – Simple & Secure UPI Payments</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-body{background:#f5f7fb;color:#022033;}
-.hidden{display:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif;}
+body{background:#f5f8fc;color:#0f2a44;}
 
-/* HEADER */
-header{background:#02172e;color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
-.logo{font-size:24px;font-weight:800;color:#00e08b;display:flex;align-items:center;gap:8px;}
-.logo span.icon{width:28px;height:28px;border-radius:8px;background:#00e08b;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#02172e;font-size:16px;}
-nav a{color:#e9f4ff;margin:0 8px;text-decoration:none;font-size:14px;opacity:0.9;}
-nav a:hover{opacity:1;text-decoration:underline;}
+/* ---------- HEADER ---------- */
+header{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(90deg,#02172e,#033a4f);
+  padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.logo{
+  font-size:22px;font-weight:800;color:#00e08b;
+  display:flex;align-items:center;gap:10px;
+}
+.logo span{
+  background:#00e08b;color:#02172e;
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+nav a{
+  color:#e6f3ff;text-decoration:none;
+  margin:0 14px;font-size:14px;opacity:.9;
+}
+nav a:hover{opacity:1}
+.nav-btn{
+  background:#00e08b;color:#02172e;
+  padding:10px 18px;border-radius:999px;
+  font-weight:700;border:none;cursor:pointer;
+}
 
-.btn{padding:11px 20px;border:none;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px;}
-.btn-primary{background:#00e08b;color:#02172e;}
-.btn-secondary{background:#02172e;color:white;border:1px solid rgba(255,255,255,0.4);}
+/* ---------- HERO ---------- */
+.hero{
+  background:linear-gradient(135deg,#02172e,#033a4f);
+  color:#fff;padding:90px 24px;
+}
+.hero-inner{
+  max-width:1200px;margin:auto;
+  display:flex;flex-wrap:wrap;gap:40px;align-items:center;
+}
+.hero-text{flex:1;min-width:280px;}
+.hero h1{font-size:42px;line-height:1.2;margin-bottom:12px;}
+.hero p{font-size:16px;opacity:.9;margin-bottom:20px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{
+  background:#00e08b;color:#02172e;
+  padding:14px 28px;border-radius:999px;
+  border:none;font-size:15px;font-weight:800;cursor:pointer;
+}
+.btn-outline{
+  background:transparent;color:#fff;
+  border:1px solid rgba(255,255,255,.4);
+  padding:14px 28px;border-radius:999px;
+}
+.hero-trust{
+  margin-top:26px;font-size:13px;opacity:.9;
+  display:flex;gap:20px;flex-wrap:wrap;
+}
+.hero-img{flex:1;min-width:280px;text-align:center;}
+.hero-img img{
+  max-width:420px;width:100%;
+  border-radius:28px;
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+}
 
-/* HERO */
-.hero{background:linear-gradient(135deg,#02172e,#033a4f);color:white;padding:60px 18px;}
-.hero-inner{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:32px;}
-.hero-text{flex:1}
-.hero h1{font-size:36px;margin-bottom:10px;}
-.hero-sub{opacity:.85;margin-bottom:14px;}
+/* ---------- SECTIONS ---------- */
+.section{padding:80px 24px;}
+.section-inner{max-width:1150px;margin:auto;}
+.section h2{text-align:center;font-size:32px;margin-bottom:10px;}
+.section-sub{text-align:center;font-size:15px;opacity:.7;margin-bottom:40px;}
 
-.section{padding:56px 18px;text-align:center;}
-.section-inner{max-width:980px;margin:0 auto;}
-.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;}
-.card{background:white;width:260px;padding:18px;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,0.08);text-align:left;}
+.cards{
+  display:flex;flex-wrap:wrap;gap:22px;justify-content:center;
+}
+.card{
+  background:#fff;width:300px;
+  padding:26px;border-radius:20px;
+  box-shadow:0 14px 30px rgba(0,0,0,.08);
+}
+.card h3{margin-bottom:8px;}
+.card p{font-size:14px;opacity:.8}
 
-.signup-form input{width:100%;padding:11px;border-radius:8px;border:1px solid #c0cddd;margin:6px 0;}
+/* ---------- HOW IT WORKS ---------- */
+.step{font-size:40px;color:#00e08b;font-weight:900;margin-bottom:8px;}
 
-footer{background:#000a14;color:#a7b4c5;text-align:center;padding:14px;font-size:11px;}
+/* ---------- FOUNDER ---------- */
+.founder{
+  background:#fff;border-radius:26px;
+  padding:40px;max-width:900px;
+  margin:60px auto 0;
+  display:flex;gap:28px;flex-wrap:wrap;align-items:center;
+  box-shadow:0 18px 40px rgba(0,0,0,.1);
+}
+.founder img{
+  width:120px;height:120px;border-radius:50%;
+  object-fit:cover;border:4px solid #00e08b;
+}
+.founder p{font-size:15px;opacity:.85}
+
+/* ---------- PRICING ---------- */
+.price{
+  font-size:32px;font-weight:900;color:#033a4f;
+  margin:14px 0;
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  background:#000a14;color:#9fb4cc;
+  padding:30px;text-align:center;font-size:12px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:768px){
+  .hero h1{font-size:32px;}
+  nav{display:none;}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo"><span class="icon">₹</span>PAY KARO</div>
-  <nav id="navLinks">
+  <div class="logo"><span>₹</span>Pay Karo</div>
+  <nav>
     <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
     <a href="#signup">Signup</a>
   </nav>
-  <button id="logoutBtn" class="btn btn-secondary hidden" onclick="logout()">Logout</button>
+  <button class="nav-btn">Login</button>
 </header>
 
-<!-- LANDING -->
-<section id="home" class="hero">
+<!-- HERO -->
+<section class="hero" id="home">
   <div class="hero-inner">
     <div class="hero-text">
-      <h1>Har Business ke liye Asaan UPI</h1>
-      <p class="hero-sub">Payment + Poster + Record — sab ek hi jagah</p>
-      <button class="btn btn-primary" onclick="showSignup()">Start FREE Beta</button>
+      <h1>Har Business ke liye<br>Asaan & Secure UPI</h1>
+      <p>
+        Payment collection, poster sharing aur records —
+        sab kuch ek hi professional platform par.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">Create Your First Payment Page</button>
+        <button class="btn-outline">See How It Works</button>
+      </div>
+      <div class="hero-trust">
+        <span>🔒 Secure UPI</span>
+        <span>🇮🇳 Made for India</span>
+        <span>📱 GPay • PhonePe • Paytm</span>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="hero.png" alt="Pay Karo dashboard preview">
     </div>
   </div>
 </section>
 
-<!-- SIGNUP -->
-<section id="signup" class="section hidden">
-  <div class="section-inner signup-form">
-    <h2>Create Pay Karo Account</h2>
-    <form onsubmit="signup();return false;">
-      <input id="name" placeholder="Name" required>
-      <input id="mobile" placeholder="WhatsApp Number" required>
-      <input id="city" placeholder="City" required>
-      <button class="btn btn-primary" style="width:100%">Signup</button>
-    </form>
-  </div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="section hidden">
+<!-- FEATURES -->
+<section class="section" id="features">
   <div class="section-inner">
-    <h2>Welcome, <span id="dName"></span> 👋</h2>
-    <p>City: <span id="dCity"></span></p>
+    <h2>Why Businesses Choose Pay Karo</h2>
+    <p class="section-sub">Simple, transparent aur trusted payment experience</p>
 
     <div class="cards">
       <div class="card">
-        <h3>Create Payment Page</h3>
-        <p>Choose payment style</p>
-        <button class="btn btn-primary" onclick="alert('Payment page flow ready')">Open</button>
+        <h3>No Gateway Charges</h3>
+        <p>Payment directly aapke UPI me — koi wallet, koi hold nahi.</p>
       </div>
-
       <div class="card">
-        <h3>Create Pay Poster</h3>
-        <p>Poster + UPI message</p>
-        <button class="btn btn-primary" onclick="alert('Poster feature already working')">Open</button>
+        <h3>WhatsApp First</h3>
+        <p>Poster, payment link aur follow-ups — sab WhatsApp ready.</p>
       </div>
-
       <div class="card">
-        <h3>Logout</h3>
-        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+        <h3>Built for Small Business</h3>
+        <p>Healers, tutors, shops, coaches aur freelancers ke liye.</p>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-© 2025 PayKaro · Made in India 🇮🇳
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#eef5ff">
+  <div class="section-inner">
+    <h2>How Payment Works</h2>
+    <p class="section-sub">3 simple steps — no technical headache</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="step">1</div>
+        <h3>Create Payment Page</h3>
+        <p>Amount, purpose aur poster set karein.</p>
+      </div>
+      <div class="card">
+        <div class="step">2</div>
+        <h3>Customer Pays</h3>
+        <p>Any UPI app se instant payment.</p>
+      </div>
+      <div class="card">
+        <div class="step">3</div>
+        <h3>Money Comes to You</h3>
+        <p>Direct UPI credit — full control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="section">
+  <div class="founder">
+    <img src="founder.jpg" alt="Founder">
+    <div>
+      <h3>Why We Built Pay Karo</h3>
+      <p>
+        “Small businesses ko payments ke liye complicated
+        gateways par depend nahi hona chahiye.
+        Pay Karo simple, transparent aur Indian-first solution hai.”
+      </p>
+      <strong>— Founder, Pay Karo</strong>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="section-inner">
+    <h2>Simple Pricing</h2>
+    <p class="section-sub">No hidden fees. No surprises.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Starter</h3>
+        <div class="price">₹199 / month</div>
+        <p>Unlimited links, posters & basic records</p>
+      </div>
+      <div class="card">
+        <h3>Smart Business</h3>
+        <div class="price">₹500 / month</div>
+        <p>Templates, reminders & priority support</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  © 2025 Pay Karo · Made in India 🇮🇳 · Secure UPI Payments
 </footer>
-
-<script>
-// ===== AUTH SYSTEM (Frontend MVP) =====
-
-function showSignup(){
-  hideAll();
-  document.getElementById("signup").classList.remove("hidden");
-}
-
-function hideAll(){
-  document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
-}
-
-function signup(){
-  const name=nameInput=name.value.trim();
-  const mobile=mobileInput=mobile.value.trim();
-  const city=cityInput=city.value.trim();
-
-  if(!name||!mobile||!city){
-    alert("All fields required");
-    return;
-  }
-
-  // Save user
-  localStorage.setItem("pk_user",JSON.stringify({name,mobile,city}));
-
-  // WhatsApp notify (optional)
-  const msg=`New PAYKARO Signup\nName:${name}\nMobile:${mobile}\nCity:${city}`;
-  window.open("https://wa.me/9300594567?text="+encodeURIComponent(msg),"_blank");
-
-  openDashboard();
-}
-
-function openDashboard(){
-  hideAll();
-  const user=JSON.parse(localStorage.getItem("pk_user"));
-  if(!user)return;
-
-  document.getElementById("dashboard").classList.remove("hidden");
-  document.getElementById("dName").innerText=user.name;
-  document.getElementById("dCity").innerText=user.city;
-
-  document.getElementById("navLinks").style.display="none";
-  document.getElementById("logoutBtn").classList.remove("hidden");
-}
-
-function logout(){
-  localStorage.removeItem("pk_user");
-  location.reload();
-}
-
-// Auto login
-if(localStorage.getItem("pk_user")){
-  openDashboard();
-}
-</script>
 
 </body>
 </html>
