@@ -53,10 +53,196 @@ input{
 }
 .preview img{width:100%;border-radius:12px}
 
-/* HERO */
-.hero{color:#fff;background:linear-gradient(135deg,#02172e,#033a4f)}
-.hero h1{font-size:36px;margin-bottom:10px}
-.hero p{opacity:.85}
+<!-- ================== LANDING PAGE ================== -->
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div style="font-size:12px;letter-spacing:2px;color:#9ff3d2;margin-bottom:10px">
+        INDIA UPI • SMALL BUSINESSES
+      </div>
+
+      <h1>
+        Create UPI Payment Pages<br>
+        <span style="color:#00e08b">in Minutes</span>
+      </h1>
+
+      <p class="hero-sub">
+        Collect fees, workshops, consultations or service payments using
+        <strong>simple UPI payment pages & posters</strong>.
+        No gateway fees. No technical setup.
+      </p>
+
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="openSignup()">
+          Create My First Payment Page
+        </button>
+        <button class="btn btn-secondary" onclick="openSignup()">
+          Try Free Demo →
+        </button>
+      </div>
+
+      <!-- TRUST STRIP -->
+      <div class="hero-trust">
+        <span>🔒 Secure UPI</span>
+        <span>💸 No Gateway Fees</span>
+        <span>🇮🇳 Made for India</span>
+        <span>📱 GPay • PhonePe • Paytm</span>
+      </div>
+    </div>
+
+    <div class="hero-img">
+      <img src="hero.png" alt="Pay Karo payment dashboard">
+    </div>
+  </div>
+</section>
+
+<!-- WHO IS IT FOR -->
+<section class="section">
+  <div class="section-inner">
+    <h2>Who Uses Pay Karo?</h2>
+    <p class="section-sub">
+      Designed for people who want simple, fast & direct UPI payments
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>🧘 Coaches & Healers</h3>
+        <p>Sessions, workshops, subscriptions</p>
+      </div>
+      <div class="card">
+        <h3>📚 Tutors & Classes</h3>
+        <p>Monthly fees & demo classes</p>
+      </div>
+      <div class="card">
+        <h3>🏪 Small Businesses</h3>
+        <p>Advance payments & services</p>
+      </div>
+      <div class="card">
+        <h3>🎤 Creators</h3>
+        <p>Events, paid sessions, support</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#eef5ff">
+  <div class="section-inner">
+    <h2>How Pay Karo Works</h2>
+    <p class="section-sub">
+      Simple 3-step flow — no confusion for you or your customer
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="step">1</div>
+        <h3>Create Payment Page</h3>
+        <p>
+          Amount aur purpose set karein —
+          fees, workshop, consultation ya service.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="step">2</div>
+        <h3>Customer Pays via UPI</h3>
+        <p>
+          GPay, PhonePe ya Paytm se
+          secure payment karta hai.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="step">3</div>
+        <h3>Money Comes to You</h3>
+        <p>
+          Paisa seedha aapke UPI me —
+          koi wallet, koi hold nahi.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-inner">
+    <h2>Why Businesses Choose Pay Karo</h2>
+    <p class="section-sub">
+      Razorpay se simple, Google Pay se smarter
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>No Gateway Charges</h3>
+        <p>Payment direct UPI me, koi cut nahi</p>
+      </div>
+      <div class="card">
+        <h3>Pay Poster Feature</h3>
+        <p>Poster ke saath payment link bhejein</p>
+      </div>
+      <div class="card">
+        <h3>WhatsApp Ready</h3>
+        <p>Payment pages WhatsApp sharing ke liye built</p>
+      </div>
+      <div class="card">
+        <h3>Made for India</h3>
+        <p>Indian payment habits ke hisaab se design</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:#f7fbff">
+  <div class="section-inner">
+    <h2>What Users Say</h2>
+    <p class="section-sub">
+      Early users already love Pay Karo
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <p>
+          “Pay Karo ne mera workshop payment ka
+          confusion khatam kar diya.”
+        </p>
+        <strong>— Tarot Coach, Pune</strong>
+      </div>
+
+      <div class="card">
+        <p>
+          “Poster + payment ek saath bhejna
+          bahut easy ho gaya.”
+        </p>
+        <strong>— Yoga Instructor</strong>
+      </div>
+
+      <div class="card">
+        <p>
+          “Simple, clean aur bina kisi gateway drama ke.”
+        </p>
+        <strong>— Tuition Owner</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta">
+  <h2>Start Accepting UPI Payments Today</h2>
+  <p>
+    Free signup • No documents • No gateway fees
+  </p>
+  <button class="btn btn-primary" onclick="openSignup()">
+    Create Your First Payment Page
+  </button>
+</section>
+
+<!-- ================== END LANDING PAGE ================== -->
+
 
 /* FOOTER */
 footer{
@@ -205,3 +391,4 @@ if(localStorage.getItem("pk_user")) openDashboard()
 
 </body>
 </html>
+
