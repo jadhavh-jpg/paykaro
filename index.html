@@ -2,119 +2,66 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Pay Karo – Simple & Secure UPI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pay Karo – Simple & Secure UPI Payments</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial}
 body{background:#f5f8fc;color:#0f2a44}
 .hidden{display:none}
 
 /* HEADER */
 header{
-  position:sticky;top:0;z-index:100;
   background:linear-gradient(90deg,#02172e,#033a4f);
-  padding:16px 32px;
-  display:flex;align-items:center;justify-content:space-between
+  color:#fff;padding:16px 28px;
+  display:flex;justify-content:space-between;align-items:center
 }
-.logo{
-  font-size:22px;font-weight:800;color:#00e08b;
-  display:flex;align-items:center;gap:10px
-}
-.logo span{
-  background:#00e08b;color:#02172e;
-  width:34px;height:34px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center
-}
-nav a{
-  color:#e6f3ff;text-decoration:none;
-  margin:0 14px;font-size:14px;opacity:.9
-}
-nav a:hover{opacity:1}
+.logo{font-size:22px;font-weight:800;color:#00e08b}
 .nav-btn{
   background:#00e08b;color:#02172e;
   padding:10px 18px;border-radius:999px;
-  font-weight:700;border:none;cursor:pointer
-}
-
-/* HERO */
-.hero{
-  background:linear-gradient(135deg,#02172e,#033a4f);
-  color:#fff;padding:90px 24px
-}
-.hero-inner{
-  max-width:1200px;margin:auto;
-  display:flex;flex-wrap:wrap;gap:40px;align-items:center
-}
-.hero-text{flex:1;min-width:280px}
-.hero h1{font-size:42px;line-height:1.2;margin-bottom:12px}
-.hero p{font-size:16px;opacity:.9;margin-bottom:20px}
-.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
-.btn-primary{
-  background:#00e08b;color:#02172e;
-  padding:14px 28px;border-radius:999px;
-  border:none;font-size:15px;font-weight:800;cursor:pointer
-}
-.btn-outline{
-  background:transparent;color:#fff;
-  border:1px solid rgba(255,255,255,.4);
-  padding:14px 28px;border-radius:999px
-}
-.hero-trust{
-  margin-top:26px;font-size:13px;opacity:.9;
-  display:flex;gap:20px;flex-wrap:wrap
-}
-.hero-img{flex:1;min-width:280px;text-align:center}
-.hero-img img{
-  max-width:420px;width:100%;
-  border-radius:28px;
-  box-shadow:0 25px 60px rgba(0,0,0,.45)
+  border:none;font-weight:700;cursor:pointer
 }
 
 /* SECTIONS */
-.section{padding:80px 24px}
-.section-inner{max-width:1150px;margin:auto}
-.section h2{text-align:center;font-size:32px;margin-bottom:10px}
-.section-sub{text-align:center;font-size:15px;opacity:.7;margin-bottom:40px}
-
-.cards{
-  display:flex;flex-wrap:wrap;gap:22px;justify-content:center
-}
-.card{
-  background:#fff;width:300px;
-  padding:26px;border-radius:20px;
-  box-shadow:0 14px 30px rgba(0,0,0,.08)
-}
-.card h3{margin-bottom:8px}
-.card p{font-size:14px;opacity:.8}
-
-.step{font-size:40px;color:#00e08b;font-weight:900;margin-bottom:8px}
-
-/* SIGNUP */
-.signup-box{
-  max-width:420px;margin:auto;
+.section{padding:60px 20px}
+.container{
+  max-width:520px;margin:40px auto;
   background:#fff;padding:30px;
   border-radius:22px;
   box-shadow:0 20px 40px rgba(0,0,0,.1)
 }
-.signup-box input{
-  width:100%;padding:12px;margin:8px 0;
-  border-radius:10px;border:1px solid #cfd8e3
+.cards{display:flex;gap:20px;flex-wrap:wrap}
+.card{
+  background:#fff;padding:20px;border-radius:16px;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+  width:260px
 }
+button.primary{
+  width:100%;padding:14px;margin-top:12px;
+  border:none;border-radius:999px;
+  background:#00e08b;color:#02172e;
+  font-weight:800;font-size:15px;cursor:pointer
+}
+input{
+  width:100%;padding:12px;margin:8px 0;
+  border-radius:10px;border:1px solid #ccd6e3
+}
+.preview{
+  margin-top:20px;padding:16px;
+  background:#f0faff;border-radius:14px
+}
+.preview img{width:100%;border-radius:12px}
 
-/* DASHBOARD */
-.dashboard h2{text-align:left}
-.dashboard .cards{justify-content:flex-start}
+/* HERO */
+.hero{color:#fff;background:linear-gradient(135deg,#02172e,#033a4f)}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{opacity:.85}
 
 /* FOOTER */
 footer{
   background:#000a14;color:#9fb4cc;
-  padding:30px;text-align:center;font-size:12px
-}
-
-@media(max-width:768px){
-  .hero h1{font-size:32px}
-  nav{display:none}
+  text-align:center;padding:16px;font-size:12px
 }
 </style>
 </head>
@@ -122,117 +69,139 @@ footer{
 <body>
 
 <header>
-  <div class="logo"><span>₹</span>Pay Karo</div>
-  <nav>
-    <a href="#" onclick="showHome()">Home</a>
-    <a href="#" onclick="showHome()">Features</a>
-    <a href="#" onclick="showHome()">Pricing</a>
-  </nav>
+  <div class="logo">₹ Pay Karo</div>
   <button id="authBtn" class="nav-btn" onclick="openSignup()">Signup</button>
 </header>
 
 <!-- HOME -->
-<section class="hero" id="home">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <h1>Har Business ke liye<br>Asaan & Secure UPI</h1>
-      <p>Payment, poster aur record — sab ek hi professional platform par</p>
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="openSignup()">Create Your First Payment Page</button>
-        <button class="btn-outline" onclick="showHome()">See How It Works</button>
-      </div>
-      <div class="hero-trust">
-        <span>🔒 Secure UPI</span>
-        <span>🇮🇳 Made for India</span>
-        <span>📱 GPay • PhonePe • Paytm</span>
-      </div>
-    </div>
-    <div class="hero-img">
-      <img src="paykarol.png" alt="Pay Karo">
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="section">
-  <div class="section-inner">
-    <h2>Why Pay Karo</h2>
-    <p class="section-sub">Simple, transparent & trusted</p>
-    <div class="cards">
-      <div class="card"><h3>No Gateway Fees</h3><p>Direct UPI credit, no wallet hold</p></div>
-      <div class="card"><h3>WhatsApp Ready</h3><p>Links & posters share instantly</p></div>
-      <div class="card"><h3>Made for SMBs</h3><p>Coaches, shops, healers & tutors</p></div>
-    </div>
+<section id="home" class="section hero">
+  <div class="container">
+    <h1>Har Business ke liye Asaan UPI</h1>
+    <p>Payment + Poster + Record — sab ek hi jagah</p>
+    <button class="primary" onclick="openSignup()">Start Free</button>
   </div>
 </section>
 
 <!-- SIGNUP -->
-<section class="section hidden" id="signup">
-  <div class="signup-box">
+<section id="signup" class="section hidden">
+  <div class="container">
     <h2>Create Account</h2>
-    <p class="section-sub">Start accepting payments in minutes</p>
-    <input id="name" placeholder="Full Name">
-    <input id="mobile" placeholder="Mobile Number">
+    <input id="name" placeholder="Name">
+    <input id="mobile" placeholder="Mobile">
     <input id="city" placeholder="City">
-    <button class="btn-primary" style="width:100%" onclick="signup()">Create Account</button>
+    <button class="primary" onclick="signup()">Signup</button>
   </div>
 </section>
 
 <!-- DASHBOARD -->
-<section class="section hidden dashboard" id="dashboard">
-  <div class="section-inner">
+<section id="dashboard" class="section hidden">
+  <div class="container">
     <h2>Welcome, <span id="dName"></span> 👋</h2>
-    <p class="section-sub">Your Pay Karo Dashboard</p>
     <div class="cards">
-      <div class="card"><h3>Create Payment Page</h3><p>Amount & purpose</p></div>
-      <div class="card"><h3>Create Pay Poster</h3><p>Poster + UPI link</p></div>
+      <div class="card">
+        <h3>Create Payment Page</h3>
+        <button class="primary" onclick="openPayment()">Open</button>
+      </div>
+      <div class="card">
+        <h3>Create Pay Poster</h3>
+        <button class="primary" onclick="openPoster()">Open</button>
+      </div>
       <div class="card">
         <h3>Logout</h3>
-        <button class="btn-outline" onclick="logout()">Logout</button>
+        <button class="primary" onclick="logout()">Logout</button>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-© 2025 Pay Karo · Made in India 🇮🇳
-</footer>
+<!-- PAYMENT PAGE -->
+<section id="paymentSection" class="section hidden">
+  <div class="container">
+    <h2>Create Payment Page</h2>
+    <input id="payAmount" type="number" placeholder="Amount (₹)">
+    <input id="payPurpose" placeholder="Purpose">
+    <button class="primary" onclick="generatePayment()">Generate</button>
+
+    <div id="payPreview" class="preview hidden">
+      <strong id="payText"></strong>
+      <button class="primary" onclick="sharePayment()">Share on WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- POSTER PAGE -->
+<section id="posterSection" class="section hidden">
+  <div class="container">
+    <h2>Create Pay Poster</h2>
+    <input type="file" id="posterFile" accept="image/*">
+    <input id="posterAmount" type="number" placeholder="Amount (₹)">
+    <input id="posterUpi" placeholder="UPI ID">
+    <input id="posterNote" placeholder="Note">
+    <button class="primary" onclick="generatePoster()">Generate</button>
+
+    <div id="posterPreview" class="preview hidden">
+      <img id="posterImg">
+      <strong id="posterText"></strong>
+      <button class="primary" onclick="sharePoster()">Share on WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<footer>© 2025 Pay Karo · Made in India 🇮🇳</footer>
 
 <script>
 function hideAll(){
   document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"))
 }
-function showHome(){
-  hideAll()
-  document.getElementById("home").classList.remove("hidden")
+function openSignup(){hideAll();signup.classList.remove("hidden")}
+function openDashboard(){
+  hideAll();dashboard.classList.remove("hidden")
+  authBtn.innerText="Logout";authBtn.onclick=logout
+  dName.innerText=JSON.parse(localStorage.getItem("pk_user")).name
 }
-function openSignup(){
-  hideAll()
-  document.getElementById("signup").classList.remove("hidden")
-}
+function openPayment(){hideAll();paymentSection.classList.remove("hidden")}
+function openPoster(){hideAll();posterSection.classList.remove("hidden")}
+
 function signup(){
-  const name=document.getElementById("name").value.trim()
-  const mobile=document.getElementById("mobile").value.trim()
-  const city=document.getElementById("city").value.trim()
-  if(!name||!mobile||!city){alert("Fill all fields");return}
-  localStorage.setItem("paykaro_user",JSON.stringify({name,mobile,city}))
+  const u={name:name.value,mobile:mobile.value,city:city.value}
+  if(!u.name||!u.mobile||!u.city){alert("Fill all");return}
+  localStorage.setItem("pk_user",JSON.stringify(u))
   openDashboard()
 }
-function openDashboard(){
-  hideAll()
-  const user=JSON.parse(localStorage.getItem("paykaro_user"))
-  document.getElementById("dName").innerText=user.name
-  document.getElementById("dashboard").classList.remove("hidden")
-  document.getElementById("authBtn").innerText="Logout"
-  document.getElementById("authBtn").onclick=logout
+function logout(){localStorage.removeItem("pk_user");location.reload()}
+
+/* PAYMENT */
+function generatePayment(){
+  if(!payAmount.value){alert("Enter amount");return}
+  payText.innerText=`Pay ₹${payAmount.value} for ${payPurpose.value||'payment'}`
+  payPreview.classList.remove("hidden")
 }
-function logout(){
-  localStorage.removeItem("paykaro_user")
-  location.reload()
+function sharePayment(){
+  window.open("https://wa.me/?text="+encodeURIComponent(payText.innerText))
 }
-if(localStorage.getItem("paykaro_user")) openDashboard()
+
+/* POSTER */
+let posterURL=""
+posterFile.onchange=e=>{
+  const r=new FileReader()
+  r.onload=ev=>posterURL=ev.target.result
+  r.readAsDataURL(e.target.files[0])
+}
+function generatePoster(){
+  if(!posterURL||!posterAmount.value||!posterUpi.value){
+    alert("All required");return
+  }
+  posterImg.src=posterURL
+  posterText.innerText=`Pay ₹${posterAmount.value} for ${posterNote.value||'payment'}\nUPI: ${posterUpi.value}`
+  posterPreview.classList.remove("hidden")
+}
+function sharePoster(){
+  window.open("https://wa.me/?text="+encodeURIComponent(posterText.innerText))
+}
+
+/* AUTO LOGIN */
+if(localStorage.getItem("pk_user")) openDashboard()
 </script>
 
 </body>
 </html>
-
