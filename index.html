@@ -3,210 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayKaro – Smart Digital Payments</title>
+<title>PayKaro – Sell Courses, Webinars & Products Easily</title>
 
-<!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --primary:#4f46e5;
-  --primary-dark:#3730a3;
   --accent:#22c55e;
-  --bg:#0b1020;
-  --card:#111833;
+  --bg:#050816;
+  --card:#0f172a;
   --text:#e5e7eb;
   --muted:#9ca3af;
 }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:radial-gradient(circle at top,#0f172a,#050816);color:var(--text)}
+.container{max-width:1200px;margin:auto;padding:0 24px}
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Inter',sans-serif;
-}
+/* NAV */
+header{position:sticky;top:0;background:rgba(5,8,22,.8);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.05)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.nav a{margin-left:24px;text-decoration:none;color:var(--muted);font-weight:500}
+.nav a:hover{color:#fff}
+.cta{background:linear-gradient(135deg,var(--primary),var(--accent));padding:10px 20px;border-radius:999px;color:#fff}
 
-body{
-  background:radial-gradient(circle at top,#111833,#050816);
-  color:var(--text);
-}
+/* HERO */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;padding:110px 0}
+.hero h1{font-size:56px;font-weight:900;line-height:1.1}
+.hero p{margin:24px 0;font-size:18px;color:var(--muted)}
+.btn{padding:16px 28px;border-radius:14px;border:none;font-weight:600;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}
+.btn-secondary{margin-left:16px;background:transparent;border:1px solid rgba(255,255,255,.15);color:#fff}
+.hero img{width:100%;border-radius:28px;box-shadow:0 40px 120px rgba(0,0,0,.7)}
 
-/* ================= HEADER ================= */
-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  backdrop-filter:blur(14px);
-  background:rgba(5,8,22,.75);
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
+/* SECTION */
+section{padding:100px 0}
+h2{text-align:center;font-size:42px;margin-bottom:60px}
 
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:18px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+/* FEATURES */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.card{background:linear-gradient(180deg,var(--card),#020617);padding:32px;border-radius:24px;border:1px solid rgba(255,255,255,.05)}
+.card:hover{transform:translateY(-10px);transition:.3s;border-color:var(--primary)}
 
-.logo{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:.5px;
-}
+/* USE CASE */
+.usecase{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 
-nav a{
-  margin-left:26px;
-  text-decoration:none;
-  color:var(--muted);
-  font-weight:500;
-  transition:.3s;
-}
+/* FOOTER */
+footer{text-align:center;padding:40px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,.05)}
 
-nav a:hover{
-  color:#fff;
-}
-
-nav .cta{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  padding:10px 20px;
-  border-radius:999px;
-  color:#fff;
-  font-weight:600;
-}
-
-/* ================= HERO ================= */
-.hero{
-  max-width:1200px;
-  margin:auto;
-  padding:110px 24px 90px;
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:60px;
-  align-items:center;
-}
-
-.hero h1{
-  font-size:56px;
-  line-height:1.1;
-  font-weight:900;
-  margin-bottom:20px;
-}
-
-.hero p{
-  font-size:18px;
-  color:var(--muted);
-  margin-bottom:36px;
-}
-
-.hero-actions button{
-  padding:16px 28px;
-  border:none;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:#fff;
-  box-shadow:0 20px 50px rgba(79,70,229,.35);
-}
-
-.btn-primary:hover{
-  transform:translateY(-3px);
-  box-shadow:0 30px 70px rgba(79,70,229,.55);
-}
-
-.btn-secondary{
-  margin-left:16px;
-  background:transparent;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.15);
-}
-
-.btn-secondary:hover{
-  background:rgba(255,255,255,.08);
-}
-
-.hero img{
-  width:100%;
-  border-radius:28px;
-  box-shadow:0 40px 120px rgba(0,0,0,.65);
-}
-
-/* ================= FEATURES ================= */
-.section{
-  max-width:1200px;
-  margin:auto;
-  padding:100px 24px;
-}
-
-.section h2{
-  text-align:center;
-  font-size:40px;
-  font-weight:800;
-  margin-bottom:60px;
-}
-
-.features{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:28px;
-}
-
-.feature{
-  background:linear-gradient(180deg,var(--card),#0a0f24);
-  padding:34px 28px;
-  border-radius:24px;
-  border:1px solid rgba(255,255,255,.05);
-  transition:.35s;
-}
-
-.feature:hover{
-  transform:translateY(-10px);
-  border-color:rgba(79,70,229,.5);
-  box-shadow:0 30px 80px rgba(0,0,0,.6);
-}
-
-.feature h3{
-  font-size:20px;
-  margin-bottom:12px;
-}
-
-.feature p{
-  color:var(--muted);
-  font-size:15px;
-}
-
-/* ================= TRUST ================= */
-.trust{
-  text-align:center;
-  padding:70px 24px;
-  background:linear-gradient(180deg,#050816,#0b1020);
-  font-size:18px;
-  color:var(--muted);
-}
-
-/* ================= FOOTER ================= */
-footer{
-  padding:40px 24px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid rgba(255,255,255,.05);
-}
-
-/* ================= RESPONSIVE ================= */
 @media(max-width:1024px){
   .hero{grid-template-columns:1fr}
-  .features{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:600px){
-  .hero h1{font-size:40px}
-  .features{grid-template-columns:1fr}
+  h1{font-size:40px}
+  .grid,.usecase{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -214,65 +65,57 @@ footer{
 <body>
 
 <header>
-  <div class="nav">
-    <div class="logo">PayKaro</div>
+  <div class="container nav">
+    <div><strong>PayKaro</strong></div>
     <nav>
       <a href="#">Home</a>
       <a href="#">Features</a>
+      <a href="#">Templates</a>
       <a href="#">Pricing</a>
-      <a href="#">Support</a>
-      <a href="#" class="cta">Login</a>
+      <a href="#" class="cta">Get Started</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
+<section class="container hero">
   <div>
-    <h1>Fast. Secure.<br>Smart Payments.</h1>
+    <h1>Sell Courses, Webinars & Products<br>with Just a QR or Link</h1>
     <p>
-      PayKaro enables businesses and individuals to accept UPI, card and digital
-      payments instantly with enterprise-grade security.
+      PayKaro helps small businesses, creators and coaches accept payments,
+      create landing pages and sell online — without any technical knowledge.
     </p>
-    <div class="hero-actions">
-      <button class="btn-primary">Start Payments</button>
-      <button class="btn-secondary">View Demo</button>
-    </div>
+    <button class="btn btn-primary">Create Free Page</button>
+    <button class="btn btn-secondary">View Demo</button>
   </div>
-
-  <img src="paykarol.png" alt="PayKaro App Preview">
+  <img src="images/hero-poster.png" alt="PayKaro Platform">
 </section>
 
-<section class="section">
-  <h2>Why PayKaro?</h2>
-  <div class="features">
-    <div class="feature">
-      <h3>Instant Settlement</h3>
-      <p>Real-time payment settlements directly to your bank account.</p>
-    </div>
-    <div class="feature">
-      <h3>Bank-Grade Security</h3>
-      <p>Advanced encryption and compliance-ready architecture.</p>
-    </div>
-    <div class="feature">
-      <h3>Smart Dashboard</h3>
-      <p>Track transactions, revenue and analytics in one place.</p>
-    </div>
-    <div class="feature">
-      <h3>24×7 Support</h3>
-      <p>Dedicated human support whenever your business needs it.</p>
-    </div>
+<section class="container">
+  <h2>Everything You Need to Sell Online</h2>
+  <div class="grid">
+    <div class="card">QR & UPI Payment Generator</div>
+    <div class="card">Ready Demo Landing Pages</div>
+    <div class="card">Webinar & Course Selling</div>
+    <div class="card">Auto WhatsApp Access</div>
+    <div class="card">Payment Links & Pages</div>
+    <div class="card">Analytics Dashboard</div>
+    <div class="card">Brand Customization</div>
+    <div class="card">Secure & Indian-first</div>
   </div>
 </section>
 
-<section class="trust">
-  Trusted by modern businesses across India 🇮🇳
+<section class="container">
+  <h2>Who Is PayKaro For?</h2>
+  <div class="usecase">
+    <div class="card">Small Shopkeepers</div>
+    <div class="card">Online Course Sellers</div>
+    <div class="card">Webinar & Event Hosts</div>
+  </div>
 </section>
 
 <footer>
-  © 2025 PayKaro Technologies Pvt. Ltd.
+  © 2025 PayKaro • Built for Indian Creators & Businesses
 </footer>
 
 </body>
 </html>
-
-
