@@ -1,12 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayKaro | Fast & Secure Payments</title>
 
+<style>
+/* ===== BASE ===== */
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Segoe UI, Arial, sans-serif;
+}
+body{
+  background:#f5f7fb;
+  color:#0b2d4d;
+  line-height:1.6;
+}
+
+/* ===== HEADER ===== */
+header{
+  background:#ffffff;
+  padding:16px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:#0b2d4d;
+  font-weight:500;
+}
+nav a.cta{
+  background:#0b5cff;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:20px;
+}
+
+/* ===== HERO ===== */
+.hero{
+  padding:70px 40px;
+  display:flex;
+  gap:40px;
+  align-items:center;
+  justify-content:space-between;
+}
+.hero-text{
+  max-width:520px;
+}
+.hero-text h1{
+  font-size:42px;
+  margin-bottom:14px;
+}
+.hero-text p{
+  font-size:18px;
+  margin-bottom:22px;
+}
+.hero-text button{
+  padding:14px 26px;
+  border:none;
+  border-radius:24px;
+  background:#0b5cff;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+.hero-image img{
+  width:420px;
+  max-width:100%;
+  border-radius:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+/* ===== FEATURES ===== */
+.section{
+  padding:60px 40px;
+}
+.section h2{
+  text-align:center;
+  margin-bottom:40px;
+  font-size:32px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.card{
+  background:#fff;
+  padding:26px;
+  border-radius:18px;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+/* ===== TRUST ===== */
+.trust{
+  background:#ffffff;
+  padding:50px 40px;
+  text-align:center;
+  font-weight:600;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:#0b2d4d;
+  color:#fff;
+  padding:30px 40px;
+  text-align:center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  header{flex-direction:column;gap:12px;}
+  .hero{flex-direction:column;text-align:center;}
+  .hero-text h1{font-size:34px;}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
   <div class="logo">PayKaro</div>
   <nav>
@@ -14,10 +142,11 @@
     <a href="#">Features</a>
     <a href="#">Pricing</a>
     <a href="#">Support</a>
-    <a href="#" class="cta">Pay Now</a>
+    <a href="#" class="cta">Login</a>
   </nav>
 </header>
 
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-text">
     <h1>Fast. Secure. Smart Payments</h1>
@@ -26,41 +155,45 @@
     </p>
     <button>Start Paying</button>
   </div>
+
   <div class="hero-image">
-    PAYMENT ILLUSTRATION
+    <!-- 👉 Image path yahi rakho -->
+    <img src="images/hero-poster.png" alt="PayKaro Payment Poster">
   </div>
 </section>
 
-<section class="features">
+<!-- ===== FEATURES ===== -->
+<section class="section">
   <h2>Why PayKaro?</h2>
-  <div class="feature-grid">
-    <div class="feature-card">
+  <div class="grid">
+    <div class="card">
       <h3>Instant Payments</h3>
       <p>Receive money in real-time with zero hassle.</p>
     </div>
-    <div class="feature-card">
+    <div class="card">
       <h3>Secure Platform</h3>
       <p>Bank-level security and encrypted transactions.</p>
     </div>
-    <div class="feature-card">
+    <div class="card">
       <h3>Easy Integration</h3>
       <p>Quick setup for businesses and individuals.</p>
     </div>
-    <div class="feature-card">
+    <div class="card">
       <h3>24/7 Support</h3>
       <p>Always-on help whenever you need it.</p>
     </div>
   </div>
 </section>
 
+<!-- ===== TRUST ===== -->
 <section class="trust">
-  <p>Trusted by thousands of users across India 🇮🇳</p>
+  Trusted by thousands of users across India 🇮🇳
 </section>
 
+<!-- ===== FOOTER ===== -->
 <footer>
   © 2025 PayKaro. All rights reserved.
 </footer>
 
 </body>
 </html>
-
