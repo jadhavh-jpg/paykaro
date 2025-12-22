@@ -17,6 +17,7 @@
   --muted:#9ca3af;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html{scroll-behavior:smooth}
 body{background:radial-gradient(circle at top,#0f172a,#050816);color:var(--text)}
 .container{max-width:1200px;margin:auto;padding:0 24px}
 section{padding:110px 0}
@@ -51,15 +52,16 @@ h2{text-align:center;font-size:42px;margin-bottom:20px}
 }
 .card:hover{transform:translateY(-10px);border-color:var(--primary)}
 
-/* USE CASE */
-.usecases{grid-template-columns:repeat(3,1fr)}
-
-/* STEPS */
-.steps{grid-template-columns:repeat(3,1fr)}
-.step{font-size:22px;font-weight:700}
-
-/* FAQ */
-.faq .card{cursor:pointer}
+/* FORM */
+form input, form button{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+}
+form input{background:#020617;color:#fff;border:1px solid rgba(255,255,255,.1)}
 
 /* FOOTER */
 footer{padding:60px 0;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,.05)}
@@ -70,7 +72,7 @@ footer{padding:60px 0;text-align:center;color:var(--muted);border-top:1px solid 
 }
 @media(max-width:600px){
 .hero h1{font-size:40px}
-.grid,.usecases,.steps{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -81,44 +83,44 @@ footer{padding:60px 0;text-align:center;color:var(--muted);border-top:1px solid 
   <div class="container nav">
     <strong>PayKaro</strong>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Platform</a>
-      <a href="#">Templates</a>
-      <a href="#">Pricing</a>
-      <a href="#">Support</a>
-      <a href="#" class="cta">Get Started</a>
+      <a href="#home">Home</a>
+      <a href="#platform">Platform</a>
+      <a href="#features">Features</a>
+      <a href="#demo">Templates</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#support">Support</a>
+      <a href="#demo" class="cta">Get Started</a>
     </nav>
   </div>
 </header>
 
 <!-- HERO -->
-<section class="container hero">
+<section id="home" class="container hero">
   <div>
     <h1>Create, Sell & Get Paid<br>with QR & Smart Links</h1>
     <p>
-      PayKaro is an all-in-one selling & payment platform for small businesses,
-      course creators, coaches and webinar hosts.
+      PayKaro helps small businesses, course creators and webinar hosts
+      accept payments and sell online without any technical setup.
     </p>
-    <button class="btn btn-primary">Create Free Page</button>
-    <button class="btn btn-secondary">View Demo</button>
+    <button class="btn btn-primary" onclick="location.href='#demo'">Create Free Page</button>
+    <button class="btn btn-secondary" onclick="location.href='#platform'">View Platform</button>
   </div>
   <img src="paykarol.png" alt="PayKaro Platform">
 </section>
 
 <!-- PLATFORM -->
-<section class="container">
+<section id="platform" class="container">
   <h2>What is PayKaro?</h2>
   <p class="sub">
-    PayKaro is not just a payment tool. It is a complete platform that helps you
-    create payment pages, demo landing pages, sell courses, webinars and products
-    using QR codes and links — without technical knowledge.
+    PayKaro is an all-in-one selling & payment platform that lets you create
+    QR-based payment pages, demo landing pages and sell courses, webinars
+    and digital products easily.
   </p>
 </section>
 
 <!-- FEATURES -->
-<section class="container">
+<section id="features" class="container">
   <h2>Platform Features</h2>
-  <p class="sub">Everything you need to start and grow digital selling</p>
   <div class="grid">
     <div class="card">QR & UPI Generator</div>
     <div class="card">Payment Links</div>
@@ -131,54 +133,38 @@ footer{padding:60px 0;text-align:center;color:var(--muted);border-top:1px solid 
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="container">
-  <h2>How PayKaro Works</h2>
-  <div class="grid steps">
-    <div class="card step">1. Add UPI / QR & Product</div>
-    <div class="card step">2. Generate Page or Link</div>
-    <div class="card step">3. Share & Get Paid</div>
-  </div>
-</section>
-
-<!-- USE CASE -->
-<section class="container">
-  <h2>Who Uses PayKaro?</h2>
-  <div class="grid usecases">
-    <div class="card">Small Shopkeepers</div>
-    <div class="card">Course Creators</div>
-    <div class="card">Webinar & Event Hosts</div>
-  </div>
-</section>
-
 <!-- DEMO BUILDER -->
-<section class="container">
-  <h2>Demo Landing Page Builder</h2>
-  <p class="sub">
-    Choose a template, add your brand name, product details, price,
-    and PayKaro automatically creates a payment-ready landing page for you.
-  </p>
+<section id="demo" class="container">
+  <h2>Create Your Demo Page</h2>
+  <p class="sub">Fill details and imagine your payment-ready landing page</p>
+  <form class="card">
+    <input placeholder="Brand / Creator Name">
+    <input placeholder="Product / Course Title">
+    <input placeholder="Price (₹)">
+    <input placeholder="UPI ID">
+    <button class="btn btn-primary" type="button">Generate Demo Page</button>
+  </form>
 </section>
 
-<!-- DASHBOARD -->
-<section class="container">
-  <h2>Smart Seller Dashboard</h2>
+<!-- PRICING -->
+<section id="pricing" class="container">
+  <h2>Simple Pricing</h2>
   <div class="grid">
-    <div class="card">Total Visitors</div>
-    <div class="card">Total Payments</div>
-    <div class="card">Conversion Rate</div>
-    <div class="card">Top Products</div>
+    <div class="card">Free Plan<br><br>Basic Selling</div>
+    <div class="card">Starter ₹199/mo<br><br>Creators</div>
+    <div class="card">Pro ₹499/mo<br><br>Businesses</div>
+    <div class="card">Enterprise<br><br>Custom</div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="container faq">
-  <h2>Frequently Asked Questions</h2>
+<!-- SUPPORT -->
+<section id="support" class="container">
+  <h2>Support & FAQ</h2>
   <div class="grid">
-    <div class="card">Is PayKaro free to use?</div>
-    <div class="card">Can I sell courses & webinars?</div>
-    <div class="card">Do I need a website?</div>
+    <div class="card">Is PayKaro free?</div>
+    <div class="card">Can I sell courses?</div>
     <div class="card">How do I get paid?</div>
+    <div class="card">Do I need a website?</div>
   </div>
 </section>
 
