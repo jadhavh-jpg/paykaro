@@ -9,15 +9,15 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial}
 body{
   min-height:100vh;
-  background:radial-gradient(circle at top,#0e5cad,#071b34 70%);
+  background:linear-gradient(160deg,#071b34,#0e5cad,#eaf4ff);
   display:flex;align-items:center;justify-content:center;
 }
 .card{
-  background:#ffffff;
+  background:#fff;
   width:92%;max-width:420px;
   padding:26px;
-  border-radius:26px;
-  box-shadow:0 40px 80px rgba(0,0,0,.35);
+  border-radius:24px;
+  box-shadow:0 30px 60px rgba(0,0,0,.18);
   text-align:center;
 }
 .logo{
@@ -32,7 +32,7 @@ input{
   border-radius:14px;border:1px solid #ccd6e3;
 }
 button{
-  width:100%;padding:15px;margin-top:16px;
+  width:100%;padding:15px;margin-top:14px;
   border:none;border-radius:999px;
   font-weight:700;font-size:15px;cursor:pointer;
 }
@@ -44,88 +44,90 @@ button{
   background:#f1f5fb;
   color:#0e5cad;
 }
-.qrBox img{width:180px;margin-top:12px}
 .note{font-size:12px;color:#666;margin-top:10px}
+.link-box{
+  background:#f4f8fd;
+  padding:12px;
+  border-radius:12px;
+  word-break:break-all;
+  font-size:13px;
+  margin-top:10px;
+}
+.qrBox img{width:200px;margin-top:12px}
 .hide{display:none}
 </style>
 </head>
 
 <body>
 
-<!-- CREATE PAGE -->
+<!-- ================= CREATE PAYMENT PAGE ================= -->
 <div class="card" id="create">
   <div class="logo">PayKaro</div>
-  <h2>Create Payment Page</h2>
+  <h2>Create Payment Link</h2>
 
   <input id="topic" placeholder="Product / Service Name">
   <input id="datetime" type="datetime-local">
   <input id="amount" type="number" placeholder="Amount (₹)">
   <input id="upi" placeholder="UPI ID (name@bank)">
   <input id="wa" placeholder="WhatsApp Number (91XXXXXXXXXX)">
-  <label class="note">Optional: Upload your QR code</label>
-  <input type="file" id="qrUpload" accept="image/*">
 
-  <button class="primary" onclick="generate()">Generate & Pay</button>
+  <button class="primary" onclick="generateLink()">Generate Payment Link</button>
 
   <div id="out" class="hide">
     <p class="note">Share this payment link</p>
-    <p id="finalLink" style="word-break:break-all;font-size:13px"></p>
+    <div class="link-box" id="finalLink"></div>
     <button class="secondary" onclick="copyLink()">Copy Link</button>
   </div>
 </div>
 
-<!-- LANDING PAGE -->
+<!-- ================= BUYER LANDING PAGE ================= -->
 <div class="card hide" id="landing">
   <div class="logo">PayKaro</div>
+
   <h2 id="lTopic"></h2>
   <p><b>Date:</b> <span id="lDate"></span></p>
-  <p style="font-size:22px;font-weight:800;color:#0e5cad">₹<span id="lAmount"></span></p>
+  <p style="font-size:22px;font-weight:800;color:#0e5cad">
+    ₹<span id="lAmount"></span>
+  </p>
 
   <button class="primary" onclick="payNow()">Pay Now</button>
 
-  <!-- QR -->
+  <!-- QR FOR DESKTOP -->
   <div class="qrBox hide" id="qrBox">
-    <p class="note"><b>Scan & Pay</b></p>
+    <p class="note"><b>Scan & Pay via UPI</b></p>
     <img id="qrImg">
+    <p class="note" id="upiText"></p>
   </div>
 
-  <button class="secondary hide" id="afterPay" onclick="afterPayment()">
-    Continue
+  <!-- CONTINUE -->
+  <button id="continueBtn" class="secondary hide" onclick="goToGroup()">
+    Continue to WhatsApp Group
   </button>
 
   <p class="note">
-    After completing payment in your UPI app, return here and tap Continue.
+    After completing payment in your UPI app,  
+    tap Continue to join the WhatsApp group.
   </p>
 </div>
 
 <script>
-let uploadedQR = "";
+/* ===== CONFIG ===== */
+const GROUP_LINK = "https://chat.whatsapp.com/XXXXXXXXXX"; // 👈 apna WhatsApp group link
 
-document.getElementById("qrUpload").addEventListener("change", e=>{
-  const file = e.target.files[0];
-  if(file){
-    uploadedQR = URL.createObjectURL(file);
-  }
-});
-
-function generate(){
-  const t=encodeURIComponent(topic.value);
-  const d=encodeURIComponent(datetime.value);
-  const a=amount.value;
-  const u=upi.value.trim();
-  const w=wa.value.trim();
+/* ===== CREATE LINK ===== */
+function generateLink(){
+  const t = encodeURIComponent(topic.value);
+  const d = encodeURIComponent(datetime.value);
+  const a = amount.value;
+  const u = upi.value.trim();
+  const w = wa.value.trim();
 
   const url =
-    `${location.origin}${location.pathname}?t=${t}&d=${d}&a=${a}&u=${u}&w=${w}`;
+    `${location.origin}${location.pathname}` +
+    `?t=${t}&d=${d}&a=${a}&u=${u}&w=${w}`;
 
-  finalLink.innerText=url;
+  finalLink.innerText = url;
   out.classList.remove("hide");
-
-  // 📱 Mobile: auto open payment
-  if(/Android|iPhone/i.test(navigator.userAgent)){
-    window.location.href =
-      `upi://pay?pa=${u}&pn=PayKaro&am=${a}&cu=INR`;
-  }
 }
 
 function copyLink(){
@@ -133,40 +135,54 @@ function copyLink(){
   alert("Payment link copied");
 }
 
-// Landing
-const q=new URLSearchParams(location.search);
+/* ===== LANDING LOGIC ===== */
+const q = new URLSearchParams(location.search);
 if(q.get("t")){
   create.classList.add("hide");
   landing.classList.remove("hide");
 
-  lTopic.innerText=decodeURIComponent(q.get("t"));
-  lDate.innerText=decodeURIComponent(q.get("d"));
-  lAmount.innerText=q.get("a");
+  lTopic.innerText = decodeURIComponent(q.get("t"));
+  lDate.innerText = decodeURIComponent(q.get("d"));
+  lAmount.innerText = q.get("a");
 
-  const upi=q.get("u");
-  const amt=q.get("a");
+  const upiId = q.get("u");
+  const amt = q.get("a");
 
-  // Desktop QR
-  if(!/Android|iPhone/i.test(navigator.userAgent)){
+  // Desktop → show QR
+  if(!/Android|iPhone|iPad/i.test(navigator.userAgent)){
     qrBox.classList.remove("hide");
-    qrImg.src = uploadedQR ||
-      `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=`+
-      encodeURIComponent(`upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`);
+    qrImg.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(`upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`);
+    upiText.innerText = upiId;
+    continueBtn.classList.remove("hide");
   }
 }
 
+/* ===== PAY NOW ===== */
 function payNow(){
-  document.getElementById("afterPay").classList.remove("hide");
-  window.location.href =
-    `upi://pay?pa=${q.get("u")}&pn=PayKaro&am=${q.get("a")}&cu=INR`;
+  const upiId = q.get("u");
+  const amt = q.get("a");
+
+  const intent =
+    `upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`;
+
+  if(/Android|iPhone|iPad/i.test(navigator.userAgent)){
+    window.location.href = intent;
+
+    // 4 sec baad Continue button dikhao
+    setTimeout(()=>{
+      continueBtn.classList.remove("hide");
+    },4000);
+  } else {
+    qrBox.classList.remove("hide");
+    continueBtn.classList.remove("hide");
+  }
 }
 
-function afterPayment(){
-  const w=q.get("w");
-  if(w){
-    window.location.href =
-      `https://wa.me/${w}?text=Thank%20you%20for%20your%20payment.%20If%20paid%20successfully,%20please%20reply%20DONE.`;
-  }
+/* ===== WHATSAPP GROUP ===== */
+function goToGroup(){
+  window.location.href = GROUP_LINK;
 }
 </script>
 
