@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayKaro – Payment Link</title>
+<title>PayKaro – Pay Securely</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -21,131 +21,101 @@ body{
 }
 h2{color:#0e5cad;margin-bottom:10px}
 p{font-size:14px;margin:6px 0}
-input{
-  width:100%;padding:12px;margin-top:8px;
-  border-radius:12px;border:1px solid #ccd6e3;
-}
 button{
   width:100%;padding:14px;margin-top:14px;
   border:none;border-radius:999px;
   font-weight:700;cursor:pointer;
 }
-.primary{background:linear-gradient(90deg,#0e5cad,#1f86ff);color:#fff}
-.success{background:#25D366;color:#fff}
+.primary{
+  background:linear-gradient(90deg,#0e5cad,#1f86ff);
+  color:#fff;
+}
 .qr{
-  margin-top:14px;
+  margin-top:16px;
   display:none;
 }
 .qr img{width:180px}
-small{font-size:11px;color:#666}
+.copy{
+  margin-top:8px;
+  font-size:12px;
+  color:#0e5cad;
+  cursor:pointer;
+}
+.note{
+  margin-top:10px;
+  font-size:12px;
+  color:#666;
+}
 .hide{display:none}
 </style>
 </head>
 
 <body>
 
-<!-- CREATE PAGE -->
-<div class="card" id="create">
-  <h2>Create Payment Page</h2>
+<div class="card" id="page">
+  <h2 id="title"></h2>
+  <p><b>Date:</b> <span id="date"></span></p>
+  <p><b>Amount:</b> ₹<span id="amount"></span></p>
 
-  <input id="topic" placeholder="Topic / Product Name">
-  <input id="datetime" type="datetime-local">
-  <input id="amount" type="number" placeholder="Amount (₹)">
-  <input id="upi" placeholder="UPI ID (name@bank)">
-  <input id="wa" placeholder="WhatsApp Number (91XXXXXXXXXX)">
-
-  <button class="primary" onclick="generate()">Generate Payment Link</button>
-
-  <div id="out" class="hide">
-    <p><b>Share this link:</b></p>
-    <p id="finalLink" style="word-break:break-all;font-size:13px"></p>
-    <button onclick="copyLink()">Copy Link</button>
-  </div>
-</div>
-
-<!-- LANDING PAGE -->
-<div class="card hide" id="landing">
-  <h2 id="lTopic"></h2>
-  <p><b>Date:</b> <span id="lDate"></span></p>
-  <p><b>Amount:</b> ₹<span id="lAmount"></span></p>
-
+  <!-- PAY BUTTON -->
   <button class="primary" onclick="payNow()">Pay Now</button>
 
-  <!-- QR FOR DESKTOP -->
+  <!-- DESKTOP QR -->
   <div class="qr" id="qrBox">
-    <p><b>Scan & Pay</b></p>
+    <p><b>Scan & Pay via UPI</b></p>
     <img id="qrImg">
-    <small>Scan with PhonePe / GPay / Paytm</small>
+    <p id="upiText"></p>
+    <div class="copy" onclick="copyUPI()">Copy UPI ID</div>
   </div>
 
-  <button class="success" onclick="paymentDone()">Payment Done</button>
+  <p class="note">
+    After completing payment in your UPI app,  
+    you will be redirected automatically.
+  </p>
 </div>
 
 <script>
-function generate(){
-  const t=encodeURIComponent(topic.value);
-  const d=encodeURIComponent(datetime.value);
-  const a=amount.value;
-  const u=upi.value.trim();
-  const w=wa.value.trim();
+const q = new URLSearchParams(location.search);
 
-  const url=
-    `${location.origin}${location.pathname}`+
-    `?t=${t}&d=${d}&a=${a}&u=${u}&w=${w}`;
+const title = decodeURIComponent(q.get("t") || "Payment");
+const dateVal = decodeURIComponent(q.get("d") || "");
+const amt = q.get("a") || "";
+const upi = q.get("u") || "";
+const wa = q.get("w") || "";
 
-  finalLink.innerText=url;
-  out.classList.remove("hide");
-}
+document.getElementById("title").innerText = title;
+document.getElementById("date").innerText = dateVal;
+document.getElementById("amount").innerText = amt;
 
-function copyLink(){
-  navigator.clipboard.writeText(finalLink.innerText);
-  alert("Link copied");
-}
-
-// LANDING LOGIC
-const q=new URLSearchParams(location.search);
-if(q.get("t")){
-  create.classList.add("hide");
-  landing.classList.remove("hide");
-
-  lTopic.innerText=decodeURIComponent(q.get("t"));
-  lDate.innerText=decodeURIComponent(q.get("d"));
-  lAmount.innerText=q.get("a");
-
-  const upi=q.get("u");
-  const amt=q.get("a");
-
-  // Desktop QR
-  if(!/Android|iPhone/i.test(navigator.userAgent)){
-    qrBox.style.display="block";
-    qrImg.src=
-      `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=`+
-      encodeURIComponent(`upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`);
-  }
-}
+const upiIntent =
+  `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
 
 function payNow(){
-  const upi=q.get("u");
-  const amt=q.get("a");
+  // 📱 Mobile → open UPI app
+  if(/Android|iPhone|iPad/i.test(navigator.userAgent)){
+    window.location.href = upiIntent;
 
-  const intent=
-    `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
+    // WhatsApp redirect after intent (soft & safe)
+    setTimeout(()=>{
+      if(wa){
+        window.location.href =
+          `https://wa.me/${wa}?text=Thank%20you%20for%20your%20payment.%20If%20payment%20is%20successful,%20please%20reply%20DONE.`;
+      }
+    }, 3000);
 
-  if(/Android|iPhone/i.test(navigator.userAgent)){
-    window.location.href=intent;
-  }else{
-    qrBox.style.display="block";
+  } else {
+    // 💻 Desktop → show QR
+    document.getElementById("qrBox").style.display = "block";
+    document.getElementById("qrImg").src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(upiIntent);
+    document.getElementById("upiText").innerText = upi;
   }
 }
 
-function paymentDone(){
-  const w=q.get("w");
-  if(w){
-    window.location.href=
-      `https://wa.me/${w}?text=Thank%20you%20for%20your%20payment.%20Payment%20received%20successfully.`;
-  }else{
-    alert("Payment marked as done");
-  }
+function copyUPI(){
+  navigator.clipboard.writeText(upi);
+  alert("UPI ID copied");
 }
 </script>
 
