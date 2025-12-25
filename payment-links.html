@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayKaro – Create Payment Page</title>
+<title>PayKaro – Create Payment Link</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,171 +10,133 @@
 body{
   min-height:100vh;
   background:linear-gradient(160deg,#071b34,#0e5cad,#eaf4ff);
-  color:#0f2a44;
+  display:flex;align-items:center;justify-content:center;
 }
-header{
-  padding:18px 22px;
-  color:#fff;
-  font-size:22px;
-  font-weight:800;
-}
-.container{
-  max-width:420px;
-  margin:20px auto;
+.card{
   background:#fff;
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 25px 45px rgba(0,0,0,.15);
+  width:92%;max-width:420px;
+  padding:24px;border-radius:22px;
+  box-shadow:0 25px 45px rgba(0,0,0,.15)
 }
-h2{
-  margin-bottom:12px;
-  color:#0e5cad;
-}
-label{
-  font-size:13px;
-  font-weight:600;
-  margin-top:12px;
-  display:block;
-}
+h2{color:#0e5cad;margin-bottom:14px}
+label{font-size:13px;font-weight:600;margin-top:10px;display:block}
 input{
-  width:100%;
-  padding:12px;
-  margin-top:6px;
-  border-radius:12px;
-  border:1px solid #ccd6e3;
+  width:100%;padding:12px;margin-top:6px;
+  border-radius:12px;border:1px solid #ccd6e3;
 }
+small{font-size:11px;color:#666}
 button{
-  width:100%;
-  padding:14px;
-  margin-top:18px;
-  border:none;
-  border-radius:999px;
+  width:100%;padding:14px;margin-top:16px;
+  border:none;border-radius:999px;
   background:linear-gradient(90deg,#0e5cad,#1f86ff);
-  color:#fff;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
+  color:#fff;font-weight:700;cursor:pointer;
 }
-.link-box{
-  background:#f4f8fd;
-  padding:12px;
-  border-radius:12px;
-  font-size:13px;
-  word-break:break-all;
-  margin-top:12px;
-}
+.actions{display:flex;gap:10px;margin-top:10px}
+.actions button{flex:1;font-size:13px;padding:10px}
 .hide{display:none}
-.pay-btn{
-  background:#1f86ff;
-  margin-top:14px;
+.link-box{
+  background:#f4f8fd;padding:12px;border-radius:12px;
+  word-break:break-all;font-size:13px;margin-top:10px
 }
-.done-btn{
-  background:#25D366;
-}
-footer{
-  text-align:center;
-  padding:16px;
-  font-size:12px;
-  color:#e8f2ff;
-}
+.pay-btn{background:#1f86ff}
+.done-btn{background:#25D366}
 </style>
 </head>
 
 <body>
 
-<header>PayKaro</header>
+<div class="card" id="create">
+<h2>Create Payment Page</h2>
 
-<!-- CREATE PAYMENT PAGE -->
-<div class="container" id="createPage">
-  <h2>Create Payment Page</h2>
+<label>Topic / Product Name</label>
+<input id="topic" placeholder="3 Days Tarot Webinar">
 
-  <label>Topic / Product Name</label>
-  <input id="topic" placeholder="3 Days Tarot Webinar">
+<label>Date & Time</label>
+<input id="datetime" type="datetime-local">
 
-  <label>Date & Time</label>
-  <input id="datetime" placeholder="25 Dec, 7:00 PM">
+<label>Amount (₹)</label>
+<input id="amount" type="number" placeholder="99">
 
-  <label>Amount (₹)</label>
-  <input id="amount" placeholder="99">
+<label>UPI ID (optional)</label>
+<input id="upi" placeholder="name@bank">
 
-  <label>Payment Reason</label>
-  <input id="reason" placeholder="Webinar Registration">
+<label>OR Upload QR Code</label>
+<input type="file" id="qr" accept="image/*">
+<small>From gallery (optional)</small>
 
-  <label>Payment Link (UPI / Razorpay)</label>
-  <input id="paylink" placeholder="https://rzp.io/l/xxxx">
+<button onclick="generate()">Generate Payment Link</button>
 
-  <button onclick="generateLink()">Generate Payment Link</button>
-
-  <div id="generated" class="hide">
-    <p style="margin-top:12px;font-size:13px;font-weight:600;">
-      Share this landing page link:
-    </p>
-    <div class="link-box" id="finalLink"></div>
+<div id="out" class="hide">
+  <div class="link-box" id="finalLink"></div>
+  <div class="actions">
+    <button onclick="copyLink()">Copy</button>
+    <button onclick="shareLink()">Share</button>
   </div>
 </div>
+</div>
 
-<!-- LANDING PAGE -->
-<div class="container hide" id="landingPage">
+<!-- LANDING -->
+<div class="card hide" id="landing">
   <h2 id="lTopic"></h2>
-  <p id="lReason"></p>
   <p><b>Date:</b> <span id="lDate"></span></p>
   <p><b>Amount:</b> ₹<span id="lAmount"></span></p>
 
-  <a id="lPay" target="_blank">
+  <a id="payBtn" target="_blank">
     <button class="pay-btn">Pay Now</button>
   </a>
 
-  <button class="done-btn" onclick="showThankYou()">
-    Payment Done
-  </button>
+  <button class="done-btn" onclick="thankYou()">Payment Done</button>
 </div>
 
-<!-- THANK YOU PAGE -->
-<div class="container hide" id="thankyouPage">
-  <h2>✅ Payment Successful</h2>
-  <p>Thank you for your purchase.</p>
-  <p style="margin-top:10px;font-size:13px;">
-    The seller will contact you shortly.
-  </p>
+<!-- THANK YOU -->
+<div class="card hide" id="thanks">
+  <h2>✅ Thank You</h2>
+  <p>Payment received successfully.</p>
 </div>
-
-<footer>100% Secure • Trusted Payments</footer>
 
 <script>
-function generateLink(){
-  const t = encodeURIComponent(topic.value);
-  const d = encodeURIComponent(datetime.value);
-  const a = amount.value.trim();
-  const r = encodeURIComponent(reason.value);
+function generate(){
+  const t=encodeURIComponent(topic.value);
+  const d=encodeURIComponent(datetime.value);
+  const a=amount.value;
+  const u=upi.value.trim();
 
-  const p = paylink.value.trim(); // ❗ UPI ID ko encode nahi karna
-
-  const url =
-    `${location.origin}${location.pathname}` +
-    `?topic=${t}&date=${d}&amount=${a}&reason=${r}&upi=${p}`;
-
-  document.getElementById("finalLink").innerText = url;
-  document.getElementById("generated").classList.remove("hide");
+  const url=`${location.origin}${location.pathname}?t=${t}&d=${d}&a=${a}&u=${u}`;
+  finalLink.innerText=url;
+  out.classList.remove("hide");
 }
 
-const params = new URLSearchParams(window.location.search);
-if(params.get("topic")){
-  document.getElementById("createPage").classList.add("hide");
-  document.getElementById("landingPage").classList.remove("hide");
+function copyLink(){
+  navigator.clipboard.writeText(finalLink.innerText);
+  alert("Link copied");
+}
 
-  const upi = params.get("upi");
-  const amt = params.get("amount");
+function shareLink(){
+  if(navigator.share){
+    navigator.share({url:finalLink.innerText});
+  }else alert("Share not supported");
+}
 
-  lTopic.innerText = params.get("topic");
-  lDate.innerText = params.get("date");
-  lAmount.innerText = amt;
-  lReason.innerText = params.get("reason");
+const q=new URLSearchParams(location.search);
+if(q.get("t")){
+  create.classList.add("hide");
+  landing.classList.remove("hide");
 
-  // ✅ REAL UPI PAYMENT LINK
-  lPay.href = `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
+  lTopic.innerText=decodeURIComponent(q.get("t"));
+  lDate.innerText=decodeURIComponent(q.get("d"));
+  lAmount.innerText=q.get("a");
+
+  const upi=q.get("u");
+  if(upi){
+    payBtn.href=`upi://pay?pa=${upi}&pn=PayKaro&am=${q.get("a")}&cu=INR`;
+  }
+}
+
+function thankYou(){
+  landing.classList.add("hide");
+  thanks.classList.remove("hide");
 }
 </script>
-
 
 </body>
 </html>
