@@ -66,13 +66,21 @@ header{
 }
 .nav a:hover{color:var(--primary)}
 .cta{
-  background:linear-gradient(135deg,#2563eb,#22c55e);
+  background:#ffffff;              /* white button */
+  color:#2563eb;                   /* blue text */
   padding:12px 22px;
   border-radius:999px;
-  color:#fff;
   font-weight:600;
-  box-shadow:0 8px 24px rgba(37,99,235,.35);
+  border:2px solid #2563eb;        /* button feel */
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  transition:.3s ease;
 }
+
+.cta:hover{
+  background:#2563eb;
+  color:#ffffff;
+}
+
 
 
 
@@ -310,6 +318,7 @@ footer{
 
 </body>
 </html>
+
 
 
 
