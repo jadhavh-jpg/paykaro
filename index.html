@@ -66,11 +66,15 @@ header{
 }
 .nav a:hover{color:var(--primary)}
 .cta{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  padding:10px 20px;
+  background:linear-gradient(135deg,#2563eb,#22c55e);
+  padding:12px 22px;
   border-radius:999px;
   color:#fff;
+  font-weight:600;
+  box-shadow:0 8px 24px rgba(37,99,235,.35);
 }
+
+
 
 /* ================= HERO ================= */
 .hero{
@@ -150,16 +154,21 @@ h2{
   gap:22px;
 }
 .card{
-  background:var(--card);
+  background:#fff;
   padding:28px;
   border-radius:20px;
-  border:1px solid var(--border);
-  transition:.35s;
+  border:2px solid #e5e7eb; /* 👈 mota border */
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  font-weight:600;
+  cursor:pointer;
 }
+
 .card:hover{
-  transform:translateY(-8px);
-  border-color:var(--primary);
+  transform:translateY(-6px);
+  border-color:#2563eb;
+  box-shadow:0 16px 40px rgba(37,99,235,.18);
 }
+
 
 /* ================= FORM ================= */
 form input{
@@ -301,5 +310,6 @@ footer{
 
 </body>
 </html>
+
 
 
