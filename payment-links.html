@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayKaro – Pay Securely</title>
+<title>PayKaro – Secure Payment</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial}
 body{
   min-height:100vh;
   background:linear-gradient(160deg,#071b34,#0e5cad,#eaf4ff);
@@ -15,34 +15,68 @@ body{
 .card{
   background:#fff;
   width:92%;max-width:420px;
-  padding:24px;border-radius:22px;
-  box-shadow:0 25px 45px rgba(0,0,0,.15);
+  padding:26px;
+  border-radius:24px;
+  box-shadow:0 30px 60px rgba(0,0,0,.18);
   text-align:center;
 }
-h2{color:#0e5cad;margin-bottom:10px}
-p{font-size:14px;margin:6px 0}
-button{
-  width:100%;padding:14px;margin-top:14px;
-  border:none;border-radius:999px;
-  font-weight:700;cursor:pointer;
+.logo{
+  font-size:20px;
+  font-weight:800;
+  color:#0e5cad;
+  margin-bottom:12px;
 }
-.primary{
+h2{
+  font-size:22px;
+  color:#0f2a44;
+  margin-bottom:6px;
+}
+.info{
+  font-size:14px;
+  color:#444;
+  margin:6px 0;
+}
+.amount{
+  font-size:22px;
+  font-weight:800;
+  color:#0e5cad;
+  margin:10px 0;
+}
+button{
+  width:100%;
+  padding:15px;
+  margin-top:14px;
+  border:none;
+  border-radius:999px;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+}
+.pay-btn{
   background:linear-gradient(90deg,#0e5cad,#1f86ff);
   color:#fff;
 }
-.qr{
-  margin-top:16px;
+.qr-box{
   display:none;
+  margin-top:18px;
 }
-.qr img{width:180px}
+.qr-box img{
+  width:200px;
+  margin:10px auto;
+}
+.upi-text{
+  font-size:13px;
+  word-break:break-all;
+  color:#333;
+}
 .copy{
-  margin-top:8px;
+  margin-top:6px;
   font-size:12px;
   color:#0e5cad;
   cursor:pointer;
 }
 .note{
-  margin-top:10px;
+  margin-top:12px;
   font-size:12px;
   color:#666;
 }
@@ -53,25 +87,29 @@ button{
 <body>
 
 <div class="card" id="page">
-  <h2 id="title"></h2>
-  <p><b>Date:</b> <span id="date"></span></p>
-  <p><b>Amount:</b> ₹<span id="amount"></span></p>
+  <div class="logo">PayKaro</div>
 
-  <!-- PAY BUTTON -->
-  <button class="primary" onclick="payNow()">Pay Now</button>
+  <h2 id="title">Payment</h2>
 
-  <!-- DESKTOP QR -->
-  <div class="qr" id="qrBox">
-    <p><b>Scan & Pay via UPI</b></p>
-    <img id="qrImg">
-    <p id="upiText"></p>
+  <div class="info">
+    <b>Date:</b> <span id="date"></span>
+  </div>
+
+  <div class="amount">₹<span id="amount"></span></div>
+
+  <button class="pay-btn" onclick="payNow()">Pay Now</button>
+
+  <!-- Desktop QR -->
+  <div class="qr-box" id="qrBox">
+    <div class="info"><b>Scan & Pay via UPI</b></div>
+    <img id="qrImg" alt="UPI QR Code">
+    <div class="upi-text" id="upiText"></div>
     <div class="copy" onclick="copyUPI()">Copy UPI ID</div>
   </div>
 
-  <p class="note">
-    After completing payment in your UPI app,  
-    you will be redirected automatically.
-  </p>
+  <div class="note">
+    You will be redirected to your UPI app to complete the payment.
+  </div>
 </div>
 
 <script>
@@ -81,7 +119,6 @@ const title = decodeURIComponent(q.get("t") || "Payment");
 const dateVal = decodeURIComponent(q.get("d") || "");
 const amt = q.get("a") || "";
 const upi = q.get("u") || "";
-const wa = q.get("w") || "";
 
 document.getElementById("title").innerText = title;
 document.getElementById("date").innerText = dateVal;
@@ -91,21 +128,12 @@ const upiIntent =
   `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
 
 function payNow(){
-  // 📱 Mobile → open UPI app
   if(/Android|iPhone|iPad/i.test(navigator.userAgent)){
+    // 📱 Mobile → open UPI app
     window.location.href = upiIntent;
-
-    // WhatsApp redirect after intent (soft & safe)
-    setTimeout(()=>{
-      if(wa){
-        window.location.href =
-          `https://wa.me/${wa}?text=Thank%20you%20for%20your%20payment.%20If%20payment%20is%20successful,%20please%20reply%20DONE.`;
-      }
-    }, 3000);
-
-  } else {
+  }else{
     // 💻 Desktop → show QR
-    document.getElementById("qrBox").style.display = "block";
+    document.getElementById("qrBox").style.display="block";
     document.getElementById("qrImg").src =
       "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
       encodeURIComponent(upiIntent);
