@@ -65,21 +65,29 @@ header{
   font-weight:500;
 }
 .nav a:hover{color:var(--primary)}
-.cta{
-  background:#ffffff;              /* white button */
-  color:#2563eb;                   /* blue text */
-  padding:12px 22px;
+/* Sticky Get Started CTA */
+.sticky-cta{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  background:#2563eb;
+  color:#fff;
+  padding:14px 22px;
   border-radius:999px;
   font-weight:600;
-  border:2px solid #2563eb;        /* button feel */
-  box-shadow:0 6px 18px rgba(0,0,0,.12);
-  transition:.3s ease;
+  text-decoration:none;
+  box-shadow:0 12px 30px rgba(37,99,235,.4);
+  z-index:999;
+  display:none;
 }
 
-.cta:hover{
-  background:#2563eb;
-  color:#ffffff;
+/* Mobile only */
+@media(max-width:768px){
+  .sticky-cta{
+    display:block;
+  }
 }
+
 
 
 
@@ -318,6 +326,7 @@ footer{
 
 </body>
 </html>
+
 
 
 
