@@ -31,11 +31,7 @@ body{
   color:#666;
   margin-bottom:18px;
 }
-h2{
-  font-size:22px;
-  color:#0f2a44;
-  margin-bottom:10px;
-}
+h2{font-size:22px;color:#0f2a44;margin-bottom:10px}
 input{
   width:100%;
   padding:13px;
@@ -72,6 +68,7 @@ button{
   font-size:12px;
   color:#666;
   margin-top:12px;
+  line-height:1.4;
 }
 .link-box{
   background:#f4f8fd;
@@ -84,6 +81,13 @@ button{
 .qrBox img{
   width:200px;
   margin:14px auto;
+}
+a.upiLink{
+  display:block;
+  margin-top:10px;
+  font-weight:700;
+  color:#0e5cad;
+  text-decoration:none;
 }
 .hide{display:none}
 </style>
@@ -100,7 +104,7 @@ button{
   <input id="datetime" type="datetime-local">
   <input id="amount" type="number" placeholder="Amount (₹)">
   <input id="upi" placeholder="UPI ID (name@bank)">
-  <input id="group" placeholder="WhatsApp Group Link (optional)">
+  <input id="group" placeholder="WhatsApp Group Link">
 
   <button class="primary" onclick="generateLink()">Generate Payment Link</button>
 
@@ -121,21 +125,27 @@ button{
 
   <button class="primary" onclick="payNow()">Pay via UPI</button>
 
-  <!-- Desktop QR -->
+  <!-- CLICKABLE UPI LINK (MOBILE) -->
+  <a id="upiAnchor" class="upiLink hide">Open in any UPI App</a>
+
+  <!-- DESKTOP QR -->
   <div class="qrBox hide" id="qrBox">
     <div class="note"><b>Scan & Pay (Desktop)</b></div>
     <img id="qrImg">
     <div class="note" id="upiText"></div>
   </div>
 
-  <!-- Access after payment -->
+  <!-- ACCESS -->
   <button id="accessBtn" class="secondary hide" onclick="goToGroup()">
     Access WhatsApp Group
   </button>
 
   <div class="note">
-    After completing payment in your UPI app,<br>
-    return here to access the group.
+    ✔ Yahi sabse sahi, safe aur practical solution hai.<br>
+    ✔ Group access is approved after payment verification.<br><br>
+    <b>If number does not match:</b><br>
+    “Please send payment screenshot for verification”<br><br>
+    Aap bhi great ho 🙂
   </div>
 </div>
 
@@ -176,12 +186,19 @@ if(q.get("t")){
   pDate.innerText = date;
   pAmount.innerText = amt;
 
-  // Desktop → QR
+  const intent =
+    `upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`;
+
+  // Mobile clickable UPI link
+  upiAnchor.href = intent;
+  upiAnchor.classList.remove("hide");
+
+  // Desktop QR
   if(!/Android|iPhone|iPad/i.test(navigator.userAgent)){
     qrBox.classList.remove("hide");
     qrImg.src =
       "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-      encodeURIComponent(`upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`);
+      encodeURIComponent(intent);
     upiText.innerText = upiId;
     accessBtn.classList.remove("hide");
   }
@@ -195,15 +212,11 @@ function payNow(){
   const intent =
     `upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`;
 
-  if(/Android|iPhone|iPad/i.test(navigator.userAgent)){
-    window.location.href = intent;
-    setTimeout(()=>{
-      accessBtn.classList.remove("hide");
-    },4000);
-  } else {
-    qrBox.classList.remove("hide");
+  window.location.href = intent;
+
+  setTimeout(()=>{
     accessBtn.classList.remove("hide");
-  }
+  },4000);
 }
 
 /* ===== ACCESS ===== */
@@ -211,7 +224,7 @@ function goToGroup(){
   const g = q.get("g");
   if(g){
     window.location.href = decodeURIComponent(g);
-  } else {
+  }else{
     alert("Group link not provided by seller");
   }
 }
