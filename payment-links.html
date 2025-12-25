@@ -2,42 +2,50 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayKaro – Payment Link</title>
+<title>PayKaro – Secure Payment</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial}
 body{
   min-height:100vh;
-  background:linear-gradient(160deg,#071b34,#0e5cad,#eaf4ff);
+  background:radial-gradient(circle at top,#0e5cad,#071b34 70%);
   display:flex;align-items:center;justify-content:center;
 }
 .card{
-  background:#fff;
+  background:#ffffff;
   width:92%;max-width:420px;
-  padding:24px;border-radius:22px;
-  box-shadow:0 25px 45px rgba(0,0,0,.15);
+  padding:26px;
+  border-radius:26px;
+  box-shadow:0 40px 80px rgba(0,0,0,.35);
   text-align:center;
 }
-h2{color:#0e5cad;margin-bottom:10px}
-p{font-size:14px;margin:6px 0}
+.logo{
+  font-size:20px;
+  font-weight:800;
+  color:#0e5cad;
+  margin-bottom:8px;
+}
+h2{font-size:22px;color:#0f2a44;margin-bottom:10px}
 input{
   width:100%;padding:12px;margin-top:8px;
-  border-radius:12px;border:1px solid #ccd6e3;
+  border-radius:14px;border:1px solid #ccd6e3;
 }
 button{
-  width:100%;padding:14px;margin-top:14px;
+  width:100%;padding:15px;margin-top:16px;
   border:none;border-radius:999px;
-  font-weight:700;cursor:pointer;
+  font-weight:700;font-size:15px;cursor:pointer;
 }
-.primary{background:linear-gradient(90deg,#0e5cad,#1f86ff);color:#fff}
-.success{background:#25D366;color:#fff}
-.qr{
-  margin-top:14px;
-  display:none;
+.primary{
+  background:linear-gradient(90deg,#0e5cad,#1f86ff);
+  color:#fff;
 }
-.qr img{width:180px}
-small{font-size:11px;color:#666}
+.secondary{
+  background:#f1f5fb;
+  color:#0e5cad;
+}
+.qrBox img{width:180px;margin-top:12px}
+.note{font-size:12px;color:#666;margin-top:10px}
 .hide{display:none}
 </style>
 </head>
@@ -46,42 +54,60 @@ small{font-size:11px;color:#666}
 
 <!-- CREATE PAGE -->
 <div class="card" id="create">
+  <div class="logo">PayKaro</div>
   <h2>Create Payment Page</h2>
 
-  <input id="topic" placeholder="Topic / Product Name">
+  <input id="topic" placeholder="Product / Service Name">
   <input id="datetime" type="datetime-local">
   <input id="amount" type="number" placeholder="Amount (₹)">
   <input id="upi" placeholder="UPI ID (name@bank)">
   <input id="wa" placeholder="WhatsApp Number (91XXXXXXXXXX)">
+  <label class="note">Optional: Upload your QR code</label>
+  <input type="file" id="qrUpload" accept="image/*">
 
-  <button class="primary" onclick="generate()">Generate Payment Link</button>
+  <button class="primary" onclick="generate()">Generate & Pay</button>
 
   <div id="out" class="hide">
-    <p><b>Share this link:</b></p>
+    <p class="note">Share this payment link</p>
     <p id="finalLink" style="word-break:break-all;font-size:13px"></p>
-    <button onclick="copyLink()">Copy Link</button>
+    <button class="secondary" onclick="copyLink()">Copy Link</button>
   </div>
 </div>
 
 <!-- LANDING PAGE -->
 <div class="card hide" id="landing">
+  <div class="logo">PayKaro</div>
   <h2 id="lTopic"></h2>
   <p><b>Date:</b> <span id="lDate"></span></p>
-  <p><b>Amount:</b> ₹<span id="lAmount"></span></p>
+  <p style="font-size:22px;font-weight:800;color:#0e5cad">₹<span id="lAmount"></span></p>
 
   <button class="primary" onclick="payNow()">Pay Now</button>
 
-  <!-- QR FOR DESKTOP -->
-  <div class="qr" id="qrBox">
-    <p><b>Scan & Pay</b></p>
+  <!-- QR -->
+  <div class="qrBox hide" id="qrBox">
+    <p class="note"><b>Scan & Pay</b></p>
     <img id="qrImg">
-    <small>Scan with PhonePe / GPay / Paytm</small>
   </div>
 
-  <button class="success" onclick="paymentDone()">Payment Done</button>
+  <button class="secondary hide" id="afterPay" onclick="afterPayment()">
+    Continue
+  </button>
+
+  <p class="note">
+    After completing payment in your UPI app, return here and tap Continue.
+  </p>
 </div>
 
 <script>
+let uploadedQR = "";
+
+document.getElementById("qrUpload").addEventListener("change", e=>{
+  const file = e.target.files[0];
+  if(file){
+    uploadedQR = URL.createObjectURL(file);
+  }
+});
+
 function generate(){
   const t=encodeURIComponent(topic.value);
   const d=encodeURIComponent(datetime.value);
@@ -89,20 +115,25 @@ function generate(){
   const u=upi.value.trim();
   const w=wa.value.trim();
 
-  const url=
-    `${location.origin}${location.pathname}`+
-    `?t=${t}&d=${d}&a=${a}&u=${u}&w=${w}`;
+  const url =
+    `${location.origin}${location.pathname}?t=${t}&d=${d}&a=${a}&u=${u}&w=${w}`;
 
   finalLink.innerText=url;
   out.classList.remove("hide");
+
+  // 📱 Mobile: auto open payment
+  if(/Android|iPhone/i.test(navigator.userAgent)){
+    window.location.href =
+      `upi://pay?pa=${u}&pn=PayKaro&am=${a}&cu=INR`;
+  }
 }
 
 function copyLink(){
   navigator.clipboard.writeText(finalLink.innerText);
-  alert("Link copied");
+  alert("Payment link copied");
 }
 
-// LANDING LOGIC
+// Landing
 const q=new URLSearchParams(location.search);
 if(q.get("t")){
   create.classList.add("hide");
@@ -117,34 +148,24 @@ if(q.get("t")){
 
   // Desktop QR
   if(!/Android|iPhone/i.test(navigator.userAgent)){
-    qrBox.style.display="block";
-    qrImg.src=
+    qrBox.classList.remove("hide");
+    qrImg.src = uploadedQR ||
       `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=`+
       encodeURIComponent(`upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`);
   }
 }
 
 function payNow(){
-  const upi=q.get("u");
-  const amt=q.get("a");
-
-  const intent=
-    `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
-
-  if(/Android|iPhone/i.test(navigator.userAgent)){
-    window.location.href=intent;
-  }else{
-    qrBox.style.display="block";
-  }
+  document.getElementById("afterPay").classList.remove("hide");
+  window.location.href =
+    `upi://pay?pa=${q.get("u")}&pn=PayKaro&am=${q.get("a")}&cu=INR`;
 }
 
-function paymentDone(){
+function afterPayment(){
   const w=q.get("w");
   if(w){
-    window.location.href=
-      `https://wa.me/${w}?text=Thank%20you%20for%20your%20payment.%20Payment%20received%20successfully.`;
-  }else{
-    alert("Payment marked as done");
+    window.location.href =
+      `https://wa.me/${w}?text=Thank%20you%20for%20your%20payment.%20If%20paid%20successfully,%20please%20reply%20DONE.`;
   }
 }
 </script>
