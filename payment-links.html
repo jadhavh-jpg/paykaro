@@ -144,11 +144,15 @@ footer{
 function generateLink(){
   const t = encodeURIComponent(topic.value);
   const d = encodeURIComponent(datetime.value);
-  const a = encodeURIComponent(amount.value);
+  const a = amount.value.trim();
   const r = encodeURIComponent(reason.value);
-  const p = encodeURIComponent(paylink.value);
 
-  const url = `${location.origin}${location.pathname}?topic=${t}&date=${d}&amount=${a}&reason=${r}&pay=${p}`;
+  const p = paylink.value.trim(); // ❗ UPI ID ko encode nahi karna
+
+  const url =
+    `${location.origin}${location.pathname}` +
+    `?topic=${t}&date=${d}&amount=${a}&reason=${r}&upi=${p}`;
+
   document.getElementById("finalLink").innerText = url;
   document.getElementById("generated").classList.remove("hide");
 }
@@ -158,18 +162,19 @@ if(params.get("topic")){
   document.getElementById("createPage").classList.add("hide");
   document.getElementById("landingPage").classList.remove("hide");
 
-  lTopic.innerText = decodeURIComponent(params.get("topic"));
-  lDate.innerText = decodeURIComponent(params.get("date"));
-  lAmount.innerText = decodeURIComponent(params.get("amount"));
-  lReason.innerText = decodeURIComponent(params.get("reason"));
-  lPay.href = decodeURIComponent(params.get("pay"));
-}
+  const upi = params.get("upi");
+  const amt = params.get("amount");
 
-function showThankYou(){
-  document.getElementById("landingPage").classList.add("hide");
-  document.getElementById("thankyouPage").classList.remove("hide");
+  lTopic.innerText = params.get("topic");
+  lDate.innerText = params.get("date");
+  lAmount.innerText = amt;
+  lReason.innerText = params.get("reason");
+
+  // ✅ REAL UPI PAYMENT LINK
+  lPay.href = `upi://pay?pa=${upi}&pn=PayKaro&am=${amt}&cu=INR`;
 }
 </script>
+
 
 </body>
 </html>
