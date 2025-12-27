@@ -101,20 +101,33 @@ header{
   justify-content:center;
   align-items:center;
 }
+
+/* invisible container (no box look) */
 .rotate-box{
   position:relative;
-  width:320px;
-  height:600px;
+  width:420px;     /* 👈 30% bada */
+  height:780px;    /* 👈 30% bada */
+  background:none;
 }
+
+/* only image visible */
 .rotate-box img{
   position:absolute;
   inset:0;
   width:100%;
+  height:auto;
   border-radius:28px;
-  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  box-shadow:0 25px 60px rgba(0,0,0,.28);
   opacity:0;
   animation:swap 8s infinite;
+  transform:scale(1); /* no box scaling */
 }
+
+/* second image delay */
+.rotate-box img:nth-child(2){
+  animation-delay:4s;
+}
+
 .rotate-box img:nth-child(2){animation-delay:4s;}
 
 @keyframes swap{
@@ -244,6 +257,7 @@ footer{
 
 </body>
 </html>
+
 
 
 
