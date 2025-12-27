@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayKaro – Sell Courses, Webinars & Digital Products</title>
 
+<title>PayKaro – Sell Courses, Webinars & Digital Products</title>
 <meta name="description" content="PayKaro helps creators sell online courses, webinars and digital products via WhatsApp, Instagram & Facebook using smart payment links.">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -19,6 +19,29 @@ body{background:#fff;color:#0f172a}
 section{padding:90px 0}
 h2{text-align:center;font-size:36px;margin-bottom:12px}
 .sub{text-align:center;color:#64748b;max-width:720px;margin:0 auto 60px}
+
+/* ===== HEADER ===== */
+header{
+  position:sticky;
+  top:0;
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+  z-index:1000;
+}
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 0;
+}
+.nav strong{font-size:22px}
+.nav a{
+  margin-left:22px;
+  text-decoration:none;
+  color:#475569;
+  font-weight:500;
+}
+.nav a:hover{color:#2563eb}
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -46,7 +69,7 @@ h2{text-align:center;font-size:36px;margin-bottom:12px}
 /* ===== HERO ===== */
 .hero{
   min-height:100vh;
-  background:url(imageshero-bg.png) center/cover no-repeat;
+  background:url(hero-bg.jpg) center/cover no-repeat;
   display:flex;
   align-items:center;
 }
@@ -61,10 +84,6 @@ h2{text-align:center;font-size:36px;margin-bottom:12px}
   gap:40px;
   box-shadow:0 30px 90px rgba(0,0,0,.2);
 }
-
-/* hero text */
-.hero h1{font-size:48px;font-weight:900;line-height:1.1}
-.hero p{margin:20px 0;color:#334155}
 
 /* hero visual */
 .hero-visual{text-align:center}
@@ -90,7 +109,6 @@ h2{text-align:center;font-size:36px;margin-bottom:12px}
   45%{opacity:1}
   55%{opacity:0}
 }
-
 .hero video{
   width:100%;
   max-width:380px;
@@ -100,11 +118,7 @@ h2{text-align:center;font-size:36px;margin-bottom:12px}
 }
 
 /* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{
   padding:28px;
   border-radius:20px;
@@ -127,75 +141,90 @@ h2{text-align:center;font-size:36px;margin-bottom:12px}
 .demo button{width:100%;margin-top:10px}
 #demoLink{display:none;margin-top:14px}
 
-/* ===== TICKER ===== */
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp{
+  position:fixed;
+  bottom:80px;
+  right:18px;
+  background:#25d366;
+  color:#fff;
+  padding:14px 16px;
+  border-radius:50%;
+  font-size:22px;
+  text-decoration:none;
+  box-shadow:0 12px 30px rgba(37,211,102,.5);
+  z-index:999;
+}
+
+/* ===== BOTTOM SLIDER ===== */
 .ticker{
   position:fixed;
   bottom:0;
   width:100%;
   background:#2563eb;
-  color:#fff;
   overflow:hidden;
-  z-index:999;
+  z-index:998;
 }
 .ticker-track{
   display:flex;
   width:max-content;
-  animation:tickerMove 18s linear infinite;
+  animation:scrollLeft 18s linear infinite;
 }
 .ticker span{
+  color:#fff;
   padding:12px 40px;
-  font-weight:600;
+  font-weight:700;
   white-space:nowrap;
 }
-@keyframes tickerMove{
+@keyframes scrollLeft{
   from{transform:translateX(100%)}
   to{transform:translateX(-100%)}
 }
 
-/* ===== FOOTER ===== */
-footer{
-  padding:40px 20px;
-  text-align:center;
-  color:#64748b;
-  border-top:1px solid #e5e7eb;
-}
-
 /* ===== RESPONSIVE ===== */
-@media(max-width:1024px){
-  .hero-glass{padding:40px}
-}
 @media(max-width:900px){
-  .hero-glass{
-    grid-template-columns:1fr;
-    text-align:center;
-  }
+  .hero-glass{grid-template-columns:1fr;text-align:center}
   .rotate-box{width:300px;height:560px}
-  .hero h1{font-size:36px}
+  h2{font-size:30px}
 }
 @media(max-width:600px){
   section{padding:70px 0}
-  h2{font-size:28px}
   .grid{grid-template-columns:1fr}
+  .nav{flex-direction:column;gap:10px}
 }
 </style>
 </head>
 
 <body>
 
+<header>
+  <div class="container nav">
+    <strong>PayKaro</strong>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#platform">Platform</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#demo">Demo</a>
+    </nav>
+  </div>
+</header>
+
 <!-- HERO -->
-<section class="hero">
+<section id="home" class="hero">
   <div class="container hero-glass">
     <div>
       <h1>Sell Online.<br>Get Paid Instantly.</h1>
-      <p>Online Courses • Webinars • Digital Products via WhatsApp, Instagram & Facebook</p>
+      <p>Courses • Webinars • Digital Products via WhatsApp, Instagram & Facebook</p>
       <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView()">Create Free Demo</button>
       <button class="btn btn-outline">View Platform</button>
     </div>
 
     <div class="hero-visual">
       <div class="rotate-box">
-        <img src="mobile1.png" alt="">
-        <img src="mobile2.png" alt="">
+        <img src="mobile1.png">
+        <img src="mobile2.png">
       </div>
       <video src="pv.mp4" autoplay muted loop playsinline></video>
     </div>
@@ -203,18 +232,31 @@ footer{
 </section>
 
 <!-- ABOUT -->
-<section class="container">
+<section id="about" class="container">
   <h2>About PayKaro</h2>
-  <p class="sub">PayKaro is built for Indian creators to sell online without websites or technical setup.</p>
+  <p class="sub">
+    PayKaro is built for Indian creators, educators and businesses to sell online
+    courses, webinars and digital products without websites or technical setup.
+  </p>
 </section>
 
-<!-- FOCUS -->
-<section class="container">
-  <h2>What You Can Sell</h2>
+<!-- PLATFORM -->
+<section id="platform" class="container">
+  <h2>Platform Focus</h2>
   <div class="grid">
     <div class="card">🎓 Online Courses</div>
     <div class="card">🎥 Webinars & Events</div>
     <div class="card">📦 Digital Products</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="container">
+  <h2>Features</h2>
+  <div class="grid">
+    <div class="card">Payment Links</div>
+    <div class="card">WhatsApp Selling</div>
+    <div class="card">Auto Confirmation</div>
   </div>
 </section>
 
@@ -228,7 +270,7 @@ footer{
     <input placeholder="Course Name">
     <input placeholder="Course Fee">
     <input placeholder="UPI ID">
-    <button class="btn btn-primary" onclick="showLink()">Generate Link</button>
+    <button class="btn btn-primary" onclick="document.getElementById('demoLink').style.display='block'">Generate Link</button>
 
     <div id="demoLink">
       <input value="https://paykaro.demo/abc123" readonly>
@@ -237,17 +279,31 @@ footer{
   </div>
 </section>
 
-<!-- REVIEWS -->
-<section class="container">
-  <h2>Happy Customers</h2>
+<!-- PRICING -->
+<section id="pricing" class="container">
+  <h2>Pricing</h2>
   <div class="grid">
-    <div class="card">⭐ Easy to sell courses</div>
-    <div class="card">⭐ Payments work perfectly on WhatsApp</div>
-    <div class="card">⭐ Beginner friendly platform</div>
+    <div class="card">Free Demo – 6 Months</div>
+    <div class="card">Starter – ₹199 / month</div>
+    <div class="card">Pro – ₹499 / month</div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="container">
-  <h2>FAQs</h2>
-  <div cla
+<footer class="container" style="text-align:center;color:#64748b">
+© 2025 PayKaro
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/919115121575" class="whatsapp">💬</a>
+
+<!-- SLIDER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>PayKaro • Subscribe Now</span>
+    <span>Sell Courses & Webinars Easily</span>
+    <span>Accept Payments via WhatsApp</span>
+  </div>
+</div>
+
+</body>
+</html>
