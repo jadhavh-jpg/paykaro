@@ -28,6 +28,17 @@ header{
   border-bottom:1px solid #e5e7eb;
   z-index:1000;
 }
+  .logo img{
+  height:55px;
+  width:auto;
+}
+
+@media(max-width:768px){
+  .logo img{
+    height:42px;
+  }
+}
+
 .nav{
   display:flex;
   justify-content:space-between;
@@ -241,7 +252,10 @@ header{
 
 <!-- HERO -->
 <header class="header">
-  <img src="logo1.png" alt="PayKaro - India's Easy Payment Gateway" class="logo">
+  <div class="logo">
+  <img src="logo1.png" alt="PayKaro - India's Easy Payment Gateway">
+</div>
+
 </header>
 
 <section id="home" class="hero">
@@ -348,6 +362,7 @@ paykarol
 
 </body>
 </html>
+
 
 
 
