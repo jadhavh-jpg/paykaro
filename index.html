@@ -3,274 +3,245 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayKaro – Smart Selling & Payments</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>PayKaro – Sell Courses, Webinars & Digital Products</title>
+<meta name="description" content="PayKaro helps creators sell online courses, webinars and digital products using simple payment links via WhatsApp, Instagram & Facebook.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --primary:#2563eb;
-  --text:#0f172a;
-  --muted:#64748b;
-  --border:#e5e7eb;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 html{scroll-behavior:smooth}
-body{background:#fff;color:var(--text);}
+body{background:#fff;color:#0f172a}
 
-/* ===== HEADER ===== */
-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:#fff;
-  border-bottom:1px solid var(--border);
-}
-.nav{
-  max-width:1200px;
-  margin:auto;
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.nav a{
-  margin-left:22px;
-  text-decoration:none;
-  color:var(--muted);
-  font-weight:500;
-}
-.nav a:hover{color:var(--primary)}
-
-/* ===== HERO ===== */
+/* ================= HERO ================= */
 .hero{
   min-height:100vh;
-  background:url("imageshero-bg.png") center/cover no-repeat;
+  background:url(hero-bg.jpg) center/cover no-repeat;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   padding:80px 20px;
 }
 .hero-glass{
   max-width:1200px;
   width:100%;
+  background:rgba(255,255,255,.28);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:30px;
+  padding:60px;
   display:grid;
   grid-template-columns:1.1fr .9fr;
-  gap:50px;
-  padding:70px;
-  border-radius:30px;
-  background:rgba(255,255,255,0.25);
-  backdrop-filter:blur(1px);
-  box-shadow:0 40px 90px rgba(0,0,0,.18);
+  gap:40px;
+  box-shadow:0 30px 90px rgba(0,0,0,.2);
 }
 
 /* text */
-.hero-text h1{
-  font-size:52px;
-  font-weight:900;
-  line-height:1.1;
-}
-.hero-text p{
-  margin:22px 0;
-  font-size:17px;
-  color:var(--muted);
-}
+.hero h1{font-size:50px;font-weight:900}
+.hero p{margin:20px 0;color:#334155}
+
+/* buttons */
 .btn{
   padding:14px 28px;
   border-radius:999px;
   border:none;
-  font-weight:600;
   cursor:pointer;
+  font-weight:600;
+  transition:.3s;
 }
 .btn-primary{
   background:linear-gradient(90deg,#2563eb,#06b6d4);
   color:#fff;
-  box-shadow:0 12px 30px rgba(37,99,235,.35);
 }
-.btn-secondary{
-  margin-left:14px;
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,99,235,.4)}
+.btn-outline{
   background:#fff;
-  border:1px solid var(--border);
+  border:1px solid #e5e7eb;
 }
+.btn-outline:hover{background:#f1f5f9}
 
-/* ===== ROTATING IMAGES ===== */
-.hero-visual{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* container bilkul invisible */
+/* visual */
+.hero-visual{text-align:center}
 .rotate-box{
   position:relative;
-  width:420px;      /* 30% bigger */
+  width:420px;
   height:780px;
-  background:none;
-  border:none;
-  border-radius:0;
-  box-shadow:none;
-  overflow:visible; /* 👈 MOST IMPORTANT */
+  margin:auto;
 }
-
-/* only image visible */
 .rotate-box img{
   position:absolute;
   inset:0;
   width:100%;
-  height:auto;
-  border-radius:22px;   /* 👉 sirf phone ke natural corners */
+  border-radius:22px;
   box-shadow:0 30px 80px rgba(0,0,0,.25);
   opacity:0;
   animation:swap 8s infinite;
 }
-
-/* second image delay */
-.rotate-box img:nth-child(2){
-  anima
-
-
-/* second image delay */
-.rotate-box img:nth-child(2){
-  animation-delay:4s;
-}
-
-.rotate-box img:nth-child(2){animation-delay:4s;}
-
+.rotate-box img:nth-child(2){animation-delay:4s}
 @keyframes swap{
-  0%{opacity:0;transform:scale(.95)}
-  10%{opacity:1;transform:scale(1)}
+  0%{opacity:0}
+  10%{opacity:1}
   45%{opacity:1}
   55%{opacity:0}
-  100%{opacity:0}
 }
 
-/* ===== COMMON ===== */
+/* video */
+.hero video{
+  width:100%;
+  max-width:420px;
+  margin-top:20px;
+  border-radius:20px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+/* ================= COMMON ================= */
 section{padding:90px 20px}
 .container{max-width:1200px;margin:auto}
-h2{text-align:center;font-size:38px;margin-bottom:16px}
-.sub{text-align:center;max-width:760px;margin:0 auto 60px;color:var(--muted);}
+h2{text-align:center;font-size:36px;margin-bottom:14px}
+.sub{text-align:center;color:#64748b;max-width:720px;margin:0 auto 60px}
 
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:22px;
-}
+/* ================= GRID ================= */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{
-  background:#fff;
   padding:28px;
   border-radius:20px;
-  border:2px solid var(--border);
-  font-weight:600;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  border:1px solid #e5e7eb;
+  transition:.3s;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.12)}
+
+/* ================= DEMO ================= */
+.demo input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+}
+.demo button{width:100%;margin-top:10px}
+
+#demoLink{display:none;margin-top:15px}
+
+/* ================= SLIDER BAR ================= */
+.ticker{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#2563eb;
+  color:#fff;
+  padding:10px;
+  overflow:hidden;
+}
+.ticker span{
+  display:inline-block;
+  padding-left:100%;
+  animation:slide 15s linear infinite;
+}
+@keyframes slide{
+  from{transform:translateX(0)}
+  to{transform:translateX(-100%)}
 }
 
-/* ===== FOOTER ===== */
-footer{
-  padding:50px 20px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-}
-
-/* ===== MOBILE ===== */
+/* ================= MOBILE ================= */
 @media(max-width:900px){
-  .hero-glass{
-    grid-template-columns:1fr;
-    text-align:center;
-    padding:50px 30px;
-  }
-  .hero-text h1{font-size:36px}
-  .rotate-box{margin-top:40px}
-}
-@media(max-width:768px){
-  .grid{grid-template-columns:1fr}
-  .nav{flex-direction:column;gap:12px}
+  .hero-glass{grid-template-columns:1fr;text-align:center}
+  .rotate-box{width:300px;height:560px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="nav">
-    <strong>PayKaro</strong>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#platform">Platform</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
-    </nav>
-  </div>
-</header>
-
 <!-- HERO -->
-<section id="home" class="hero">
+<section class="hero">
   <div class="hero-glass">
-    <div class="hero-text">
-      <h1>Create, Sell & Get Paid<br>with QR & Smart Links</h1>
-      <p>
-        PayKaro helps course creators, webinar hosts and digital sellers
-        accept payments online without any technical setup.
-      </p>
-      <button class="btn btn-primary">Create Free Page</button>
-      <button class="btn btn-secondary">View Platform</button>
+    <div>
+      <h1>Sell Online.<br>Get Paid Instantly.</h1>
+      <p>Courses • Webinars • Digital Products via WhatsApp, Instagram & Facebook</p>
+      <button class="btn btn-primary" onclick="document.getElementById('demo').scrollIntoView()">Create Free Demo</button>
+      <button class="btn btn-outline">View Platform</button>
     </div>
 
     <div class="hero-visual">
       <div class="rotate-box">
-        <img src="imagesmobile1.png" alt="Payment Screen">
-        <img src="imagesmobile1.png" alt="QR Screen">
+        <img src="mobile1.png">
+        <img src="mobile2.png">
       </div>
+      <video src="pv.mp4" autoplay muted loop></video>
     </div>
   </div>
 </section>
 
-<!-- PLATFORM -->
-<section id="platform" class="container">
-  <h2>What is PayKaro?</h2>
-  <p class="sub">
-    PayKaro is a smart selling & payment platform to sell
-    courses, webinars and digital products using links & QR.
-  </p>
+<!-- ABOUT -->
+<section class="container">
+  <h2>About PayKaro</h2>
+  <p class="sub">PayKaro is built for Indian creators to sell without websites or tech knowledge.</p>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="container">
-  <h2>Platform Features</h2>
+<!-- FOCUS -->
+<section class="container">
+  <h2>What You Can Sell</h2>
   <div class="grid">
-    <div class="card">Payment Links</div>
-    <div class="card">Landing Page Builder</div>
-    <div class="card">Auto Confirmation</div>
-    <div class="card">Analytics Dashboard</div>
+    <div class="card">🎓 Online Courses</div>
+    <div class="card">🎥 Webinars & Events</div>
+    <div class="card">📦 Digital Products</div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" class="container">
-  <h2>2026 Offer Price</h2>
-  <div class="grid">
-    <div class="card">Free Plan</div>
-    <div class="card">Starter ₹199/month</div>
-    <div class="card">Pro ₹499/month</div>
-    <div class="card>Contact: +91 91151 21575</div>
+<!-- DEMO -->
+<section id="demo" class="container">
+  <h2>6 Months Free Demo</h2>
+  <p class="sub">Create your selling page instantly</p>
+
+  <div class="card demo">
+    <input id="brand" placeholder="Brand / Creator Name">
+    <input id="course" placeholder="Course Name">
+    <input id="price" placeholder="Course Fee">
+    <input id="upi" placeholder="UPI ID">
+    <button class="btn btn-primary" onclick="generate()">Generate Link</button>
+
+    <div id="demoLink">
+      <input id="link" readonly>
+      <button class="btn btn-outline" onclick="copy()">Copy</button>
+    </div>
   </div>
 </section>
 
-<footer>
-  © 2025 PayKaro • Built for Indian Creators
+<!-- REVIEWS -->
+<section class="container">
+  <h2>Happy Customers</h2>
+  <div class="grid">
+    <div class="card">⭐ “Very easy to sell courses”</div>
+    <div class="card">⭐ “Payments via WhatsApp works great”</div>
+    <div class="card">⭐ “Perfect for beginners”</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="container">
+  <h2>FAQs</h2>
+  <div class="card">❓ Do I need a website? – No</div>
+  <div class="card">❓ Is PayKaro free? – Yes demo is free</div>
+</section>
+
+<footer class="container" style="text-align:center;padding:40px;color:#64748b">
+© 2025 PayKaro
 </footer>
+
+<div class="ticker"><span>PayKaro • Subscribe Now • Sell Online Easily •</span></div>
+
+<script>
+function generate(){
+  const link="https://paykaro.demo/"+Math.random().toString(36).substr(2,8);
+  document.getElementById('link').value=link;
+  document.getElementById('demoLink').style.display="block";
+}
+function copy(){
+  navigator.clipboard.writeText(document.getElementById('link').value);
+  alert("Link Copied");
+}
+</script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
