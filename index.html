@@ -9,8 +9,8 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#fff;color:#0f172a}
 html{scroll-behavior:smooth}
+body{background:#fff;color:#0f172a}
 
 /* ===== CONTAINER ===== */
 .container{max-width:1200px;margin:auto;padding:0 20px}
@@ -28,13 +28,16 @@ section{padding:90px 0}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:18px 0;
+  padding:10px 0; /* slim bar */
 }
 
 /* LOGO */
-.logo img{height:70px}
+.logo img{
+  height:64px; /* logo big */
+  width:auto;
+}
 
-/* MENU */
+/* MENU BUTTONS */
 .menu{
   display:flex;
   gap:14px;
@@ -66,13 +69,10 @@ section{padding:90px 0}
 
 /* ===== HERO ===== */
 .hero{
-  min-height:100vh;
   background:#f8fafc;
-  display:flex;
-  align-items:center;
 }
 .hero-glass{
-  background:rgba(255,255,255,.6);
+  background:#fff;
   border-radius:30px;
   padding:60px;
   display:grid;
@@ -80,7 +80,7 @@ section{padding:90px 0}
   gap:40px;
 }
 .hero h1{font-size:48px;line-height:1.1}
-.hero p{margin:18px 0}
+.hero p{margin:18px 0;color:#334155}
 
 /* HERO IMAGES */
 .rotate-box{
@@ -100,13 +100,44 @@ section{padding:90px 0}
 .rotate-box img:nth-child(1){animation-delay:0s}
 .rotate-box img:nth-child(2){animation-delay:2s}
 .rotate-box img:nth-child(3){animation-delay:4s}
-
 @keyframes swap{
   0%{opacity:0}
   10%{opacity:1}
   30%{opacity:1}
   40%{opacity:0}
   100%{opacity:0}
+}
+
+/* ===== GRID / CARDS ===== */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{
+  padding:28px;
+  border-radius:20px;
+  border:1px solid #e5e7eb;
+}
+
+/* ===== DEMO FORM ===== */
+.demo input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+}
+.demo button{
+  width:100%;
+  margin-top:10px;
+  padding:14px;
+  border-radius:999px;
+  border:none;
+  font-weight:600;
+  background:linear-gradient(90deg,#2563eb,#06b6d4);
+  color:#fff;
+  cursor:pointer;
+}
+#demoLink{
+  display:none;
+  margin-top:14px;
 }
 
 /* ===== WHATSAPP FLOAT ===== */
@@ -148,17 +179,13 @@ section{padding:90px 0}
 
 /* ===== MOBILE ===== */
 @media(max-width:768px){
-  .menu{
-    display:none;
-    flex-direction:column;
-    gap:12px;
-    margin-top:14px;
-  }
+  .menu{display:none;flex-direction:column;gap:12px;margin-top:12px}
   .menu.active{display:flex}
   .hamburger{display:block}
   .logo img{height:52px}
   .hero-glass{grid-template-columns:1fr;text-align:center}
   .rotate-box{width:280px;height:520px}
+  .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -169,7 +196,7 @@ section{padding:90px 0}
 <header class="header">
   <div class="container nav">
     <div class="logo">
-      <img src="logo1.png">
+      <img src="logo1.png" alt="PayKaro">
     </div>
 
     <div class="hamburger" onclick="toggleMenu()">☰</div>
@@ -197,6 +224,57 @@ section{padding:90px 0}
       <img src="mobile2.png">
       <img src="paykarol.png">
     </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="container">
+  <h2>About PayKaro</h2>
+  <p>PayKaro helps creators and businesses accept payments easily using links & QR.</p>
+</section>
+
+<!-- PLATFORM -->
+<section id="platform" class="container">
+  <h2>Platform Focus</h2>
+  <div class="grid">
+    <div class="card">🎓 Online Courses</div>
+    <div class="card">🎥 Webinars</div>
+    <div class="card">📦 Digital Products</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="container">
+  <h2>Features</h2>
+  <div class="grid">
+    <div class="card">Payment Links</div>
+    <div class="card">WhatsApp Selling</div>
+    <div class="card">Auto Confirmation</div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo" class="container">
+  <h2>Free Demo</h2>
+  <div class="card demo">
+    <input placeholder="Brand / Creator Name">
+    <input placeholder="Course Name">
+    <input placeholder="Course Fee">
+    <input placeholder="UPI ID">
+    <button onclick="document.getElementById('demoLink').style.display='block'">Generate Demo Link</button>
+    <div id="demoLink">
+      <input value="https://paykaro.demo/abc123" readonly>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="container">
+  <h2>Pricing</h2>
+  <div class="grid">
+    <div class="card">Free – 6 Months</div>
+    <div class="card">Starter – ₹199/month</div>
+    <div class="card">Pro – ₹499/month</div>
   </div>
 </section>
 
