@@ -102,12 +102,16 @@ header{
   align-items:center;
 }
 
-/* invisible container (no box look) */
+/* container bilkul invisible */
 .rotate-box{
   position:relative;
-  width:420px;     /* 👈 30% bada */
-  height:780px;    /* 👈 30% bada */
+  width:420px;      /* 30% bigger */
+  height:780px;
   background:none;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  overflow:visible; /* 👈 MOST IMPORTANT */
 }
 
 /* only image visible */
@@ -116,12 +120,16 @@ header{
   inset:0;
   width:100%;
   height:auto;
-  border-radius:28px;
-  box-shadow:0 25px 60px rgba(0,0,0,.28);
+  border-radius:22px;   /* 👉 sirf phone ke natural corners */
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
   opacity:0;
   animation:swap 8s infinite;
-  transform:scale(1); /* no box scaling */
 }
+
+/* second image delay */
+.rotate-box img:nth-child(2){
+  anima
+
 
 /* second image delay */
 .rotate-box img:nth-child(2){
@@ -257,6 +265,7 @@ footer{
 
 </body>
 </html>
+
 
 
 
