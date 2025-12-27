@@ -203,6 +203,22 @@ header{
   .grid{grid-template-columns:1fr}
   .nav{flex-direction:column;gap:10px}
 }
+  /* ===== MOBILE HERO TEXT FIX ===== */
+@media(max-width:600px){
+  .hero h1{
+    font-size:28px;          /* 👈 mobile friendly */
+    line-height:1.25;
+    max-width:320px;         /* 👈 force 3 line wrap */
+    margin:0 auto;
+  }
+
+  .hero p{
+    font-size:15px;
+    max-width:300px;
+    margin:16px auto 0;
+  }
+}
+
 </style>
 </head>
 
@@ -319,6 +335,7 @@ paykarol
 
 </body>
 </html>
+
 
 
 
