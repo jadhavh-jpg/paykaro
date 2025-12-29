@@ -229,6 +229,12 @@ footer{
     width:100%;
     margin:10px 0;
   }
+  @media(max-width:768px){
+  .phone{
+    animation:slide 6s infinite;
+  }
+}
+
 
   .hero-mockups{
     justify-content:center;
@@ -243,14 +249,16 @@ footer{
 
   background-size:cover;
   background-position:center;
-  animation:slide 6s infinite;
 }
+
 
 /* HERO PHONE IMAGES */
 .p1{ background-image:url("hero1.png"); }
 .p2{ background-image:url("hero2.png"); }
 .p3{ background-image:url("hero3.png"); }
 
+
+/* AUTO SLIDE ANIMATION */
 /* AUTO SLIDE ANIMATION */
 @keyframes slide{
   0%{transform:translateX(0)}
@@ -258,6 +266,7 @@ footer{
   66%{transform:translateX(120px)}
   100%{transform:translateX(0)}
 }
+
 
 </style>
 </head>
@@ -336,5 +345,6 @@ footer{
 
 </body>
 </html>
+
 
 
