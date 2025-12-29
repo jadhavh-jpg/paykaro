@@ -24,21 +24,39 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-    <div class="btn" id="payBtn">Pay Money</div>
+   <div class="btn" id="payBtn">Pay via UPI</div>
+
+<div id="qrBox" style="display:none; margin-top:16px; text-align:center;">
+  <img id="qrImg" alt="UPI QR" />
+  <p>Scan & Pay using any UPI App</p>
+</div>
+
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
-const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
+const upiLink =
+  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
 
-img.src = d.poster;
-brand.innerText = d.brand;
-title.innerText = d.title;
-dt.innerText = d.dt;
-desc.innerText = d.desc;
-payBtn.onclick = ()=> location.href = d.pay;
+document.getElementById("payBtn").addEventListener("click", function () {
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // 📱 Mobile → UPI app open (Chrome included)
+    window.location.href = upiLink;
+  } else {
+    // 💻 Desktop → QR generate
+    const qrUrl =
+      "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+      encodeURIComponent(upiLink);
+
+    document.getElementById("qrImg").src = qrUrl;
+    document.getElementById("qrBox").style.display = "block";
+  }
+});
 </script>
+
 
 </body>
 </html>
