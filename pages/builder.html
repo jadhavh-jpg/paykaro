@@ -17,21 +17,6 @@ body{
   display:flex;
   gap:20px;
 }
-  /* 🔒 Poster image lock (2:3 ratio) */
-.poster{
-  width:100%;
-  aspect-ratio:2 / 3;
-  background:#e5e7eb;
-  overflow:hidden;
-}
-
-.poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
 .panel{
   background:#fff;
   border-radius:16px;
@@ -62,39 +47,55 @@ button{
   cursor:pointer;
 }
 
-/* PREVIEW */
+/* ===== PREVIEW ===== */
 .preview-card{
   border-radius:16px;
   overflow:hidden;
   border:1px solid #ddd;
 }
+
+/* 🔒 POSTER FIX (2:3) */
 .poster{
-  height:260px;
+  width:100%;
+  aspect-ratio:2 / 3;
   background:#e5e7eb;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  overflow:hidden;
 }
 .poster img{
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
 }
+
 .content{
   padding:16px;
 }
+
+/* ===== 3-LAYER PAY BUTTON ===== */
 .paybtn{
-  margin-top:12px;
+  margin-top:14px;
   padding:14px;
-  background:#0D3B66;
-  color:#fff;
   text-align:center;
-  border-radius:10px;
-  opacity:.6;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .25s ease;
+  background:#dbeafe;      /* Simple */
+  color:#0D3B66;
 }
+.paybtn:hover{
+  background:#93c5fd;      /* Soft Dark */
+}
+.paybtn:active{
+  background:#0D3B66;      /* Dark */
+  color:#fff;
+}
+
 .small{
   font-size:13px;
   color:#555;
+  margin-top:6px;
 }
 </style>
 </head>
@@ -119,14 +120,11 @@ button{
 <label>Date & Time</label>
 <input id="datetime" oninput="updatePreview()">
 
-<label>Price (₹)</label>
-<input id="price" oninput="updatePreview()">
-
-<label>Payment Link (UPI / Gateway)</label>
-<input id="paymentLink" placeholder="upi://pay?... or https://...">
+<label>Payment Link</label>
+<input id="paymentLink" placeholder="https://payment-link or upi://pay">
 
 <label>WhatsApp Number</label>
-<input id="wa" oninput="updatePreview()">
+<input id="wa">
 
 <label>Description</label>
 <textarea id="desc" oninput="updatePreview()"></textarea>
@@ -146,9 +144,7 @@ button{
     <h3 id="pTitle"></h3>
     <div class="small" id="pDT"></div>
     <p id="pDesc"></p>
-    <h2 id="pPrice"></h2>
 
-    <!-- NON CLICKABLE -->
     <div class="paybtn">Pay Money</div>
     <div class="small">WhatsApp Support</div>
   </div>
@@ -160,9 +156,10 @@ button{
 <script>
 let posterData = "";
 
-function loadPoster(event) {
+/* ===== IMAGE AUTO RESIZE (2:3) ===== */
+function loadPoster(event){
   const file = event.target.files[0];
-  if (!file) return;
+  if(!file) return;
 
   const img = new Image();
   const reader = new FileReader();
@@ -174,38 +171,31 @@ function loadPoster(event) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
-    // FIXED 2:3 SIZE
     const WIDTH = 600;
     const HEIGHT = 900;
-
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
 
-    // center crop
-    const ratio = Math.max(WIDTH / img.width, HEIGHT / img.height);
+    const ratio = Math.max(WIDTH/img.width, HEIGHT/img.height);
     const x = (WIDTH - img.width * ratio) / 2;
     const y = (HEIGHT - img.height * ratio) / 2;
 
     ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
+    posterData = canvas.toDataURL("image/jpeg", 0.8);
 
-    // compressed image
-    const compressedImage = canvas.toDataURL("image/jpeg", 0.8);
-
-    posterData = compressedImage;
-    document.getElementById("posterBox").innerHTML =
-      `<img src="${compressedImage}">`;
+    posterBox.innerHTML = `<img src="${posterData}">`;
   };
 }
 
-
+/* ===== LIVE PREVIEW ===== */
 function updatePreview(){
   pBrand.innerText = brand.value;
   pTitle.innerText = title.value;
   pDT.innerText = datetime.value;
   pDesc.innerText = desc.value;
-  pPrice.innerText = price.value ? "₹ " + price.value : "";
 }
 
+/* ===== LANDING GENERATE ===== */
 function uid(){
   return "PM" + Date.now();
 }
@@ -219,7 +209,6 @@ function generateLanding(){
     title: title.value,
     datetime: datetime.value,
     desc: desc.value,
-    price: price.value,
     paymentLink: paymentLink.value,
     wa: wa.value,
     poster: posterData
