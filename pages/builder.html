@@ -2,31 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Landing Page Builder</title>
+<title>PayMoney – Landing Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
+
 body{
   font-family:Arial, sans-serif;
   background:#f5f7fb;
   margin:0;
 }
+
 .wrapper{
-  max-width:1200px;
-  margin:30px auto;
+  max-width:1100px;
+  margin:20px auto;
   display:flex;
   gap:20px;
 }
+
 .panel{
   background:#fff;
-  border-radius:16px;
-  padding:20px;
+  border-radius:14px;
+  padding:18px;
   width:50%;
 }
+
+/* ---------- FORM ---------- */
 label{
   font-weight:600;
-  display:block;
   margin-top:12px;
+  display:block;
 }
 input, textarea{
   width:100%;
@@ -47,17 +53,17 @@ button{
   cursor:pointer;
 }
 
-/* ===== PREVIEW CARD ===== */
+/* ---------- PREVIEW ---------- */
 .preview-card{
-  border-radius:16px;
-  overflow:hidden;
   border:1px solid #ddd;
+  border-radius:14px;
+  overflow:hidden;
 }
 
-/* 🔒 POSTER FIX (2:3 RATIO ALWAYS) */
+/* 🔒 FIXED POSTER BOX (NO RATIO, NO STRETCH) */
 .poster{
   width:100%;
-  aspect-ratio:2 / 3;
+  height:360px;          /* 🔥 FIXED HEIGHT */
   background:#e5e7eb;
   overflow:hidden;
 }
@@ -69,20 +75,20 @@ button{
 }
 
 .content{
-  padding:16px;
+  padding:14px;
 }
 
-/* ===== PAY BUTTON (PREVIEW ONLY) ===== */
+/* PREVIEW BUTTON (DISABLED) */
 .paybtn{
-  margin-top:14px;
+  margin-top:12px;
   padding:14px;
   text-align:center;
-  border-radius:12px;
-  font-weight:600;
-  background:#dbeafe;
+  border-radius:10px;
+  background:#cfe1ff;
   color:#0D3B66;
-  opacity:0.6;
-  pointer-events:none; /* 🔥 VERY IMPORTANT */
+  font-weight:600;
+  opacity:.6;
+  pointer-events:none;
 }
 
 .small{
@@ -97,14 +103,14 @@ button{
 
 <div class="wrapper">
 
-<!-- LEFT FORM -->
+<!-- LEFT -->
 <div class="panel">
-<h2>Create Your Landing Page</h2>
+<h2>Create Landing Page</h2>
 
 <label>Brand / Seller Name</label>
 <input id="brand" oninput="updatePreview()">
 
-<label>Poster Image (Any size allowed)</label>
+<label>Poster Image</label>
 <input type="file" accept="image/*" onchange="loadPoster(event)">
 
 <label>Title</label>
@@ -114,7 +120,7 @@ button{
 <input id="datetime" oninput="updatePreview()">
 
 <label>Payment Link</label>
-<input id="paymentLink" placeholder="https://payment-link or upi://pay">
+<input id="paymentLink">
 
 <label>WhatsApp Number</label>
 <input id="wa">
@@ -125,12 +131,12 @@ button{
 <button onclick="generateLanding()">Generate Landing Page</button>
 </div>
 
-<!-- RIGHT LIVE PREVIEW -->
+<!-- RIGHT -->
 <div class="panel">
 <h3>Live Preview</h3>
 
 <div class="preview-card">
-  <div class="poster" id="posterBox">Poster Preview</div>
+  <div class="poster" id="posterBox"></div>
 
   <div class="content">
     <b id="pBrand"></b>
@@ -138,7 +144,6 @@ button{
     <div class="small" id="pDT"></div>
     <p id="pDesc"></p>
 
-    <!-- 🔒 PREVIEW ONLY -->
     <div class="paybtn">Pay Money</div>
     <div class="small">WhatsApp Support</div>
   </div>
@@ -150,38 +155,20 @@ button{
 <script>
 let posterData = "";
 
-/* ===== IMAGE AUTO RESIZE + CROP (2:3) ===== */
-function loadPoster(event){
-  const file = event.target.files[0];
+/* 🔒 SIMPLE & SAFE IMAGE HANDLER */
+function loadPoster(e){
+  const file = e.target.files[0];
   if(!file) return;
 
-  const img = new Image();
   const reader = new FileReader();
-
-  reader.onload = e => img.src = e.target.result;
-  reader.readAsDataURL(file);
-
-  img.onload = () => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const WIDTH = 600;
-    const HEIGHT = 900;
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
-
-    const ratio = Math.max(WIDTH/img.width, HEIGHT/img.height);
-    const x = (WIDTH - img.width * ratio) / 2;
-    const y = (HEIGHT - img.height * ratio) / 2;
-
-    ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
-
-    posterData = canvas.toDataURL("image/jpeg", 0.8);
+  reader.onload = () => {
+    posterData = reader.result;
     posterBox.innerHTML = `<img src="${posterData}">`;
   };
+  reader.readAsDataURL(file);
 }
 
-/* ===== LIVE PREVIEW UPDATE ===== */
+/* LIVE PREVIEW */
 function updatePreview(){
   pBrand.innerText = brand.value;
   pTitle.innerText = title.value;
@@ -189,9 +176,9 @@ function updatePreview(){
   pDesc.innerText = desc.value;
 }
 
-/* ===== LANDING PAGE GENERATION ===== */
+/* 🔥 STRONG UNIQUE ID (FIXED BUG) */
 function uid(){
-  return "PM" + Date.now();
+  return "PM" + Date.now() + Math.floor(Math.random()*10000);
 }
 
 function generateLanding(){
