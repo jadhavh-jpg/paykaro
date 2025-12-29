@@ -6,35 +6,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
-.card{
-  max-width:420px;
-  margin:40px auto;
-  background:#fff;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.1)
-}
+.card{max-width:420px;margin:40px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1)}
 .poster{aspect-ratio:2/3}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
-.btn{
-  margin-top:14px;
-  padding:14px;
-  background:#0D3B66;
-  color:#fff;
-  text-align:center;
-  border-radius:12px;
-  cursor:pointer
-}
-.btn.copy{
-  background:#f1f5f9;
-  color:#111;
-  border:1px solid #ccc;
-}
-.btn.wa{
-  background:#25D366;
-}
-.small{font-size:13px;color:#555;text-align:center;margin-top:8px}
+.btn{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;cursor:pointer}
+.small{font-size:13px;color:#555}
 </style>
 </head>
 
@@ -47,21 +24,7 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-
-    <!-- EXISTING PAY BUTTON -->
-    <a href="upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa"
-   class="btn"
-   id="payBtn">
-   Pay via UPI
-</a>
-
-
-    <!-- NEW COPY LINK -->
-    <div class="btn copy" id="copyBtn">Copy Landing Page Link</div>
-
-    <!-- NEW WHATSAPP SHARE -->
-    <div class="btn wa" id="waBtn">Send to WhatsApp</div>
-
+    <div class="btn" id="payBtn">Pay Money</div>
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
@@ -74,24 +37,7 @@ brand.innerText = d.brand;
 title.innerText = d.title;
 dt.innerText = d.dt;
 desc.innerText = d.desc;
-
-/* PAY MONEY */
 payBtn.onclick = ()=> location.href = d.pay;
-
-/* COPY LANDING PAGE LINK */
-copyBtn.onclick = ()=>{
-  navigator.clipboard.writeText(window.location.href);
-  alert("✅ Landing page link copied");
-};
-
-/* SEND TO WHATSAPP */
-waBtn.onclick = ()=>{
-  const msg = encodeURIComponent(
-    "Hello 👋\nPlease check this page and complete payment:\n" +
-    window.location.href
-  );
-  window.open("https://wa.me/?text=" + msg, "_blank");
-};
 </script>
 
 </body>
