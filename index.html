@@ -6,7 +6,7 @@
 <title>PayMoney – India’s Easy Payment Gateway</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -15,8 +15,8 @@
 :root{
   --blue:#0D3B66;
   --green:#2FB344;
+  --light:#f8fafc;
   --border:#e5e7eb;
-  --light:#F9FAFB;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -33,12 +33,12 @@ header{
   justify-content:space-between;
   padding:14px 18px;
 }
-.brand{
+.logo{
   display:flex;
   align-items:center;
   gap:10px;
 }
-.brand img{
+.logo img{
   height:42px;
   display:block;
 }
@@ -51,11 +51,11 @@ header span{
 .container{
   max-width:1200px;
   margin:auto;
-  padding:64px 18px;
+  padding:60px 18px;
 }
 h1,h2,h3{
   font-family:Poppins,sans-serif;
-  font-weight:700;
+  font-weight:800;
 }
 
 /* ================= HERO ================= */
@@ -67,14 +67,13 @@ h1,h2,h3{
 }
 .hero-inner{
   display:flex;
-  align-items:center;
   gap:40px;
+  align-items:center;
 }
 .hero-text{flex:1}
 .hero-text h1{
-  font-size:44px;
+  font-size:42px;
   line-height:1.15;
-  font-weight:800;
 }
 .hero-text p{
   margin:18px 0;
@@ -84,9 +83,9 @@ h1,h2,h3{
 
 .hero-buttons a{
   display:inline-block;
-  padding:16px 32px;
+  padding:16px 34px;
   border-radius:14px;
-  font-weight:800;           /* 🔥 STRONG */
+  font-weight:800;
   font-size:16px;
   text-decoration:none;
   margin-right:10px;
@@ -104,7 +103,7 @@ h1,h2,h3{
 .hero-mockups{
   flex:1;
   display:flex;
-  gap:16px;
+  gap:14px;
   justify-content:flex-end;
 }
 .phone{
@@ -116,30 +115,29 @@ h1,h2,h3{
 }
 
 /* ================= SECTIONS ================= */
-.steps,.features,.for{
+.grid{
   display:grid;
   gap:26px;
   margin-top:30px;
 }
-.steps,.features{
+.grid-3{
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 }
-.for{
+.grid-5{
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 }
-.step,.feature,.for div{
+
+.card{
+  background:#fff;
   border:1px solid var(--border);
   border-radius:18px;
   padding:26px;
   text-align:center;
-  background:#fff;
-}
-.feature{
-  font-weight:700;
+  font-weight:600;
 }
 
-/* ================= WHO IS IT FOR (ICONS BACK) ================= */
-.for i{
+/* ================= WHO FOR ================= */
+.card i{
   font-size:34px;
   color:var(--green);
   margin-bottom:12px;
@@ -156,11 +154,11 @@ h1,h2,h3{
 .cta a{
   display:inline-block;
   margin-top:20px;
-  padding:18px 36px;
+  padding:18px 38px;
   background:var(--green);
   color:#fff;
   border-radius:14px;
-  font-weight:800;     /* 🔥 STRONG */
+  font-weight:800;
   text-decoration:none;
   font-size:16px;
 }
@@ -173,10 +171,9 @@ h1,h2,h3{
 .about p{
   max-width:900px;
   margin:auto;
-  color:#444;
-  font-size:16px;
-  line-height:1.7;
   text-align:center;
+  line-height:1.7;
+  color:#444;
 }
 
 /* ================= FOOTER ================= */
@@ -187,7 +184,7 @@ footer{
   font-size:14px;
 }
 
-/* ================= WHATSAPP FLOAT ================= */
+/* ================= WHATSAPP ================= */
 .whatsapp{
   position:fixed;
   bottom:20px;
@@ -215,6 +212,9 @@ footer{
     flex-direction:column;
     text-align:center;
   }
+  .hero-text h1{
+    font-size:30px;
+  }
   .hero-buttons a{
     display:block;
     width:100%;
@@ -237,8 +237,8 @@ footer{
 <body>
 
 <header>
-  <div class="brand">
-    <img src="pmc.png" alt="PayMoney Logo">
+  <div class="logo">
+    <img src="pmc.png" alt="PayMoney">
   </div>
   <span>India’s Easy Payment Gateway</span>
 </header>
@@ -256,4 +256,53 @@ footer{
     <div class="hero-mockups">
       <div class="phone"></div>
       <div class="phone"></div>
-      <di
+      <div class="phone"></div>
+    </div>
+  </div>
+</section>
+
+<section class="container" id="how">
+  <h2>How It Works</h2>
+  <div class="grid grid-3">
+    <div class="card">Create Payment Link</div>
+    <div class="card">Share with Customer</div>
+    <div class="card">Get Paid Instantly</div>
+  </div>
+</section>
+
+<section class="container">
+  <h2>Who Is It For?</h2>
+  <div class="grid grid-5">
+    <div class="card"><i class="fa-solid fa-shop"></i>Small Businesses</div>
+    <div class="card"><i class="fa-solid fa-cart-shopping"></i>Online Sellers</div>
+    <div class="card"><i class="fa-solid fa-laptop"></i>Freelancers</div>
+    <div class="card"><i class="fa-solid fa-graduation-cap"></i>Course Creators</div>
+    <div class="card"><i class="fa-solid fa-store"></i>Retail Shops</div>
+  </div>
+</section>
+
+<section class="container cta">
+  <h2>Start Collecting Payments Today</h2>
+  <p>Simple setup. Trusted payments.</p>
+  <a href="pages/builder.html">Create Your First Link</a>
+</section>
+
+<section class="container about">
+  <h2>About PayMoney</h2>
+  <p>
+    PayMoney is built for Indian businesses who want a fast, simple and reliable
+    way to collect payments. Create links, share instantly, and receive money
+    directly via UPI — without complexity.
+  </p>
+</section>
+
+<footer>
+  © 2025 PayMoney • India’s Easy Payment Gateway
+</footer>
+
+<a href="https://wa.me/919300594567" class="whatsapp" target="_blank">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+</body>
+</html>
