@@ -1,143 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>PayMoney</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{
-  font-family:Arial;
-  background:#eef2f7;
-  margin:0;
-}
+body{font-family:Arial;background:#f5f7fb;margin:0}
 .card{
   max-width:420px;
-  margin:30px auto;
+  margin:40px auto;
   background:#fff;
   border-radius:16px;
   overflow:hidden;
-  box-shadow:0 12px 30px rgba(0,0,0,.15);
+  box-shadow:0 10px 30px rgba(0,0,0,.1)
 }
-.poster{
-  height:420px;
-  overflow:hidden;
-}
-.poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.poster{aspect-ratio:2/3}
+.poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
 .btn{
-  margin-top:12px;
+  margin-top:14px;
   padding:14px;
   background:#0D3B66;
   color:#fff;
   text-align:center;
   border-radius:12px;
-  font-weight:600;
-  text-decoration:none;
-  display:block;
+  cursor:pointer
 }
 .btn.copy{
   background:#f1f5f9;
   color:#111;
-  border:1px solid #ddd;
+  border:1px solid #ccc;
 }
 .btn.wa{
   background:#25D366;
 }
-.small{
-  font-size:13px;
-  color:#666;
-  text-align:center;
-  margin-top:8px;
-}
+.small{font-size:13px;color:#555;text-align:center;margin-top:8px}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-  <div class="poster">
-    <img id="img">
-  </div>
-
+  <div class="poster"><img id="img"></div>
   <div class="c">
     <b id="brand"></b>
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
 
-    <!-- PAY -->
-    <a id="payBtn" class="btn" href="#">Pay Money</a>
+    <!-- EXISTING PAY BUTTON -->
+    <div class="btn" id="payBtn">Pay Money</div>
 
-    <!-- COPY LINK -->
-    <button id="copyBtn" class="btn copy">Copy Landing Page Link</button>
+    <!-- NEW COPY LINK -->
+    <div class="btn copy" id="copyBtn">Copy Landing Page Link</div>
 
-    <!-- WHATSAPP SHARE -->
-    <a id="waBtn" class="btn wa" href="#" target="_blank">
-      Share on WhatsApp
-    </a>
+    <!-- NEW WHATSAPP SHARE -->
+    <div class="btn wa" id="waBtn">Send to WhatsApp</div>
 
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
-/* READ DATA FROM URL */
-const p = new URLSearchParams(location.search);
+const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
 
-const brand = p.get("brand") || "";
-const title = p.get("title") || "";
-const dt = p.get("dt") || "";
-const desc = p.get("desc") || "";
-const payLink = decodeURIComponent(p.get("pay") || "");
-const poster = decodeURIComponent(p.get("poster") || "");
+img.src = d.poster;
+brand.innerText = d.brand;
+title.innerText = d.title;
+dt.innerText = d.dt;
+desc.innerText = d.desc;
 
-/* FILL CONTENT */
-document.getElementById("brand").innerText = brand;
-document.getElementById("title").innerText = title;
-document.getElementById("dt").innerText = dt;
-document.getElementById("desc").innerText = desc;
-if(poster){
-  document.getElementById("img").src = poster;
-}
-
-/* PAY MONEY – MOBILE + DESKTOP */
-document.getElementById("payBtn").onclick = function(e){
-  e.preventDefault();
-
-  if(!payLink){
-    alert("Payment link missing");
-    return;
-  }
-
-  // Try direct UPI
-  window.location.href = payLink;
-
-  // Fallback if browser blocks
-  setTimeout(()=>{
-    window.open(payLink,"_blank");
-  },800);
-};
+/* PAY MONEY */
+payBtn.onclick = ()=> location.href = d.pay;
 
 /* COPY LANDING PAGE LINK */
-document.getElementById("copyBtn").onclick = function(){
+copyBtn.onclick = ()=>{
   navigator.clipboard.writeText(window.location.href);
   alert("✅ Landing page link copied");
 };
 
-/* WHATSAPP SHARE */
-document.getElementById("waBtn").onclick = function(e){
-  e.preventDefault();
-
+/* SEND TO WHATSAPP */
+waBtn.onclick = ()=>{
   const msg = encodeURIComponent(
     "Hello 👋\nPlease check this page and complete payment:\n" +
     window.location.href
   );
-
   window.open("https://wa.me/?text=" + msg, "_blank");
 };
 </script>
