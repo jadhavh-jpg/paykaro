@@ -6,71 +6,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box}
 body{font-family:Arial;background:#f5f7fb;margin:0}
-.wrapper{max-width:1100px;margin:20px auto;display:flex;gap:20px}
-.panel{background:#fff;border-radius:14px;padding:18px;width:50%}
-
-label{font-weight:600;margin-top:12px;display:block}
-input,textarea{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc}
-
-button{
-  margin-top:18px;width:100%;padding:14px;
-  background:#0D3B66;color:#fff;border:none;
-  border-radius:12px;font-weight:600;
-  cursor:pointer;transition:.25s
-}
-button:hover{background:#09406f;box-shadow:0 10px 20px rgba(13,59,102,.25)}
-
-.preview-card{border:1px solid #ddd;border-radius:14px;overflow:hidden}
-.poster{height:360px;background:#e5e7eb;overflow:hidden}
+.wrap{max-width:900px;margin:20px auto;display:flex;gap:20px}
+.box{background:#fff;padding:16px;border-radius:12px;width:50%}
+label{display:block;font-weight:600;margin-top:10px}
+input,textarea{width:100%;padding:8px;margin-top:5px}
+button{margin-top:15px;padding:14px;width:100%;
+background:#0D3B66;color:#fff;border:none;border-radius:10px;
+font-weight:600;cursor:pointer}
+button:hover{background:#09406f}
+.preview{border:1px solid #ddd;border-radius:12px;overflow:hidden}
+.poster{height:300px;background:#eee;overflow:hidden}
 .poster img{width:100%;height:100%;object-fit:cover}
-.content{padding:14px}
-.paybtn{margin-top:12px;padding:14px;text-align:center;
-  background:#cfe1ff;color:#0D3B66;border-radius:10px;
-  font-weight:600;opacity:.6}
-.small{font-size:13px;color:#555}
+.p{padding:12px}
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="wrap">
 
-<div class="panel">
-<h2>Create Landing Page</h2>
+<!-- FORM -->
+<div class="box">
+<h2>Create Landing</h2>
 
 <label>Brand</label>
-<input id="brand" oninput="preview()">
+<input id="brand">
 
-<label>Poster Image (optional)</label>
+<label>Poster Image</label>
 <input type="file" accept="image/*" onchange="loadImg(event)">
 
 <label>Title</label>
-<input id="title" oninput="preview()">
+<input id="title">
 
 <label>Date & Time</label>
-<input id="dt" oninput="preview()">
-
-<label>Payment Link</label>
-<input id="paylink">
+<input id="dt">
 
 <label>Description</label>
-<textarea id="desc" oninput="preview()"></textarea>
+<textarea id="desc"></textarea>
 
-<button onclick="createLanding()">Create Landing Page</button>
+<label>Payment Link</label>
+<input id="pay">
+
+<button onclick="create()">Create Landing Page</button>
 </div>
 
-<div class="panel">
-<h3>Live Preview</h3>
-<div class="preview-card">
-  <div class="poster" id="posterBox"></div>
-  <div class="content">
+<!-- PREVIEW -->
+<div class="box">
+<h3>Preview</h3>
+<div class="preview">
+  <div class="poster" id="poster"></div>
+  <div class="p">
     <b id="pBrand"></b>
     <h3 id="pTitle"></h3>
-    <div class="small" id="pDT"></div>
+    <div id="pDT"></div>
     <p id="pDesc"></p>
-    <div class="paybtn">Pay Money</div>
+    <div style="margin-top:10px;
+      background:#cfe1ff;padding:12px;
+      border-radius:8px;text-align:center">
+      Pay Money
+    </div>
   </div>
 </div>
 </div>
@@ -82,39 +77,26 @@ let imgData="";
 
 function loadImg(e){
   const f=e.target.files[0];
-  if(!f){imgData="";posterBox.innerHTML="";return;}
+  if(!f)return;
   const r=new FileReader();
-  r.onload=()=>{imgData=r.result;posterBox.innerHTML=`<img src="${imgData}">`;};
+  r.onload=()=>{
+    imgData=r.result;
+    poster.innerHTML=`<img src="${imgData}">`;
+  };
   r.readAsDataURL(f);
 }
 
-function preview(){
-  pBrand.innerText=brand.value;
-  pTitle.innerText=title.value;
-  pDT.innerText=dt.value;
-  pDesc.innerText=desc.value;
-}
-
-function uid(){
-  return "PM"+Date.now()+Math.floor(Math.random()*10000);
-}
-
-function createLanding(){
-  const id=uid();
-  const data={
+function create(){
+  const q=new URLSearchParams({
     brand:brand.value,
     title:title.value,
     dt:dt.value,
     desc:desc.value,
-    paylink:paylink.value,
+    pay:pay.value,
     img:imgData
-  };
+  }).toString();
 
-  const all=JSON.parse(localStorage.getItem("paymoney_landings")||"{}");
-  all[id]=data;
-  localStorage.setItem("paymoney_landings",JSON.stringify(all));
-
-  window.open("landing.html?id="+id,"_blank");
+  window.open("landing.html?"+q,"_blank");
 }
 </script>
 
