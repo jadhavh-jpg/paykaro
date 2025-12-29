@@ -145,14 +145,43 @@ button{
 <script>
 let posterData = "";
 
-function loadPoster(e){
+function loadPoster(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const img = new Image();
   const reader = new FileReader();
-  reader.onload = () => {
-    posterData = reader.result;
-    posterBox.innerHTML = `<img src="${posterData}">`;
+
+  reader.onload = e => img.src = e.target.result;
+  reader.readAsDataURL(file);
+
+  img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // FIXED 2:3 SIZE
+    const WIDTH = 600;
+    const HEIGHT = 900;
+
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+
+    // center crop
+    const ratio = Math.max(WIDTH / img.width, HEIGHT / img.height);
+    const x = (WIDTH - img.width * ratio) / 2;
+    const y = (HEIGHT - img.height * ratio) / 2;
+
+    ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
+
+    // compressed image
+    const compressedImage = canvas.toDataURL("image/jpeg", 0.8);
+
+    posterData = compressedImage;
+    document.getElementById("posterBox").innerHTML =
+      `<img src="${compressedImage}">`;
   };
-  reader.readAsDataURL(e.target.files[0]);
 }
+
 
 function updatePreview(){
   pBrand.innerText = brand.value;
