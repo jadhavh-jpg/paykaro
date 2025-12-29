@@ -8,9 +8,9 @@
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
 .card{
-  max-width:420px;margin:30px auto;
+  max-width:420px;margin:20px auto;
   background:#fff;border-radius:16px;
-  overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.1)
+  overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.15)
 }
 .poster{aspect-ratio:2/3}
 .poster img{width:100%;height:100%;object-fit:cover}
@@ -19,7 +19,7 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
   margin-top:14px;padding:14px;
   background:#0D3B66;color:#fff;
   text-align:center;border-radius:12px;
-  font-weight:600;cursor:pointer
+  font-size:16px;font-weight:600
 }
 .wa{background:#25D366}
 .small{text-align:center;font-size:13px;color:#666;margin-top:8px}
@@ -36,7 +36,7 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <div id="dt"></div>
     <p id="desc"></p>
 
-    <div class="btn" id="payBtn">Pay Money</div>
+    <div class="btn" id="payBtn">Pay via UPI</div>
     <div class="btn wa" id="waBtn">Share on WhatsApp</div>
 
     <div class="small">Powered by PayMoney</div>
@@ -56,14 +56,22 @@ if(!data){
   dt.innerText=data.dt;
   desc.innerText=data.desc;
 
+  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   payBtn.onclick=()=>{
-    window.location.href=data.pay;
+    if(isMobile){
+      // 📱 MOBILE → direct UPI intent
+      window.location.href=data.pay;
+    }else{
+      // 🖥 DESKTOP → QR fallback
+      window.open(data.pay,"_blank");
+    }
   };
 
   waBtn.onclick=()=>{
     const msg=
       "Hello 👋%0A"+
-      "Please check this page and complete payment:%0A"+
+      "Please complete payment here:%0A"+
       window.location.href;
     window.open("https://wa.me/?text="+msg,"_blank");
   };
