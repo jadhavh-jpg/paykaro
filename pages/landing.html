@@ -84,6 +84,46 @@ if (isMobile) {
     qrBox.style.display = "block";
   };
 }
+  <script>
+const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
+
+const upiLink = d.pay || 
+  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
+
+const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+payBtn.onclick = () => {
+
+  if (isMobile) {
+
+    // 🔹 Step 1: Try normal UPI
+    window.location.href = upiLink;
+
+    // 🔹 Step 2: After 1 sec try Google Pay intent
+    setTimeout(() => {
+      window.location.href =
+        "intent://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end";
+    }, 1200);
+
+    // 🔹 Step 3: After 2 sec try PhonePe
+    setTimeout(() => {
+      window.location.href =
+        "intent://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR#Intent;scheme=upi;package=com.phonepe.app;end";
+    }, 2200);
+
+  } else {
+
+    // 💻 Desktop → QR
+    const qrUrl =
+      "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+      encodeURIComponent(upiLink);
+
+    qrImg.src = qrUrl;
+    qrBox.style.display = "block";
+  }
+};
+</script>
+
 </script>
 
 </body>
