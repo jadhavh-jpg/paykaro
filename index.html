@@ -5,102 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PayMoney – India’s Easy Payment Gateway</title>
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
-<!-- Icons -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <style>
 :root{
   --blue:#0D3B66;
   --green:#2FB344;
-  --light:#F9FAFB;
   --border:#e5e7eb;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:Inter, sans-serif;
+  font-family:Inter,sans-serif;
   background:#fff;
   color:#111;
 }
 
-/* ===== Layout ===== */
+/* ===== HEADER (NO GAP) ===== */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 18px; /* 🔥 controlled */
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand img{
+  height:42px; /* 🔥 no gap */
+  width:auto;
+  display:block;
+}
+.brand span{
+  font-size:14px;
+  color:#555;
+}
+
+/* ===== LAYOUT ===== */
 .container{
   max-width:1200px;
   margin:auto;
-  padding:70px 20px;
+  padding:64px 18px;
 }
 h1,h2,h3{font-family:Poppins,sans-serif}
 
-/* ===== Header ===== */
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-}
-header h2{color:var(--blue)}
-header span{color:var(--green)}
-header div{color:#555;font-size:14px}
-
-/* ===== Hero ===== */
+/* ===== HERO ===== */
 .hero{
   background:linear-gradient(135deg,#0D3B66,#1f7a52);
   color:#fff;
-  border-radius:28px;
-  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  border-radius:26px;
+  overflow:hidden; /* 🔥 */
 }
 .hero-inner{
   display:flex;
-  flex-wrap:wrap;
-  gap:40px;
   align-items:center;
+  gap:40px;
 }
 .hero-text{flex:1}
-.hero-text h1{font-size:44px;line-height:1.15}
-.hero-text p{margin:22px 0;color:#eafff3;font-size:18px}
-
+.hero-text h1{
+  font-size:44px;
+  line-height:1.15;
+}
+.hero-text p{
+  margin:18px 0;
+  font-size:18px;
+  color:#eafff3;
+}
 .hero-buttons a{
   display:inline-block;
-  padding:15px 30px;
+  padding:14px 28px;
   border-radius:12px;
   font-weight:600;
   text-decoration:none;
-  margin-right:12px;
-  transition:.25s;
+  margin-right:10px;
 }
 .btn-primary{
   background:#fff;
   color:var(--blue);
 }
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 28px rgba(0,0,0,.25);
-}
 .btn-secondary{
   border:2px solid #fff;
   color:#fff;
 }
-.btn-secondary:hover{
-  background:rgba(255,255,255,.15);
-}
 
+/* ===== MOCKUPS ===== */
 .hero-mockups{
   flex:1;
   display:flex;
+  gap:16px;
   justify-content:flex-end;
-  gap:18px;
 }
 .phone{
-  width:150px;height:300px;
+  width:150px;
+  height:300px;
   background:#fff;
-  border-radius:26px;
+  border-radius:24px;
   box-shadow:0 18px 40px rgba(0,0,0,.25);
 }
 
-/* ===== Sections ===== */
+/* ===== SECTIONS ===== */
 .steps,.features,.for{
   display:grid;
   gap:26px;
@@ -112,38 +118,24 @@ header div{color:#555;font-size:14px}
 .for{
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 }
-
 .step,.feature,.for div{
-  background:#fff;
   border:1px solid var(--border);
   border-radius:18px;
   padding:26px;
   text-align:center;
-  transition:.25s;
-}
-.step:hover,.feature:hover,.for div:hover{
-  transform:translateY(-6px);
-  box-shadow:0 14px 32px rgba(0,0,0,.12);
-  border-color:var(--blue);
-}
-
-.for i{
-  font-size:32px;
-  color:var(--green);
-  margin-bottom:12px;
 }
 
 /* ===== CTA ===== */
 .cta{
   background:linear-gradient(135deg,#0D3B66,#1e5fa8);
   color:#fff;
-  border-radius:28px;
   text-align:center;
+  border-radius:26px;
 }
 .cta a{
   display:inline-block;
-  margin-top:22px;
-  padding:18px 36px;
+  margin-top:20px;
+  padding:16px 34px;
   background:var(--green);
   color:#fff;
   border-radius:14px;
@@ -151,47 +143,77 @@ header div{color:#555;font-size:14px}
   text-decoration:none;
 }
 
-/* ===== Footer ===== */
+/* ===== FOOTER ===== */
 footer{
   background:#f1f5f9;
-  padding:32px;
+  padding:28px;
   text-align:center;
-  color:#374151;
+  font-size:14px;
 }
 
-/* ===== WhatsApp Floating ===== */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  color:#fff;
-  width:56px;height:56px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  box-shadow:0 10px 25px rgba(0,0,0,.3);
-  z-index:999;
-}
-
-/* ===== Mobile ===== */
+/* ===== MOBILE POLISH + SLIDER ===== */
 @media(max-width:768px){
-  .hero-inner{flex-direction:column;text-align:center}
-  .hero-mockups{justify-content:center}
-  header{flex-direction:column;gap:6px}
+
+  header{
+    flex-direction:column;
+    gap:6px;
+    padding:12px 16px;
+  }
+
+  .container{
+    padding:46px 16px;
+  }
+
+  .hero-inner{
+    flex-direction:column;
+    text-align:center;
+    gap:24px;
+  }
+
+  .hero-text h1{
+    font-size:30px;
+  }
+
+  .hero-buttons a{
+    display:block;
+    width:100%;
+    margin:10px 0;
+  }
+
+  /* 🔥 Slider look */
+  .hero-mockups{
+    justify-content:center;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:10px;
+  }
+
+  .phone{
+    flex:0 0 auto;
+    width:110px;
+    height:220px;
+    scroll-snap-align:center;
+  }
+
+  .hero-mockups::-webkit-scrollbar{
+    display:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
-  <h2>Pay<span>Money</span></h2>
-  <div>India’s Easy Payment Gateway</div>
+  <div class="brand">
+    <img src="pmc.png" alt="PayMoney Logo">
+  </div>
+  <span>India’s Easy Payment Gateway</span>
 </header>
 
+<!-- ===== HERO ===== -->
 <section class="container hero">
   <div class="hero-inner">
     <div class="hero-text">
@@ -202,6 +224,8 @@ footer{
         <a href="#how" class="btn-secondary">How it Works</a>
       </div>
     </div>
+
+    <!-- 🔥 Mobile slider phones -->
     <div class="hero-mockups">
       <div class="phone"></div>
       <div class="phone"></div>
@@ -213,9 +237,9 @@ footer{
 <section class="container" id="how">
   <h2>How It Works</h2>
   <div class="steps">
-    <div class="step"><h3>Create Link</h3><p>Generate payment link in seconds</p></div>
-    <div class="step"><h3>Share</h3><p>Send via WhatsApp, SMS or email</p></div>
-    <div class="step"><h3>Get Paid</h3><p>Money comes directly to you</p></div>
+    <div class="step">Create Link</div>
+    <div class="step">Share</div>
+    <div class="step">Get Paid</div>
   </div>
 </section>
 
@@ -231,11 +255,11 @@ footer{
 <section class="container">
   <h2>Who Is It For?</h2>
   <div class="for">
-    <div><i class="fa-solid fa-shop"></i><br>Small Businesses</div>
-    <div><i class="fa-solid fa-cart-shopping"></i><br>Online Sellers</div>
-    <div><i class="fa-solid fa-laptop"></i><br>Freelancers</div>
-    <div><i class="fa-solid fa-graduation-cap"></i><br>Course Creators</div>
-    <div><i class="fa-solid fa-store"></i><br>Retail Shops</div>
+    <div>Small Businesses</div>
+    <div>Online Sellers</div>
+    <div>Freelancers</div>
+    <div>Course Creators</div>
+    <div>Retail Shops</div>
   </div>
 </section>
 
@@ -248,11 +272,6 @@ footer{
 <footer>
   © 2025 PayMoney • India’s Easy Payment Gateway
 </footer>
-
-<!-- WhatsApp Floating Button -->
-<a href="https://wa.me/919300594567" class="whatsapp" target="_blank">
-  <i class="fa-brands fa-whatsapp"></i>
-</a>
 
 </body>
 </html>
