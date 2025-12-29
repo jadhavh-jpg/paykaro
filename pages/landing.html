@@ -2,44 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Landing</title>
+<title>PayMoney</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  font-family:Arial, sans-serif;
-  background:#f5f7fb;
-  margin:0;
-}
-.box{
-  max-width:420px;
-  margin:30px auto;
-  background:#fff;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
-.poster{
-  width:100%;
-  height:420px;
-  overflow:hidden;
-}
-.poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+body{font-family:Arial;background:#f5f7fb;margin:0}
+.box{max-width:420px;margin:30px auto;background:#fff;
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.1)}
+.poster{height:420px;overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover}
 .content{padding:16px}
-.paybtn{
-  margin-top:14px;
-  padding:14px;
-  background:#0D3B66;
-  color:#fff;
-  text-align:center;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-}
+.paybtn{margin-top:14px;padding:14px;
+  background:#0D3B66;color:#fff;
+  text-align:center;border-radius:10px;
+  font-weight:600;cursor:pointer}
 .small{font-size:13px;color:#666;margin-top:6px}
 </style>
 </head>
@@ -53,32 +30,30 @@ body{
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-    <div class="paybtn" id="payBtn">Pay Money</div>
+    <div class="paybtn" id="pay">Pay Money</div>
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
-const params=new URLSearchParams(location.search);
-const id=params.get("id");
-
-const all=JSON.parse(localStorage.getItem("paymoneyLandings")||"{}");
+const id=new URLSearchParams(location.search).get("id");
+const all=JSON.parse(localStorage.getItem("paymoney")||"{}");
 const d=all[id];
 
-if(!d){
-  document.body.innerHTML="Landing not found";
-  throw "";
-}
+if(!d){document.body.innerHTML="Landing not found";throw "";}
 
 brand.innerText=d.brand;
 title.innerText=d.title;
-dt.innerText=d.datetime;
+dt.innerText=d.dt;
 desc.innerText=d.desc;
-poster.innerHTML=`<img src="${d.poster}">`;
 
-payBtn.onclick=()=>{
-  window.location.href=d.paymentLink;
-};
+if(d.img){
+  poster.innerHTML=`<img src="${d.img}">`;
+}else{
+  poster.style.display="none";
+}
+
+pay.onclick=()=>location.href=d.paylink;
 </script>
 
 </body>
