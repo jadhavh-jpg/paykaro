@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PayMoney – Payment Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#f1f5f9;
+  margin:0;
+}
+.card{
+  max-width:420px;
+  margin:30px auto;
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+.poster img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+}
+.content{
+  padding:20px;
+}
+.pay{
+  display:block;
+  margin-top:14px;
+  padding:16px;
+  background:#0D3B66;
+  color:#fff;
+  text-align:center;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
+}
+.share{
+  margin-top:12px;
+  text-align:center;
+}
+.share button{
+  margin:6px;
+  padding:10px 14px;
+}
+.small{
+  font-size:12px;
+  color:#666;
+  text-align:center;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="poster" id="poster"></div>
+
+  <div class="content">
+    <b id="brand"></b>
+    <h3 id="title"></h3>
+    <div id="dt"></div>
+    <p id="desc"></p>
+    <h2 id="price"></h2>
+
+    <a id="payBtn" class="pay">Pay Money</a>
+
+    <div class="share">
+      <button onclick="copyLink()">Copy Link</button>
+      <button onclick="shareLink()">Share</button>
+    </div>
+
+    <div class="small">Powered by PayMoney</div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const all = JSON.parse(localStorage.getItem("paymoneyLandings") || "{}");
+const d = all[id];
+
+if(!d){
+  document.body.innerHTML = "<h2 style='text-align:center'>Invalid Landing Page</h2>";
+  throw new Error("Invalid ID");
+}
+
+brand.innerText = d.brand;
+title.innerText = d.title;
+dt.innerText = d.datetime;
+desc.innerText = d.desc;
+price.innerText = "₹ " + d.price;
+poster.innerHTML = `<img src="${d.poster}">`;
+
+payBtn.href = d.paymentLink;
+
+function copyLink(){
+  navigator.clipboard.writeText(location.href);
+  alert("Landing page link copied");
+}
+function shareLink(){
+  window.open(
+    "https://wa.me/?text=" + encodeURIComponent(location.href),
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
