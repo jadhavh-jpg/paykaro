@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Landing Builder</title>
+<title>PayMoney – Landing Page Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -41,6 +41,8 @@ input, textarea{
   border-radius:8px;
   border:1px solid #ccc;
 }
+
+/* 🔥 CREATE BUTTON WITH HOVER */
 button{
   margin-top:18px;
   width:100%;
@@ -48,9 +50,18 @@ button{
   background:#0D3B66;
   color:#fff;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   font-weight:600;
   cursor:pointer;
+  transition:all .25s ease;
+}
+button:hover{
+  background:#09406f;
+  transform:translateY(-1px);
+  box-shadow:0 10px 20px rgba(13,59,102,.25);
+}
+button:active{
+  transform:scale(.98);
 }
 
 /* ---------- PREVIEW ---------- */
@@ -60,10 +71,10 @@ button{
   overflow:hidden;
 }
 
-/* 🔒 FIXED POSTER BOX (NO RATIO, NO STRETCH) */
+/* 🔒 FIXED POSTER FRAME (NO OUT OF FRAME) */
 .poster{
   width:100%;
-  height:360px;          /* 🔥 FIXED HEIGHT */
+  height:360px;
   background:#e5e7eb;
   overflow:hidden;
 }
@@ -78,7 +89,7 @@ button{
   padding:14px;
 }
 
-/* PREVIEW BUTTON (DISABLED) */
+/* PREVIEW PAY BUTTON (DISABLED) */
 .paybtn{
   margin-top:12px;
   padding:14px;
@@ -103,7 +114,7 @@ button{
 
 <div class="wrapper">
 
-<!-- LEFT -->
+<!-- LEFT PANEL -->
 <div class="panel">
 <h2>Create Landing Page</h2>
 
@@ -120,7 +131,7 @@ button{
 <input id="datetime" oninput="updatePreview()">
 
 <label>Payment Link</label>
-<input id="paymentLink">
+<input id="paymentLink" placeholder="https://payment-link or upi://pay">
 
 <label>WhatsApp Number</label>
 <input id="wa">
@@ -128,10 +139,10 @@ button{
 <label>Description</label>
 <textarea id="desc" oninput="updatePreview()"></textarea>
 
-<button onclick="generateLanding()">Generate Landing Page</button>
+<button onclick="generateLanding()">Create Landing Page</button>
 </div>
 
-<!-- RIGHT -->
+<!-- RIGHT PANEL -->
 <div class="panel">
 <h3>Live Preview</h3>
 
@@ -154,21 +165,26 @@ button{
 
 <script>
 let posterData = "";
+let posterReady = false; // 🔥 IMPORTANT FLAG
 
-/* 🔒 SIMPLE & SAFE IMAGE HANDLER */
+/* ===== IMAGE LOAD (ASYNC SAFE) ===== */
 function loadPoster(e){
   const file = e.target.files[0];
   if(!file) return;
+
+  posterReady = false;
+  posterBox.innerHTML = "Loading image...";
 
   const reader = new FileReader();
   reader.onload = () => {
     posterData = reader.result;
     posterBox.innerHTML = `<img src="${posterData}">`;
+    posterReady = true; // ✅ IMAGE READY
   };
   reader.readAsDataURL(file);
 }
 
-/* LIVE PREVIEW */
+/* ===== LIVE PREVIEW ===== */
 function updatePreview(){
   pBrand.innerText = brand.value;
   pTitle.innerText = title.value;
@@ -176,12 +192,19 @@ function updatePreview(){
   pDesc.innerText = desc.value;
 }
 
-/* 🔥 STRONG UNIQUE ID (FIXED BUG) */
+/* ===== STRONG UNIQUE ID ===== */
 function uid(){
   return "PM" + Date.now() + Math.floor(Math.random()*10000);
 }
 
+/* ===== GENERATE LANDING (SAFE) ===== */
 function generateLanding(){
+
+  if(!posterReady){
+    alert("Please select an image and wait a moment before creating the landing page.");
+    return;
+  }
+
   const id = uid();
 
   const data = {
