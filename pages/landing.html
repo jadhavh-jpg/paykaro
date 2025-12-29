@@ -7,11 +7,11 @@
 
 <style>
 body{
-  margin:0;
   font-family:Arial, sans-serif;
   background:#f5f7fb;
+  margin:0;
 }
-.container{
+.box{
   max-width:420px;
   margin:30px auto;
   background:#fff;
@@ -29,9 +29,7 @@ body{
   height:100%;
   object-fit:cover;
 }
-.content{
-  padding:16px;
-}
+.content{padding:16px}
 .paybtn{
   margin-top:14px;
   padding:14px;
@@ -42,60 +40,44 @@ body{
   font-weight:600;
   cursor:pointer;
 }
-.small{
-  font-size:13px;
-  color:#666;
-  margin-top:6px;
-}
+.small{font-size:13px;color:#666;margin-top:6px}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
   <div class="poster" id="poster"></div>
-
   <div class="content">
     <b id="brand"></b>
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-
     <div class="paybtn" id="payBtn">Pay Money</div>
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
-/* GET ID */
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+const params=new URLSearchParams(location.search);
+const id=params.get("id");
 
-if(!id){
-  document.body.innerHTML = "Invalid landing link";
-  throw "No ID";
+const all=JSON.parse(localStorage.getItem("paymoneyLandings")||"{}");
+const d=all[id];
+
+if(!d){
+  document.body.innerHTML="Landing not found";
+  throw "";
 }
 
-/* LOAD DATA */
-const all = JSON.parse(localStorage.getItem("paymoneyLandings") || "{}");
-const data = all[id];
+brand.innerText=d.brand;
+title.innerText=d.title;
+dt.innerText=d.datetime;
+desc.innerText=d.desc;
+poster.innerHTML=`<img src="${d.poster}">`;
 
-if(!data){
-  document.body.innerHTML = "Landing expired or not found";
-  throw "No Data";
-}
-
-/* SET CONTENT */
-document.getElementById("brand").innerText = data.brand;
-document.getElementById("title").innerText = data.title;
-document.getElementById("dt").innerText = data.datetime;
-document.getElementById("desc").innerText = data.desc;
-document.getElementById("poster").innerHTML =
-  `<img src="${data.poster}">`;
-
-/* PAY BUTTON */
-document.getElementById("payBtn").onclick = () => {
-  window.location.href = data.paymentLink;
+payBtn.onclick=()=>{
+  window.location.href=d.paymentLink;
 };
 </script>
 
