@@ -12,6 +12,16 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
 .c{padding:16px}
 .btn{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;cursor:pointer}
 .small{font-size:13px;color:#555}
+
+#qrBox{
+  display:none;
+  text-align:center;
+  margin-top:16px;
+}
+#qrBox img{
+  width:220px;
+  height:220px;
+}
 </style>
 </head>
 
@@ -24,39 +34,51 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-   <div class="btn" id="payBtn">Pay via UPI</div>
 
-<div id="qrBox" style="display:none; margin-top:16px; text-align:center;">
-  <img id="qrImg" alt="UPI QR" />
-  <p>Scan & Pay using any UPI App</p>
-</div>
+    <!-- SAME BUTTON -->
+    <div class="btn" id="payBtn">Pay via UPI</div>
 
-    <div class="small">Powered by PayMoney</div>
+    <!-- DESKTOP QR -->
+    <div id="qrBox">
+      <img id="qrImg">
+      <div class="small">Scan & Pay using any UPI App</div>
+    </div>
+
+    <div class="small" style="margin-top:10px">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
-const upiLink =
-  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
+const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
 
-document.getElementById("payBtn").addEventListener("click", function () {
+// Safe defaults (important)
+const upiLink = d.pay || "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
+
+// Data bind
+if(d.poster) img.src = d.poster;
+brand.innerText = d.brand || "PayMoney";
+title.innerText = d.title || "";
+dt.innerText = d.dt || "";
+desc.innerText = d.desc || "";
+
+// MAIN LOGIC
+payBtn.onclick = () => {
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
   if (isMobile) {
-    // 📱 Mobile → UPI app open (Chrome included)
+    // 📱 Mobile → open UPI app (Chrome works)
     window.location.href = upiLink;
   } else {
-    // 💻 Desktop → QR generate
+    // 💻 Desktop → generate QR
     const qrUrl =
       "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
       encodeURIComponent(upiLink);
 
-    document.getElementById("qrImg").src = qrUrl;
-    document.getElementById("qrBox").style.display = "block";
+    qrImg.src = qrUrl;
+    qrBox.style.display = "block";
   }
-});
+};
 </script>
-
 
 </body>
 </html>
