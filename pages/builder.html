@@ -47,14 +47,14 @@ button{
   cursor:pointer;
 }
 
-/* ===== PREVIEW ===== */
+/* ===== PREVIEW CARD ===== */
 .preview-card{
   border-radius:16px;
   overflow:hidden;
   border:1px solid #ddd;
 }
 
-/* 🔒 POSTER FIX (2:3) */
+/* 🔒 POSTER FIX (2:3 RATIO ALWAYS) */
 .poster{
   width:100%;
   aspect-ratio:2 / 3;
@@ -72,24 +72,17 @@ button{
   padding:16px;
 }
 
-/* ===== 3-LAYER PAY BUTTON ===== */
+/* ===== PAY BUTTON (PREVIEW ONLY) ===== */
 .paybtn{
   margin-top:14px;
   padding:14px;
   text-align:center;
   border-radius:12px;
   font-weight:600;
-  cursor:pointer;
-  transition:all .25s ease;
-  background:#dbeafe;      /* Simple */
+  background:#dbeafe;
   color:#0D3B66;
-}
-.paybtn:hover{
-  background:#93c5fd;      /* Soft Dark */
-}
-.paybtn:active{
-  background:#0D3B66;      /* Dark */
-  color:#fff;
+  opacity:0.6;
+  pointer-events:none; /* 🔥 VERY IMPORTANT */
 }
 
 .small{
@@ -111,7 +104,7 @@ button{
 <label>Brand / Seller Name</label>
 <input id="brand" oninput="updatePreview()">
 
-<label>Poster Image (2:3)</label>
+<label>Poster Image (Any size allowed)</label>
 <input type="file" accept="image/*" onchange="loadPoster(event)">
 
 <label>Title</label>
@@ -145,6 +138,7 @@ button{
     <div class="small" id="pDT"></div>
     <p id="pDesc"></p>
 
+    <!-- 🔒 PREVIEW ONLY -->
     <div class="paybtn">Pay Money</div>
     <div class="small">WhatsApp Support</div>
   </div>
@@ -156,7 +150,7 @@ button{
 <script>
 let posterData = "";
 
-/* ===== IMAGE AUTO RESIZE (2:3) ===== */
+/* ===== IMAGE AUTO RESIZE + CROP (2:3) ===== */
 function loadPoster(event){
   const file = event.target.files[0];
   if(!file) return;
@@ -181,13 +175,13 @@ function loadPoster(event){
     const y = (HEIGHT - img.height * ratio) / 2;
 
     ctx.drawImage(img, x, y, img.width * ratio, img.height * ratio);
-    posterData = canvas.toDataURL("image/jpeg", 0.8);
 
+    posterData = canvas.toDataURL("image/jpeg", 0.8);
     posterBox.innerHTML = `<img src="${posterData}">`;
   };
 }
 
-/* ===== LIVE PREVIEW ===== */
+/* ===== LIVE PREVIEW UPDATE ===== */
 function updatePreview(){
   pBrand.innerText = brand.value;
   pTitle.innerText = title.value;
@@ -195,7 +189,7 @@ function updatePreview(){
   pDesc.innerText = desc.value;
 }
 
-/* ===== LANDING GENERATE ===== */
+/* ===== LANDING PAGE GENERATION ===== */
 function uid(){
   return "PM" + Date.now();
 }
