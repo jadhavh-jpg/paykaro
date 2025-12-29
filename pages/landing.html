@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>PayMoney</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
 .card{
-  max-width:420px;margin:40px auto;
-  background:#fff;border-radius:16px;
-  overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1)
+  max-width:420px;margin:40px auto;background:#fff;
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.1)
 }
 .poster{aspect-ratio:2/3}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
 .btn{
-  margin-top:14px;padding:14px;
-  background:#0D3B66;color:#fff;
-  text-align:center;border-radius:12px;
-  cursor:pointer
+  margin-top:14px;padding:14px;background:#0D3B66;
+  color:#fff;text-align:center;border-radius:12px;cursor:pointer
 }
 .small{font-size:13px;color:#555}
 </style>
@@ -40,7 +38,7 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
 
 <script>
 const id=new URLSearchParams(location.search).get("id");
-const d=JSON.parse(localStorage.getItem("paymoney_"+id)||"null");
+const d=JSON.parse(localStorage.getItem("paymoney_"+id)||"");
 
 if(!d){
   document.body.innerHTML="<h2 style='text-align:center'>Landing not found</h2>";
