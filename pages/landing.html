@@ -24,7 +24,13 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-    <div class="btn" id="payBtn">Pay Money</div>
+   <a id="payBtn"
+   href="#"
+   class="btn"
+   style="display:block;text-decoration:none;">
+   Pay Money
+</a>
+
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
@@ -38,6 +44,28 @@ title.innerText = d.title;
 dt.innerText = d.dt;
 desc.innerText = d.desc;
 payBtn.onclick = ()=> location.href = d.pay;
+</script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const all = JSON.parse(localStorage.getItem("paymoneyLandings") || "{}");
+const data = all[id];
+
+document.getElementById("payBtn").onclick = function(e){
+  e.preventDefault();
+
+  // Try direct UPI
+  window.location.href = data.paymentLink;
+
+  // Fallback → WhatsApp
+  setTimeout(() => {
+    const msg = encodeURIComponent(
+      "UPI app open nahi hui.\nIs link ko open kare:\n" +
+      data.paymentLink
+    );
+    window.location.href = "https://wa.me/?text=" + msg;
+  }, 1500);
+};
 </script>
 
 </body>
