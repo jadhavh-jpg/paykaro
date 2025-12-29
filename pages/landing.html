@@ -10,25 +10,8 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
 .poster{aspect-ratio:2/3}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
-.btn{
-  margin-top:14px;
-  padding:14px;
-  background:#0D3B66;
-  color:#fff;
-  text-align:center;
-  border-radius:12px;
-  cursor:pointer;
-  display:block;
-  text-decoration:none;
-}
+.btn{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;cursor:pointer}
 .small{font-size:13px;color:#555}
-
-#qrBox{
-  display:none;
-  text-align:center;
-  margin-top:16px;
-}
-#qrBox img{width:220px;height:220px}
 </style>
 </head>
 
@@ -41,89 +24,20 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <h3 id="title"></h3>
     <div class="small" id="dt"></div>
     <p id="desc"></p>
-
-    <!-- 🔥 REAL PAYMENT BUTTON -->
-    <a id="payBtn" class="btn">Pay via UPI</a>
-
-    <div id="qrBox">
-      <img id="qrImg">
-      <div class="small">Scan & Pay using any UPI App</div>
-    </div>
-
-    <div class="small" style="margin-top:10px">Powered by PayMoney</div>
+    <div class="btn" id="payBtn">Pay Money</div>
+    <div class="small">Powered by PayMoney</div>
   </div>
 </div>
 
 <script>
 const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
 
-const upiLink = d.pay || 
-  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
-
-// bind data
-if(d.poster) img.src = d.poster;
-brand.innerText = d.brand || "PayMoney";
-title.innerText = d.title || "";
-dt.innerText = d.dt || "";
-desc.innerText = d.desc || "";
-
-// IMPORTANT PART
-const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-
-if (isMobile) {
-  // 📱 MOBILE → REAL UPI OPEN (only reliable way)
-  payBtn.href = upiLink;
-} else {
-  // 💻 DESKTOP → QR
-  payBtn.href = "#";
-  payBtn.onclick = () => {
-    const qrUrl =
-      "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
-      encodeURIComponent(upiLink);
-    qrImg.src = qrUrl;
-    qrBox.style.display = "block";
-  };
-}
-  <script>
-const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
-
-const upiLink = d.pay || 
-  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
-
-const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-
-payBtn.onclick = () => {
-
-  if (isMobile) {
-
-    // 🔹 Step 1: Try normal UPI
-    window.location.href = upiLink;
-
-    // 🔹 Step 2: After 1 sec try Google Pay intent
-    setTimeout(() => {
-      window.location.href =
-        "intent://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end";
-    }, 1200);
-
-    // 🔹 Step 3: After 2 sec try PhonePe
-    setTimeout(() => {
-      window.location.href =
-        "intent://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR#Intent;scheme=upi;package=com.phonepe.app;end";
-    }, 2200);
-
-  } else {
-
-    // 💻 Desktop → QR
-    const qrUrl =
-      "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
-      encodeURIComponent(upiLink);
-
-    qrImg.src = qrUrl;
-    qrBox.style.display = "block";
-  }
-};
-</script>
-
+img.src = d.poster;
+brand.innerText = d.brand;
+title.innerText = d.title;
+dt.innerText = d.dt;
+desc.innerText = d.desc;
+payBtn.onclick = ()=> location.href = d.pay;
 </script>
 
 </body>
