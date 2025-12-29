@@ -37,7 +37,6 @@ button:hover{background:#09406f;box-shadow:0 10px 20px rgba(13,59,102,.25)}
 
 <div class="wrapper">
 
-<!-- LEFT -->
 <div class="panel">
 <h2>Create Landing Page</h2>
 
@@ -59,10 +58,9 @@ button:hover{background:#09406f;box-shadow:0 10px 20px rgba(13,59,102,.25)}
 <label>Description</label>
 <textarea id="desc" oninput="preview()"></textarea>
 
-<button onclick="create()">Create Landing Page</button>
+<button onclick="createLanding()">Create Landing Page</button>
 </div>
 
-<!-- RIGHT -->
 <div class="panel">
 <h3>Live Preview</h3>
 <div class="preview-card">
@@ -98,10 +96,10 @@ function preview(){
 }
 
 function uid(){
-  return "PM"+Date.now()+Math.floor(Math.random()*1000);
+  return "PM"+Date.now()+Math.floor(Math.random()*10000);
 }
 
-function create(){
+function createLanding(){
   const id=uid();
   const data={
     brand:brand.value,
@@ -111,9 +109,11 @@ function create(){
     paylink:paylink.value,
     img:imgData
   };
-  const all=JSON.parse(localStorage.getItem("paymoney")||"{}");
+
+  const all=JSON.parse(localStorage.getItem("paymoney_landings")||"{}");
   all[id]=data;
-  localStorage.setItem("paymoney",JSON.stringify(all));
+  localStorage.setItem("paymoney_landings",JSON.stringify(all));
+
   window.open("landing.html?id="+id,"_blank");
 }
 </script>
