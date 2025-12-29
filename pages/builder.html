@@ -7,10 +7,10 @@
 
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
-.wrapper{max-width:1200px;margin:30px auto;display:flex;gap:20px}
-.panel{background:#fff;border-radius:16px;padding:20px;width:50%}
+.wrapper{max-width:1200px;margin:20px auto;display:flex;gap:20px;flex-wrap:wrap}
+.panel{background:#fff;border-radius:16px;padding:20px;flex:1;min-width:320px}
 
-label{font-weight:600;margin-top:14px;display:block}
+label{font-weight:600;margin-top:12px;display:block}
 input,textarea{
   width:100%;padding:10px;margin-top:6px;
   border-radius:8px;border:1px solid #ccc
@@ -20,26 +20,15 @@ small{font-size:13px;color:#666}
 button{
   margin-top:18px;width:100%;padding:14px;
   background:#0D3B66;color:#fff;border:none;
-  border-radius:12px;font-weight:600;
-  cursor:pointer
+  border-radius:12px;font-weight:600;font-size:16px
 }
 
-.preview-card{
-  border-radius:16px;overflow:hidden;
-  border:1px solid #ddd;max-width:420px;margin:auto
-}
-.poster{
-  aspect-ratio:2/3;background:#eee;
-  display:flex;align-items:center;justify-content:center
-}
+/* Preview */
+.card{border:1px solid #ddd;border-radius:16px;overflow:hidden;max-width:420px;margin:auto}
+.poster{aspect-ratio:2/3;background:#eee}
 .poster img{width:100%;height:100%;object-fit:cover}
-.content{padding:16px}
-.paybtn{
-  margin-top:14px;padding:14px;
-  background:#0D3B66;color:#fff;
-  text-align:center;border-radius:12px;
-  opacity:.6
-}
+.c{padding:16px}
+.pay{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;opacity:.6}
 </style>
 </head>
 
@@ -47,7 +36,6 @@ button{
 
 <div class="wrapper">
 
-<!-- LEFT -->
 <div class="panel">
 <h2>Create Landing Page</h2>
 
@@ -64,8 +52,8 @@ button{
 <label>Date & Time</label>
 <input id="dt" oninput="preview()">
 
-<label>Payment Link</label>
-<input id="pay">
+<label>UPI Payment Link</label>
+<input id="pay" placeholder="upi://pay?...">
 
 <label>Description</label>
 <textarea id="desc" oninput="preview()"></textarea>
@@ -73,17 +61,16 @@ button{
 <button onclick="generate()">Generate Landing Page</button>
 </div>
 
-<!-- RIGHT -->
 <div class="panel">
 <h3>Live Preview</h3>
-<div class="preview-card">
-  <div class="poster" id="pimg">Poster Preview</div>
-  <div class="content">
+<div class="card">
+  <div class="poster" id="pimg">Poster</div>
+  <div class="c">
     <b id="pbrand"></b>
     <h3 id="ptitle"></h3>
     <div id="pdt"></div>
     <p id="pdesc"></p>
-    <div class="paybtn">Pay Money</div>
+    <div class="pay">Pay via UPI</div>
   </div>
 </div>
 </div>
@@ -112,10 +99,7 @@ function preview(){
 }
 
 function generate(){
-  if(!posterData){
-    alert("Please wait for image to load");
-    return;
-  }
+  if(!posterData){alert("Please wait for image");return;}
   const id="PM"+Date.now();
   const data={
     brand:brand.value,
@@ -126,7 +110,7 @@ function generate(){
     poster:posterData
   };
   localStorage.setItem("paymoney_"+id,JSON.stringify(data));
-  alert("✅ Landing page created successfully!");
+  alert("✅ Landing page created");
   window.open("landing.html?id="+id,"_blank");
 }
 </script>
