@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney Builder</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PayMoney – Create Landing Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
-.wrap{max-width:1200px;margin:30px auto;display:flex;gap:20px}
-.box{background:#fff;border-radius:16px;padding:20px;width:50%}
-label{font-weight:600;margin-top:12px;display:block}
-input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px}
-button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer}
-.preview{border:1px solid #ddd;border-radius:16px;overflow:hidden}
-.poster{aspect-ratio:2/3;background:#eee}
+.wrapper{max-width:1200px;margin:30px auto;display:flex;gap:20px}
+.panel{background:#fff;border-radius:16px;padding:20px;width:50%}
+label{font-weight:600;display:block;margin-top:12px}
+input,textarea{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc}
+button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer}
+.preview-card{border-radius:16px;overflow:hidden;border:1px solid #ddd}
+.poster{height:300px;background:#eee;display:flex;align-items:center;justify-content:center}
 .poster img{width:100%;height:100%;object-fit:cover}
-.c{padding:16px}
-.pay{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;opacity:.4}
-.small{font-size:13px;color:#555}
+.content{padding:16px}
+.paybtn{margin-top:12px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:10px;opacity:.7}
 </style>
 </head>
 
 <body>
+<div class="wrapper">
 
-<div class="wrap">
-
-<div class="box">
-<h2>Create Landing</h2>
+<!-- LEFT -->
+<div class="panel">
+<h2>Create Landing Page</h2>
 
 <label>Brand</label>
-<input id="brand" oninput="sync()">
+<input id="brand">
 
-<label>Poster Image</label>
-<input type="file" accept="image/*" onchange="loadImg(event)">
+<label>Poster Image (any size)</label>
+<input type="file" accept="image/*" onchange="loadPoster(event)">
 
 <label>Title</label>
-<input id="title" oninput="sync()">
+<input id="title">
 
 <label>Date & Time</label>
-<input id="dt" oninput="sync()">
+<input id="dt">
 
-<label>Payment Link</label>
+<label>Payment Link (UPI / Gateway)</label>
 <input id="pay">
 
 <label>Description</label>
-<textarea id="desc" oninput="sync()"></textarea>
+<textarea id="desc"></textarea>
 
 <button onclick="generate()">Generate Landing Page</button>
 </div>
 
-<div class="box">
+<!-- RIGHT PREVIEW -->
+<div class="panel">
 <h3>Live Preview</h3>
-<div class="preview">
-  <div class="poster" id="pimg"></div>
-  <div class="c">
-    <b id="pbrand"></b>
-    <h3 id="ptitle"></h3>
-    <div class="small" id="pdt"></div>
-    <p id="pdesc"></p>
-    <div class="pay">Pay Money</div>
-    <div class="small">Powered by PayMoney</div>
+<div class="preview-card">
+  <div class="poster" id="posterBox">Poster</div>
+  <div class="content">
+    <b id="pBrand"></b>
+    <h3 id="pTitle"></h3>
+    <div id="pDT"></div>
+    <p id="pDesc"></p>
+    <div class="paybtn">Pay Money</div>
   </div>
 </div>
 </div>
@@ -66,42 +66,44 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 </div>
 
 <script>
-let imageURL="";
+let posterData="";
 
-function loadImg(e){
-  const file=e.target.files[0];
-  if(!file) return;
-
-  imageURL = URL.createObjectURL(file);   // ðŸ”¥ REAL IMAGE CODE
-  pimg.innerHTML = `<img src="${imageURL}">`;
+function loadPoster(e){
+  const r=new FileReader();
+  r.onload=()=>{
+    posterData=r.result;
+    posterBox.innerHTML=`<img src="${posterData}">`;
+  };
+  r.readAsDataURL(e.target.files[0]);
 }
 
-function sync(){
-  pbrand.innerText=brand.value;
-  ptitle.innerText=title.value;
-  pdt.innerText=dt.value;
-  pdesc.innerText=desc.value;
-}
+["brand","title","dt","desc"].forEach(id=>{
+  document.getElementById(id).oninput=()=>{
+    pBrand.innerText=brand.value;
+    pTitle.innerText=title.value;
+    pDT.innerText=dt.value;
+    pDesc.innerText=desc.value;
+  };
+});
 
 function generate(){
-  if(!imageURL){
-    alert("Please select image");
+  if(!pay.value){
+    alert("Payment link required");
     return;
   }
 
-  const data={
-    brand:brand.value,
-    title:title.value,
-    dt:dt.value,
-    desc:desc.value,
-    pay:pay.value,
-    poster:imageURL
-  };
+  const url=
+    "landing.html?"+
+    "brand="+encodeURIComponent(brand.value)+
+    "&title="+encodeURIComponent(title.value)+
+    "&dt="+encodeURIComponent(dt.value)+
+    "&desc="+encodeURIComponent(desc.value)+
+    "&pay="+encodeURIComponent(pay.value)+
+    "&poster="+encodeURIComponent(posterData);
 
-  sessionStorage.setItem("paymoneyData",JSON.stringify(data));
-  window.open("landing.html","_blank");
+  window.open(url,"_blank");
+  alert("Landing page generated successfully");
 }
 </script>
-
 </body>
 </html>
