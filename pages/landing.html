@@ -10,7 +10,17 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
 .poster{aspect-ratio:2/3}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
-.btn{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;cursor:pointer}
+.btn{
+  margin-top:14px;
+  padding:14px;
+  background:#0D3B66;
+  color:#fff;
+  text-align:center;
+  border-radius:12px;
+  cursor:pointer;
+  display:block;
+  text-decoration:none;
+}
 .small{font-size:13px;color:#555}
 
 #qrBox{
@@ -18,10 +28,7 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
   text-align:center;
   margin-top:16px;
 }
-#qrBox img{
-  width:220px;
-  height:220px;
-}
+#qrBox img{width:220px;height:220px}
 </style>
 </head>
 
@@ -35,10 +42,9 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
     <div class="small" id="dt"></div>
     <p id="desc"></p>
 
-    <!-- SAME BUTTON -->
-    <div class="btn" id="payBtn">Pay via UPI</div>
+    <!-- 🔥 REAL PAYMENT BUTTON -->
+    <a id="payBtn" class="btn">Pay via UPI</a>
 
-    <!-- DESKTOP QR -->
     <div id="qrBox">
       <img id="qrImg">
       <div class="small">Scan & Pay using any UPI App</div>
@@ -51,33 +57,33 @@ body{font-family:Arial;background:#f5f7fb;margin:0}
 <script>
 const d = JSON.parse(sessionStorage.getItem("paymoneyData") || "{}");
 
-// Safe defaults (important)
-const upiLink = d.pay || "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
+const upiLink = d.pay || 
+  "upi://pay?pa=paykaro@upi&pn=PayKaro&am=99&cu=INR&tn=aaa";
 
-// Data bind
+// bind data
 if(d.poster) img.src = d.poster;
 brand.innerText = d.brand || "PayMoney";
 title.innerText = d.title || "";
 dt.innerText = d.dt || "";
 desc.innerText = d.desc || "";
 
-// MAIN LOGIC
-payBtn.onclick = () => {
-  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+// IMPORTANT PART
+const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  if (isMobile) {
-    // 📱 Mobile → open UPI app (Chrome works)
-    window.location.href = upiLink;
-  } else {
-    // 💻 Desktop → generate QR
+if (isMobile) {
+  // 📱 MOBILE → REAL UPI OPEN (only reliable way)
+  payBtn.href = upiLink;
+} else {
+  // 💻 DESKTOP → QR
+  payBtn.href = "#";
+  payBtn.onclick = () => {
     const qrUrl =
       "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
       encodeURIComponent(upiLink);
-
     qrImg.src = qrUrl;
     qrBox.style.display = "block";
-  }
-};
+  };
+}
 </script>
 
 </body>
