@@ -2,84 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Landing Builder</title>
+<title>PayMoney – Create Landing</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
-body{
-  font-family:Arial, sans-serif;
-  background:#f5f7fb;
-  margin:0;
-}
-.wrapper{
-  max-width:1100px;
-  margin:20px auto;
-  display:flex;
-  gap:20px;
-}
-.panel{
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
-  width:50%;
-}
-label{
-  font-weight:600;
-  margin-top:12px;
-  display:block;
-}
-input, textarea{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
+body{font-family:Arial;background:#f5f7fb;margin:0}
+.wrapper{max-width:1100px;margin:20px auto;display:flex;gap:20px}
+.panel{background:#fff;border-radius:14px;padding:18px;width:50%}
+
+label{font-weight:600;margin-top:12px;display:block}
+input,textarea{width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #ccc}
+
 button{
-  margin-top:18px;
-  width:100%;
-  padding:14px;
-  background:#0D3B66;
-  color:#fff;
-  border:none;
-  border-radius:12px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s;
+  margin-top:18px;width:100%;padding:14px;
+  background:#0D3B66;color:#fff;border:none;
+  border-radius:12px;font-weight:600;
+  cursor:pointer;transition:.25s
 }
-button:hover{
-  background:#09406f;
-  box-shadow:0 10px 20px rgba(13,59,102,.25);
-}
-.preview-card{
-  border:1px solid #ddd;
-  border-radius:14px;
-  overflow:hidden;
-}
-.poster{
-  width:100%;
-  height:360px;
-  background:#e5e7eb;
-  overflow:hidden;
-}
-.poster img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+button:hover{background:#09406f;box-shadow:0 10px 20px rgba(13,59,102,.25)}
+
+.preview-card{border:1px solid #ddd;border-radius:14px;overflow:hidden}
+.poster{height:360px;background:#e5e7eb;overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover}
 .content{padding:14px}
-.paybtn{
-  margin-top:12px;
-  padding:14px;
-  text-align:center;
-  border-radius:10px;
-  background:#cfe1ff;
-  color:#0D3B66;
-  font-weight:600;
-  opacity:.6;
-  pointer-events:none;
-}
+.paybtn{margin-top:12px;padding:14px;text-align:center;
+  background:#cfe1ff;color:#0D3B66;border-radius:10px;
+  font-weight:600;opacity:.6}
 .small{font-size:13px;color:#555}
 </style>
 </head>
@@ -88,33 +37,34 @@ button:hover{
 
 <div class="wrapper">
 
+<!-- LEFT -->
 <div class="panel">
 <h2>Create Landing Page</h2>
 
 <label>Brand</label>
-<input id="brand" oninput="updatePreview()">
+<input id="brand" oninput="preview()">
 
-<label>Poster Image</label>
-<input type="file" accept="image/*" onchange="loadPoster(event)">
+<label>Poster Image (optional)</label>
+<input type="file" accept="image/*" onchange="loadImg(event)">
 
 <label>Title</label>
-<input id="title" oninput="updatePreview()">
+<input id="title" oninput="preview()">
 
 <label>Date & Time</label>
-<input id="datetime" oninput="updatePreview()">
+<input id="dt" oninput="preview()">
 
 <label>Payment Link</label>
-<input id="paymentLink">
+<input id="paylink">
 
 <label>Description</label>
-<textarea id="desc" oninput="updatePreview()"></textarea>
+<textarea id="desc" oninput="preview()"></textarea>
 
-<button onclick="generateLanding()">Create Landing Page</button>
+<button onclick="create()">Create Landing Page</button>
 </div>
 
+<!-- RIGHT -->
 <div class="panel">
 <h3>Live Preview</h3>
-
 <div class="preview-card">
   <div class="poster" id="posterBox"></div>
   <div class="content">
@@ -130,26 +80,20 @@ button:hover{
 </div>
 
 <script>
-let posterData="";
-let posterReady=false;
+let imgData="";
 
-function loadPoster(e){
-  const file=e.target.files[0];
-  if(!file)return;
-  posterReady=false;
+function loadImg(e){
+  const f=e.target.files[0];
+  if(!f){imgData="";posterBox.innerHTML="";return;}
   const r=new FileReader();
-  r.onload=()=>{
-    posterData=r.result;
-    posterBox.innerHTML=`<img src="${posterData}">`;
-    posterReady=true;
-  };
-  r.readAsDataURL(file);
+  r.onload=()=>{imgData=r.result;posterBox.innerHTML=`<img src="${imgData}">`;};
+  r.readAsDataURL(f);
 }
 
-function updatePreview(){
+function preview(){
   pBrand.innerText=brand.value;
   pTitle.innerText=title.value;
-  pDT.innerText=datetime.value;
+  pDT.innerText=dt.value;
   pDesc.innerText=desc.value;
 }
 
@@ -157,20 +101,19 @@ function uid(){
   return "PM"+Date.now()+Math.floor(Math.random()*1000);
 }
 
-function generateLanding(){
-  if(!posterReady){
-    alert("Please wait for image to load");
-    return;
-  }
+function create(){
   const id=uid();
   const data={
-    id,brand:brand.value,title:title.value,
-    datetime:datetime.value,desc:desc.value,
-    paymentLink:paymentLink.value,poster:posterData
+    brand:brand.value,
+    title:title.value,
+    dt:dt.value,
+    desc:desc.value,
+    paylink:paylink.value,
+    img:imgData
   };
-  const all=JSON.parse(localStorage.getItem("paymoneyLandings")||"{}");
+  const all=JSON.parse(localStorage.getItem("paymoney")||"{}");
   all[id]=data;
-  localStorage.setItem("paymoneyLandings",JSON.stringify(all));
+  localStorage.setItem("paymoney",JSON.stringify(all));
   window.open("landing.html?id="+id,"_blank");
 }
 </script>
