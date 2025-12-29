@@ -67,7 +67,8 @@ body{
     <p id="desc"></p>
     <h2 id="price"></h2>
 
-    <a id="payBtn" class="pay">Pay Money</a>
+    <a href="#" id="payBtn" class="pay">Pay Money</a>
+
 
     <div class="share">
       <button onclick="copyLink()">Copy Link</button>
@@ -109,7 +110,15 @@ function shareLink(){
     "_blank"
   );
 }
+<script>
+const paymentLink = d.paymentLink;
+
+document.getElementById("payBtn").addEventListener("click", function(e){
+  e.preventDefault();
+  window.location.href = paymentLink;
+});
 </script>
+
 
 </body>
 </html>
