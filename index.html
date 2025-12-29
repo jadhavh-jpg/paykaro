@@ -3,298 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayKaro – India’s Easy Payment Gateway</title>
+<title>PayMoney â€“ Indiaâ€™s Easy Payment Gateway</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-html{scroll-behavior:smooth}
-body{background:#fff;color:#0f172a}
-
-/* ===== CONTAINER ===== */
-.container{max-width:1200px;margin:auto;padding:0 20px}
-section{padding:90px 0}
-
-/* ===== HEADER ===== */
-.header{
-  background:#fff;
-  border-bottom:1px solid #e5e7eb;
-  position:sticky;
-  top:0;
-  z-index:1000;
+:root{
+  --blue:#0D3B66;
+  --green:#2FB344;
+  --gray:#6B7280;
+  --light:#F9FAFB;
 }
-.nav{
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:Inter, sans-serif;
+  color:#111;
+  background:#fff;
+}
+
+h1,h2,h3{
+  font-family:Poppins, sans-serif;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:60px 20px;
+}
+
+/* HEADER */
+header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  padding:10px 0; /* slim bar */
-}
-
-/* LOGO */
-.logo img{
-  height:64px; /* logo big */
-  width:auto;
-}
-
-/* MENU BUTTONS */
-.menu{
-  display:flex;
-  gap:14px;
-}
-.menu-btn{
-  padding:12px 22px;
-  border-radius:999px;
-  font-size:16px;
-  font-weight:600;
-  text-decoration:none;
-  color:#0f172a;
-  border:1px solid #e5e7eb;
-  display:flex;
   align-items:center;
-  justify-content:center;
+  padding:20px 40px;
 }
-.menu-btn.primary{
-  background:linear-gradient(90deg,#2563eb,#06b6d4);
-  color:#fff;
-  border:none;
+header h2{
+  color:var(--blue);
 }
-
-/* HAMBURGER */
-.hamburger{
-  display:none;
-  font-size:26px;
-  cursor:pointer;
+header span{
+  color:var(--green);
 }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero{
-  background:#f8fafc;
+  background:linear-gradient(135deg,#0D3B66,#2FB344);
+  color:#fff;
+  border-radius:20px;
 }
-.hero-glass{
-  background:#fff;
-  border-radius:30px;
-  padding:60px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
+.hero-inner{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
   gap:40px;
 }
-.hero h1{font-size:48px;line-height:1.1}
-.hero p{margin:18px 0;color:#334155}
-
-/* HERO IMAGES */
-.rotate-box{
-  position:relative;
-  width:360px;
-  height:640px;
-  margin:auto;
+.hero-text{
+  flex:1;
 }
-.rotate-box img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  border-radius:22px;
-  opacity:0;
-  animation:swap 6s infinite;
+.hero-text h1{
+  font-size:42px;
+  line-height:1.2;
 }
-.rotate-box img:nth-child(1){animation-delay:0s}
-.rotate-box img:nth-child(2){animation-delay:2s}
-.rotate-box img:nth-child(3){animation-delay:4s}
-@keyframes swap{
-  0%{opacity:0}
-  10%{opacity:1}
-  30%{opacity:1}
-  40%{opacity:0}
-  100%{opacity:0}
+.hero-text p{
+  margin:20px 0;
+  font-size:18px;
+  color:#e5f6ec;
 }
-
-/* ===== GRID / CARDS ===== */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.card{
-  padding:28px;
-  border-radius:20px;
-  border:1px solid #e5e7eb;
-}
-
-/* ===== DEMO FORM ===== */
-.demo input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #e5e7eb;
-}
-.demo button{
-  width:100%;
-  margin-top:10px;
-  padding:14px;
-  border-radius:999px;
-  border:none;
+.hero-buttons a{
+  display:inline-block;
+  padding:14px 26px;
+  border-radius:8px;
   font-weight:600;
-  background:linear-gradient(90deg,#2563eb,#06b6d4);
-  color:#fff;
-  cursor:pointer;
-}
-#demoLink{
-  display:none;
-  margin-top:14px;
-}
-
-/* ===== WHATSAPP FLOAT ===== */
-.whatsapp{
-  position:fixed;
-  right:20px;
-  bottom:90px;
-  background:#25d366;
-  color:#fff;
-  padding:16px;
-  border-radius:50%;
-  font-size:22px;
   text-decoration:none;
-  z-index:999;
+  margin-right:12px;
 }
-
-/* ===== TICKER ===== */
-.ticker{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#2563eb;
-  overflow:hidden;
+.btn-primary{
+  background:#fff;
+  color:var(--blue);
 }
-.ticker-track{
-  display:flex;
-  animation:scroll 18s linear infinite;
-}
-.ticker span{
+.btn-secondary{
+  border:2px solid #fff;
   color:#fff;
-  padding:12px 40px;
-  white-space:nowrap;
-  font-weight:700;
-}
-@keyframes scroll{
-  from{transform:translateX(100%)}
-  to{transform:translateX(-100%)}
 }
 
-/* ===== MOBILE ===== */
+.hero-mockups{
+  flex:1;
+  display:flex;
+  justify-content:flex-end;
+  gap:15px;
+}
+.phone{
+  width:160px;
+  height:320px;
+  background:#fff;
+  border-radius:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+/* HOW IT WORKS */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+}
+.step{
+  padding:30px;
+  background:var(--light);
+  border-radius:14px;
+  text-align:center;
+}
+.step h3{
+  margin-bottom:10px;
+}
+
+/* FEATURES */
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+.feature{
+  border:1px solid #e5e7eb;
+  padding:25px;
+  border-radius:14px;
+}
+
+/* WHO FOR */
+.for{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+/* CTA */
+.cta{
+  background:var(--blue);
+  color:#fff;
+  text-align:center;
+  border-radius:20px;
+}
+.cta a{
+  display:inline-block;
+  margin-top:20px;
+  padding:16px 34px;
+  background:var(--green);
+  color:#fff;
+  border-radius:10px;
+  font-weight:600;
+  text-decoration:none;
+}
+
+/* FOOTER */
+footer{
+  background:#f1f5f9;
+  text-align:center;
+  padding:30px;
+  color:#374151;
+}
+
+/* RESPONSIVE */
 @media(max-width:768px){
-  .menu{display:none;flex-direction:column;gap:12px;margin-top:12px}
-  .menu.active{display:flex}
-  .hamburger{display:block}
-  .logo img{height:52px}
-  .hero-glass{grid-template-columns:1fr;text-align:center}
-  .rotate-box{width:280px;height:520px}
-  .grid{grid-template-columns:1fr}
+  .hero-inner{
+    flex-direction:column;
+    text-align:center;
+  }
+  .hero-mockups{
+    justify-content:center;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="container nav">
-    <div class="logo">
-      <img src="logo1.png" alt="PayKaro">
-    </div>
-
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-    <nav class="menu" id="menu">
-      <a href="#home" class="menu-btn">Home</a>
-      <a href="#about" class="menu-btn">About</a>
-      <a href="#platform" class="menu-btn">Platform</a>
-      <a href="#features" class="menu-btn">Features</a>
-      <a href="#pricing" class="menu-btn">Pricing</a>
-      <a href="#demo" class="menu-btn primary">Demo</a>
-    </nav>
-  </div>
+<header>
+  <h2>Pay<span>Money</span></h2>
+  <div>Indiaâ€™s Easy Payment Gateway</div>
 </header>
 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="container hero-glass">
-    <div>
-      <h1>Sell Online.<br>Get Paid<br>Instantly.</h1>
-      <p>Courses • Webinars • Digital Products</p>
+<section class="container hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Create a Link.<br>Share it.<br>Get Paid Instantly.</h1>
+      <p>Accept payments via UPI, QR and cards with PayMoney.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">Create Link</a>
+        <a href="#" class="btn-secondary">How it Works</a>
+      </div>
     </div>
-    <div class="rotate-box">
-      <img src="mobile11.png">
-      <img src="mobile2.png">
-      <img src="paykarol.png">
+    <div class="hero-mockups">
+      <div class="phone"></div>
+      <div class="phone"></div>
+      <div class="phone"></div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about" class="container">
-  <h2>About PayKaro</h2>
-  <p>PayKaro helps creators and businesses accept payments easily using links & QR.</p>
-</section>
-
-<!-- PLATFORM -->
-<section id="platform" class="container">
-  <h2>Platform Focus</h2>
-  <div class="grid">
-    <div class="card">🎓 Online Courses</div>
-    <div class="card">🎥 Webinars</div>
-    <div class="card">📦 Digital Products</div>
+<section class="container">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <h3>Create Link</h3>
+      <p>Generate a payment link in seconds.</p>
+    </div>
+    <div class="step">
+      <h3>Share</h3>
+      <p>Send it via WhatsApp, SMS or email.</p>
+    </div>
+    <div class="step">
+      <h3>Get Paid</h3>
+      <p>Money comes directly to you.</p>
+    </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="container">
+<section class="container">
   <h2>Features</h2>
-  <div class="grid">
-    <div class="card">Payment Links</div>
-    <div class="card">WhatsApp Selling</div>
-    <div class="card">Auto Confirmation</div>
+  <div class="features">
+    <div class="feature">Payment Links</div>
+    <div class="feature">CRAET LANDING PAGE</div> 
+ <div class="feature">Simple Dashboard</div>
   </div>
 </section>
 
-<!-- DEMO -->
-<section id="demo" class="container">
-  <h2>Free Demo</h2>
-  <div class="card demo">
-    <input placeholder="Brand / Creator Name">
-    <input placeholder="Course Name">
-    <input placeholder="Course Fee">
-    <input placeholder="UPI ID">
-    <button onclick="document.getElementById('demoLink').style.display='block'">Generate Demo Link</button>
-    <div id="demoLink">
-      <input value="https://paykaro.demo/abc123" readonly>
-    </div>
+<section class="container">
+  <h2>Who Is It For?</h2>
+  <div class="for">
+    <div>Small Businesses</div>
+    <div>Online Sellers</div>
+    <div>Freelancers</div>
+    <div>Course Creators</div>
+    <div>Retail Shops</div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" class="container">
-  <h2>Pricing</h2>
-  <div class="grid">
-    <div class="card">Free – 6 Months</div>
-    <div class="card">Starter – ₹199/month</div>
-    <div class="card">Pro – ₹499/month</div>
-  </div>
+<section class="container cta">
+  <h2>Start Collecting Payments Today</h2>
+  <p>Simple setup. Trusted payments.</p>
+  <a href="#">Create Your First Link</a>
 </section>
 
-<!-- WHATSAPP -->
-<a href="https://wa.me/919115121575" class="whatsapp">💬</a>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track">
-    <span>PayKaro • India’s Easy Payment Gateway</span>
-    <span>Accept Payments via WhatsApp</span>
-    <span>Sell Courses & Digital Products</span>
-  </div>
-</div>
-
-<script>
-function toggleMenu(){
-  document.getElementById("menu").classList.toggle("active");
-}
-</script>
+<footer>
+  Â© 2025 PayMoney â€¢ Indiaâ€™s Easy Payment Gateway
+</footer>
 
 </body>
 </html>
