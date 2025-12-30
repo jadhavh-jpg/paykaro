@@ -11,6 +11,7 @@
 <style>
 :root{
   --blue:#0D3B66;
+  --blueGlow:rgba(13,59,102,.45);
   --green:#2FB344;
 }
 
@@ -64,85 +65,98 @@ header span{font-weight:600;color:#333}
   color:#eafff3;
 }
 
-/* ================= BUTTONS ================= */
+/* ================= BUTTONS (BLUE GLOW) ================= */
 .btn{
+  display:inline-block;
   padding:16px 40px;
-  border-radius:42px;
+  border-radius:44px;
   font-weight:700;
   text-decoration:none;
-  margin-right:14px;
-  display:inline-block;
+  margin:8px 14px 8px 0;
+  transition:.25s ease;
+  box-shadow:
+    0 0 0 transparent,
+    0 14px 30px var(--blueGlow);
 }
+
 .btn-primary{
   background:#fff;
   color:#0D3B66;
 }
 .btn-secondary{
-  border:2px solid rgba(255,255,255,.6);
+  background:rgba(255,255,255,.12);
   color:#fff;
+  border:2px solid rgba(255,255,255,.45);
 }
 
-/* ================= HERO IMAGE ================= */
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 18px var(--blueGlow),
+    0 20px 40px var(--blueGlow);
+}
+
+/* ================= HERO VISUAL (PORTRAIT) ================= */
 .hero-visual{
   flex:1;
   position:relative;
-  height:380px;            /* 🔥 BADA */
+  height:420px;
   display:flex;
   justify-content:flex-end;
 }
 
-/* glow background */
+/* glow bg */
 .hero-visual::before{
   content:"";
   position:absolute;
-  inset:-70px;
+  inset:-80px;
   background:linear-gradient(120deg,#2FB344,#0ea5e9,#22c55e);
-  filter:blur(110px);
+  filter:blur(120px);
   opacity:.35;
-  animation:glow 10s linear infinite;
+  animation:glow 12s linear infinite;
 }
 @keyframes glow{
   from{transform:rotate(0deg)}
   to{transform:rotate(360deg)}
 }
 
-/* slider frame (BIG & CLEAR) */
+/* portrait slider frame */
 .phone-slider{
-  width:640px;      /* 🔥 aur bada */
-  height:360px;
+  width:260px;
+  height:420px;
   position:relative;
   overflow:hidden;
-  border-radius:28px;
+  border-radius:32px;
 }
 
-/* slide */
+/* slides */
 .phone-slide{
   position:absolute;
   inset:0;
   background-size:cover;
   background-position:center;
-  border-radius:28px;
-  box-shadow:0 20px 45px rgba(0,0,0,.35);
+  border-radius:32px;
+  box-shadow:0 25px 50px rgba(0,0,0,.45);
   opacity:0;
   animation:slideShow 16s infinite;
   transition:transform .6s ease;
 }
 
-/* ❌ NO BLUR – ONLY LIGHT GLASS SHINE */
+/* light glass shine (NO blur) */
 .phone-slide::after{
   content:"";
   position:absolute;
   inset:0;
   background:linear-gradient(
-    to bottom right,
-    rgba(255,255,255,.08),
+    120deg,
+    rgba(255,255,255,.18),
     rgba(255,255,255,.02)
   );
-  border-radius:28px;
+  border-radius:32px;
   pointer-events:none;
 }
 
-/* hover zoom */
+/* hover zoom + pause */
 .phone-slider:hover .phone-slide{
   transform:scale(1.05);
   animation-play-state:paused;
@@ -155,10 +169,10 @@ header span{font-weight:600;color:#333}
 .phone-slide:nth-child(4){animation-delay:12s}
 
 @keyframes slideShow{
-  0%{opacity:0;transform:translateX(40px)}
-  10%{opacity:1;transform:translateX(0)}
+  0%{opacity:0;transform:translateY(40px)}
+  10%{opacity:1;transform:translateY(0)}
   25%{opacity:1}
-  35%{opacity:0;transform:translateX(-40px)}
+  35%{opacity:0;transform:translateY(-40px)}
   100%{opacity:0}
 }
 
@@ -196,11 +210,9 @@ header span{font-weight:600;color:#333}
     padding:50px 20px;
   }
   .hero-text h1{font-size:32px}
-  .hero-visual{height:260px;justify-content:center}
-  .phone-slider{
-    width:100%;
-    max-width:420px;
-    height:240px;
+  .hero-visual{
+    justify-content:center;
+    height:420px;
   }
 }
 </style>
@@ -243,7 +255,7 @@ header span{font-weight:600;color:#333}
 <script>
 const hero=document.querySelector('.hero');
 new IntersectionObserver(
-  e=>{if(e[0].isIntersecting)hero.classList.add('show')},
+  e=>{ if(e[0].isIntersecting) hero.classList.add('show'); },
   {threshold:.35}
 ).observe(hero);
 </script>
