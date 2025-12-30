@@ -298,34 +298,7 @@ footer{
   <div class="hero-inner">
     <div class="hero-text">
       <h1>Create a Link.<br>Share it.<br>Get Paid Instantly.</h1>
-      <p>Accept payments via UPI, QR and cards with PayMoney.</p>
-     /* ===== MICRO VIBRATION (VERY SUBTLE) ===== */
-
-/* hover vibration */
-.btn-cta:hover{
-  animation: microVibe .35s ease-in-out infinite;
-}
-
-/* click vibration (slightly stronger but short) */
-.btn-cta:active{
-  animation: microClick .18s ease-in-out;
-}
-
-/* keyframes */
-@keyframes microVibe{
-  0%   { transform: translate(0,0); }
-  25%  { transform: translate(.6px,-.6px); }
-  50%  { transform: translate(-.6px,.6px); }
-  75%  { transform: translate(.4px,.4px); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes microClick{
-  0%   { transform: translate(0,0) scale(1); }
-  50%  { transform: translate(-1px,1px) scale(.98); }
-  100% { transform: translate(0,0) scale(1); }
-}
-
+      <a href="#" class="btn btn-primary btn-cta">Create Link</a>
       <a href="#how" class="btn btn-secondary">How it Works</a>
     </div>
 
@@ -395,5 +368,6 @@ new IntersectionObserver(
 
 </body>
 </html>
+
 
 
