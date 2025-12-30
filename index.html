@@ -273,6 +273,34 @@ footer{
   .hero-visual{height:220px;justify-content:center}
   .phone-slider{width:100%;height:200px}
 }
+  /* ===== IMAGE PREMIUM EFFECTS ===== */
+
+.phone-slide{
+  transition: transform .6s ease;
+}
+
+/* Glass overlay */
+.phone-slide::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius:26px;
+  pointer-events:none;
+}
+
+/* Hover zoom */
+.phone-slider:hover .phone-slide{
+  transform: scale(1.05);
+}
+
+/* Pause animation on hover */
+.phone-slider:hover .phone-slide{
+  animation-play-state: paused;
+}
+
 </style>
 </head>
 
@@ -361,3 +389,4 @@ new IntersectionObserver(
 
 </body>
 </html>
+
