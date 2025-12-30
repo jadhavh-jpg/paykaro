@@ -20,11 +20,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Inter,sans-serif;
-  background:#fff;
-  color:#111;
-}
+body{font-family:Inter,sans-serif;background:#fff;color:#111}
 
 /* ================= HEADER ================= */
 header{
@@ -33,15 +29,8 @@ header{
   justify-content:space-between;
   padding:14px 18px;
 }
-.logo img{
-  height:72px;
-  display:block;
-}
-header span{
-  font-size:15px;
-  font-weight:600; /* 🔥 slightly bold */
-  color:#333;
-}
+.logo img{height:72px}
+header span{font-weight:600;color:#333}
 
 /* ================= LAYOUT ================= */
 .container{
@@ -66,110 +55,140 @@ h1,h2{
   gap:40px;
   align-items:center;
 }
+
+/* scroll reveal */
+.hero-text,.hero-visual{
+  opacity:0;
+  transform:translateY(40px);
+  transition:.9s ease;
+}
+.hero.show .hero-text,
+.hero.show .hero-visual{
+  opacity:1;
+  transform:translateY(0);
+}
+
 .hero-text{flex:1}
-.hero-text h1{
-  font-size:42px;
-  line-height:1.15;
-}
-.hero-text p{
-  margin:18px 0;
-  font-size:18px;
-  color:#eafff3;
-}
+.hero-text h1{font-size:42px;line-height:1.15}
+.hero-text p{margin:18px 0;font-size:18px;color:#eafff3}
 
-/* ================= STANDARD BUTTONS ================= */
+/* ================= 3-LAYER BUTTON ================= */
 .btn{
-  display:inline-block;
-  padding:16px 34px;
-  border-radius:14px;
-  font-weight:800;
-  font-size:16px;
-  text-decoration:none;
   position:relative;
+  display:inline-block;
+  padding:16px 40px;
+  border-radius:42px;
+  font-weight:700;
+  text-decoration:none;
+  margin:8px 12px 8px 0;
   transition:.25s ease;
-}
-.btn-primary{
-  background:#fff;
-  color:var(--blue);
-}
-.btn-secondary{
-  border:2px solid #fff;
-  color:#fff;
+  overflow:hidden;
 }
 
-/* hover underline (standard SaaS) */
+/* base shadow */
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:rgba(0,0,0,.25);
+  transform:translateY(4px);
+  z-index:-2;
+}
+
+/* surface */
 .btn::after{
   content:"";
   position:absolute;
-  left:50%;
-  bottom:8px;
-  width:0;
-  height:2px;
-  background:var(--blue);
-  transition:.25s ease;
-  transform:translateX(-50%);
-}
-.btn-primary:hover::after{
-  width:70%;
-}
-.btn-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 28px rgba(0,0,0,.25);
+  inset:0;
+  border-radius:inherit;
+  z-index:-1;
 }
 
+/* primary */
+.btn-primary{color:#0D3B66}
+.btn-primary::after{
+  background:linear-gradient(135deg,#ffffff,#e8fff2);
+}
+.btn-primary:hover{transform:translateY(-2px)}
+
+/* secondary */
+.btn-secondary{color:#fff}
 .btn-secondary::after{
-  background:#fff;
+  background:rgba(255,255,255,.18);
+  border:2px solid rgba(255,255,255,.5);
 }
-.btn-secondary:hover::after{
-  width:70%;
+.btn-secondary:hover{background:rgba(255,255,255,.25)}
+
+/* special section button */
+.btn-special{
+  color:#fff;
 }
-.btn-secondary:hover{
-  background:rgba(255,255,255,.15);
+.btn-special::after{
+  background:linear-gradient(135deg,#2FB344,#0ea5e9);
+}
+.btn-special:hover{
+  transform:translateY(-3px);
 }
 
-/* ================= HERO MOCKUPS ================= */
-.hero-mockups{
+/* ================= HERO SLIDER (4:2) ================= */
+.hero-visual{
   flex:1;
+  position:relative;
+  height:300px;
   display:flex;
-  gap:16px;
   justify-content:flex-end;
 }
-.phone{
-  width:150px;
-  height:300px;
-  border-radius:24px;
+.hero-visual::before{
+  content:"";
+  position:absolute;
+  inset:-60px;
+  background:linear-gradient(120deg,#2FB344,#0ea5e9,#22c55e);
+  filter:blur(90px);
+  opacity:.45;
+  animation:glow 10s ease-in-out infinite;
+}
+@keyframes glow{
+  0%{transform:rotate(0deg)}
+  50%{transform:rotate(180deg)}
+  100%{transform:rotate(360deg)}
+}
+
+.phone-slider{
+  width:520px;
+  height:260px;
+  position:relative;
+  overflow:hidden;
+  border-radius:26px;
+  z-index:1;
+}
+.phone-slide{
+  position:absolute;
+  inset:0;
   background-size:cover;
   background-position:center;
-  box-shadow:0 18px 40px rgba(0,0,0,.25);
-  animation:float 5s ease-in-out infinite;
+  border-radius:26px;
+  box-shadow:0 20px 45px rgba(0,0,0,.35);
+  opacity:0;
+  animation:slideShow 16s infinite;
 }
-.phone:nth-child(2){ animation-delay:1s }
-.phone:nth-child(3){ animation-delay:2s }
+.phone-slide:nth-child(1){animation-delay:0s}
+.phone-slide:nth-child(2){animation-delay:4s}
+.phone-slide:nth-child(3){animation-delay:8s}
+.phone-slide:nth-child(4){animation-delay:12s}
 
-/* images */
-.p1{background-image:url("hero5.png")}
-.p2{background-image:url("hero1.png")}
-.p3{background-image:url("hero2.png")}
-.p4{background-image:url("hero4.png")}
-/* soft animation (NOT slide) */
-@keyframes float{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-  100%{transform:translateY(0)}
+@keyframes slideShow{
+  0%{opacity:0;transform:translateX(40px)}
+  10%{opacity:1;transform:translateX(0)}
+  25%{opacity:1}
+  35%{opacity:0;transform:translateX(-40px)}
+  100%{opacity:0}
 }
 
 /* ================= SECTIONS ================= */
-.grid{
-  display:grid;
-  gap:26px;
-  margin-top:30px;
-}
-.grid-3{
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-}
-.grid-5{
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-}
+.grid{display:grid;gap:26px;margin-top:30px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.grid-5{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 
 .card{
   background:#fff;
@@ -184,8 +203,6 @@ h1,h2{
   transform:translateY(-6px);
   box-shadow:0 14px 32px rgba(0,0,0,.15);
 }
-
-/* icons unchanged */
 .card i{
   font-size:34px;
   color:var(--green);
@@ -222,6 +239,13 @@ footer{
   font-size:14px;
 }
 
+/* footer button – always white */
+.footer-btn{
+  background:#fff !important;
+  color:#0D3B66 !important;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
 /* ================= WHATSAPP ================= */
 .whatsapp{
   position:fixed;
@@ -242,29 +266,12 @@ footer{
 
 /* ================= MOBILE ================= */
 @media(max-width:768px){
-  header{
-    flex-direction:column;
-    gap:6px;
-  }
-  .hero-inner{
-    flex-direction:column;
-    text-align:center;
-  }
-  .hero-text h1{
-    font-size:30px;
-  }
-  .btn{
-    display:block;
-    width:100%;
-    margin:10px 0;
-  }
-  .hero-mockups{
-    justify-content:center;
-  }
-  .phone{
-    width:110px;
-    height:220px;
-  }
+  header{flex-direction:column;gap:6px}
+  .hero-inner{flex-direction:column;text-align:center}
+  .hero-text h1{font-size:30px}
+  .btn{display:block;width:100%}
+  .hero-visual{height:220px;justify-content:center}
+  .phone-slider{width:100%;height:200px}
 }
 </style>
 </head>
@@ -272,9 +279,7 @@ footer{
 <body>
 
 <header>
-  <div class="logo">
-    <img src="pmc.png" alt="PayMoney">
-  </div>
+  <div class="logo"><img src="pmc.png" alt="PayMoney"></div>
   <span>India’s Easy Payment Gateway</span>
 </header>
 
@@ -283,17 +288,17 @@ footer{
     <div class="hero-text">
       <h1>Create a Link.<br>Share it.<br>Get Paid Instantly.</h1>
       <p>Accept payments via UPI, QR and cards with PayMoney.</p>
-      <div class="hero-buttons">
-        <a href="pages/builder.html" class="btn btn-primary">Create Link</a>
-        <a href="#how" class="btn btn-secondary">How it Works</a>
-      </div>
+      <a href="pages/builder.html" class="btn btn-primary">Create Link</a>
+      <a href="#how" class="btn btn-secondary">How it Works</a>
     </div>
 
-    <div class="hero-mockups">
-      <div class="phone p1"></div>
-      <div class="phone p2"></div>
-      <div class="phone p3"></div>
-      <div class="phone p4"></div>
+    <div class="hero-visual">
+      <div class="phone-slider">
+        <div class="phone-slide" style="background-image:url('hero1.png')"></div>
+        <div class="phone-slide" style="background-image:url('hero2.png')"></div>
+        <div class="phone-slide" style="background-image:url('hero4.png')"></div>
+        <div class="phone-slide" style="background-image:url('hero5.png')"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -304,6 +309,9 @@ footer{
     <div class="card"><i class="fa-solid fa-link"></i>Create Payment Link</div>
     <div class="card"><i class="fa-solid fa-share-nodes"></i>Share with Customer</div>
     <div class="card"><i class="fa-solid fa-bolt"></i>Get Paid Instantly</div>
+  </div>
+  <div style="text-align:center;margin-top:26px">
+    <a href="pages/builder.html" class="btn btn-special">Try How It Works</a>
   </div>
 </section>
 
@@ -316,20 +324,22 @@ footer{
     <div class="card"><i class="fa-solid fa-graduation-cap"></i>Course Creators</div>
     <div class="card"><i class="fa-solid fa-store"></i>Retail Shops</div>
   </div>
+  <div style="text-align:center;margin-top:26px">
+    <a href="pages/builder.html" class="btn btn-special">Start Selling Online</a>
+  </div>
 </section>
 
 <section class="container cta">
   <h2>Start Collecting Payments Today</h2>
   <p>Simple setup. Trusted payments.</p>
-  <a href="pages/builder.html" class="btn btn-primary">Create Your First Link</a>
+  <a href="pages/builder.html" class="btn footer-btn">Create Your First Link</a>
 </section>
 
 <section class="container about">
   <h2>About PayMoney</h2>
   <p>
     PayMoney is built for Indian businesses who want a fast, simple and reliable
-    way to collect payments. Create links, share instantly, and receive money
-    directly via UPI — without complexity.
+    way to collect payments without complexity.
   </p>
 </section>
 
@@ -341,14 +351,13 @@ footer{
   <i class="fa-brands fa-whatsapp"></i>
 </a>
 
+<script>
+const hero=document.querySelector('.hero');
+new IntersectionObserver(
+  e=>{ if(e[0].isIntersecting) hero.classList.add('show'); },
+  {threshold:.35}
+).observe(hero);
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
