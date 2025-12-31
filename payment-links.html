@@ -2,231 +2,216 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayKaro – Secure UPI Payment</title>
+<title>PayMoney – Generate Payment Link</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Segoe UI,Arial}
 body{
-  min-height:100vh;
-  background:radial-gradient(circle at top,#0f6bdc,#071b34 70%);
-  display:flex;align-items:center;justify-content:center;
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:#f5f7fb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
 }
+
 .card{
-  background:#fff;
-  width:92%;max-width:420px;
+  background:#ffffff;
+  width:380px;
   padding:28px;
-  border-radius:26px;
-  box-shadow:0 40px 80px rgba(0,0,0,.35);
+  border-radius:20px;
+  box-shadow:0 14px 40px rgba(0,0,0,.15);
   text-align:center;
 }
+
 .logo{
-  font-size:22px;
-  font-weight:900;
-  color:#0e5cad;
-  margin-bottom:6px;
+  font-size:26px;
+  font-weight:800;
+  color:#0D3B66;
 }
-.sub{
-  font-size:12px;
-  color:#666;
-  margin-bottom:18px;
+
+.subtitle{
+  margin-top:6px;
+  font-size:15px;
+  color:#555;
 }
-h2{font-size:22px;color:#0f2a44;margin-bottom:10px}
+
 input{
   width:100%;
-  padding:13px;
-  margin-top:10px;
-  border-radius:14px;
-  border:1px solid #ccd6e3;
-  font-size:14px;
+  padding:14px;
+  margin-top:16px;
+  font-size:15px;
+  border-radius:10px;
+  border:1px solid #ddd;
 }
+
 button{
   width:100%;
-  padding:16px;
-  margin-top:16px;
+  margin-top:20px;
+  padding:15px;
+  font-size:16px;
+  font-weight:600;
   border:none;
-  border-radius:999px;
-  font-weight:800;
-  font-size:15px;
+  border-radius:14px;
+  background:#0D3B66;
+  color:#fff;
   cursor:pointer;
 }
-.primary{
-  background:linear-gradient(90deg,#0e5cad,#1f86ff);
-  color:#fff;
+
+/* result area */
+.result{
+  margin-top:18px;
+  display:none;
 }
-.secondary{
-  background:#f1f5fb;
-  color:#0e5cad;
-}
-.amount{
-  font-size:26px;
-  font-weight:900;
-  color:#0e5cad;
-  margin:12px 0;
-}
-.note{
-  font-size:12px;
-  color:#666;
-  margin-top:12px;
-  line-height:1.4;
-}
-.link-box{
-  background:#f4f8fd;
-  padding:12px;
-  border-radius:12px;
-  word-break:break-all;
-  font-size:13px;
-  margin-top:10px;
-}
-.qrBox img{
-  width:200px;
-  margin:14px auto;
-}
-a.upiLink{
+
+/* payment link (only link, no button) */
+.paylink{
   display:block;
-  margin-top:10px;
-  font-weight:700;
-  color:#0e5cad;
-  text-decoration:none;
+  margin-top:12px;
+  font-size:14px;
+  word-break:break-all;
+  color:#0D3B66;
+  text-decoration:underline;
+  cursor:pointer;
 }
-.hide{display:none}
+
+/* animated copy button */
+.copy-btn{
+  margin-top:12px;
+  padding:12px 18px;
+  font-size:14px;
+  font-weight:600;
+  border:none;
+  border-radius:12px;
+  background:#2FB344;
+  color:#fff;
+  cursor:pointer;
+  animation:pulse 2s infinite;
+}
+
+.copy-btn.copied{
+  background:#1f7a32;
+  animation:none;
+}
+
+/* pulse animation */
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(47,179,68,0.6); }
+  70%{ box-shadow:0 0 0 12px rgba(47,179,68,0); }
+  100%{ box-shadow:0 0 0 0 rgba(47,179,68,0); }
+}
+
+/* QR box */
+#qrBox{
+  display:none;
+  margin-top:16px;
+}
+
+#qrBox img{
+  width:220px;
+}
+
+.note{
+  margin-top:14px;
+  font-size:12px;
+  color:#777;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= CREATE PAYMENT LINK ================= -->
-<div class="card" id="create">
-  <div class="logo">PayKaro</div>
-  <div class="sub">Create a simple UPI payment page</div>
+<div class="card">
+  <div class="logo">PayMoney</div>
+  <div class="subtitle">Generate Payment Link</div>
 
-  <input id="topic" placeholder="Product / Service name">
-  <input id="datetime" type="datetime-local">
-  <input id="amount" type="number" placeholder="Amount (₹)">
-  <input id="upi" placeholder="UPI ID (name@bank)">
-  <input id="group" placeholder="WhatsApp Group Link">
+  <input type="text" id="upi" placeholder="Enter your UPI ID (example@upi)">
+  <input type="number" id="amt" placeholder="Enter Amount (₹)">
 
-  <button class="primary" onclick="generateLink()">Generate Payment Link</button>
+  <button onclick="generateLink()">Generate Payment Link</button>
 
-  <div id="out" class="hide">
-    <div class="note">Share this payment link</div>
-    <div class="link-box" id="finalLink"></div>
-    <button class="secondary" onclick="copyLink()">Copy Link</button>
+  <div class="result" id="resultBox">
+
+    <!-- ONE SMART LINK -->
+    <a href="#" id="paymentLink" class="paylink" onclick="handlePayment(event)"></a>
+
+    <!-- COPY BUTTON -->
+    <button class="copy-btn" id="copyBtn" onclick="copyLink()">Copy Link</button>
+
+    <!-- DESKTOP QR -->
+    <div id="qrBox">
+      <p><b>Scan & Pay</b></p>
+      <img id="qrImg">
+    </div>
   </div>
-</div>
-
-<!-- ================= BUYER PAYMENT PAGE ================= -->
-<div class="card hide" id="pay">
-  <div class="logo">PayKaro</div>
-
-  <h2 id="pTitle"></h2>
-  <div class="note" id="pDate"></div>
-  <div class="amount">₹<span id="pAmount"></span></div>
-
-  <button class="primary" onclick="payNow()">Pay via UPI</button>
-
-  <!-- CLICKABLE UPI LINK (MOBILE) -->
-  <a id="upiAnchor" class="upiLink hide">Open in any UPI App</a>
-
-  <!-- DESKTOP QR -->
-  <div class="qrBox hide" id="qrBox">
-    <div class="note"><b>Scan & Pay (Desktop)</b></div>
-    <img id="qrImg">
-    <div class="note" id="upiText"></div>
-  </div>
-
-  <!-- ACCESS -->
-  <button id="accessBtn" class="secondary hide" onclick="goToGroup()">
-    Access WhatsApp Group
-  </button>
 
   <div class="note">
-    ✔ Group access is approved after payment verification.<br><br>
-    “Please send payment screenshot for verification”<br><br>
-    
+    One link • Mobile pays • Desktop shows QR
   </div>
 </div>
 
 <script>
-/* ===== CREATE LINK ===== */
+var generatedLink = "";
+
 function generateLink(){
-  const t = encodeURIComponent(topic.value);
-  const d = encodeURIComponent(datetime.value);
-  const a = amount.value;
-  const u = upi.value.trim();
-  const g = encodeURIComponent(group.value.trim());
+  var upi = document.getElementById("upi").value.trim();
+  var amt = document.getElementById("amt").value;
 
-  const url =
-    `${location.origin}${location.pathname}`+
-    `?t=${t}&d=${d}&a=${a}&u=${u}&g=${g}`;
+  if(!upi || upi.indexOf("@") === -1){
+    alert("Enter valid UPI ID");
+    return;
+  }
+  if(!amt || amt <= 0){
+    alert("Enter valid amount");
+    return;
+  }
 
-  finalLink.innerText = url;
-  out.classList.remove("hide");
+  generatedLink =
+    "upi://pay?pa=" + encodeURIComponent(upi) +
+    "&pn=PayMoney" +
+    "&am=" + amt +
+    "&cu=INR";
+
+  var linkEl = document.getElementById("paymentLink");
+  linkEl.textContent = generatedLink;
+
+  document.getElementById("resultBox").style.display = "block";
+  document.getElementById("qrBox").style.display = "none";
+
+  // reset copy button
+  var btn = document.getElementById("copyBtn");
+  btn.textContent = "Copy Link";
+  btn.classList.remove("copied");
+}
+
+function handlePayment(e){
+  e.preventDefault();
+
+  // Mobile → open UPI app
+  if(/Android|iPhone|iPad/i.test(navigator.userAgent)){
+    window.location.href = generatedLink;
+  }
+  // Desktop → show QR
+  else{
+    var qr =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(generatedLink);
+
+    document.getElementById("qrImg").src = qr;
+    document.getElementById("qrBox").style.display = "block";
+  }
 }
 
 function copyLink(){
-  navigator.clipboard.writeText(finalLink.innerText);
-  alert("Payment link copied");
-}
-
-/* ===== LOAD PAYMENT PAGE ===== */
-const q = new URLSearchParams(location.search);
-if(q.get("t")){
-  create.classList.add("hide");
-  pay.classList.remove("hide");
-
-  const title = decodeURIComponent(q.get("t"));
-  const date = decodeURIComponent(q.get("d"));
-  const amt  = q.get("a");
-  const upiId = q.get("u");
-
-  pTitle.innerText = title;
-  pDate.innerText = date;
-  pAmount.innerText = amt;
-
-  const intent =
-    `upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`;
-
-  // Mobile clickable UPI link
-  upiAnchor.href = intent;
-  upiAnchor.classList.remove("hide");
-
-  // Desktop QR
-  if(!/Android|iPhone|iPad/i.test(navigator.userAgent)){
-    qrBox.classList.remove("hide");
-    qrImg.src =
-      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-      encodeURIComponent(intent);
-    upiText.innerText = upiId;
-    accessBtn.classList.remove("hide");
-  }
-}
-
-/* ===== PAY ===== */
-function payNow(){
-  const upiId = q.get("u");
-  const amt = q.get("a");
-
-  const intent =
-    `upi://pay?pa=${upiId}&pn=PayKaro&am=${amt}&cu=INR`;
-
-  window.location.href = intent;
-
-  setTimeout(()=>{
-    accessBtn.classList.remove("hide");
-  },4000);
-}
-
-/* ===== ACCESS ===== */
-function goToGroup(){
-  const g = q.get("g");
-  if(g){
-    window.location.href = decodeURIComponent(g);
-  }else{
-    alert("Group link not provided by seller");
-  }
+  navigator.clipboard.writeText(generatedLink).then(()=>{
+    var btn = document.getElementById("copyBtn");
+    btn.textContent = "Copied ✓";
+    btn.classList.add("copied");
+  });
 }
 </script>
 
 </body>
 </html>
+
