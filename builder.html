@@ -2,47 +2,79 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PayMoney Builder</title>
+<title>PayMoney – Landing Builder</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-body{font-family:Arial;background:#f5f7fb;margin:0}
-.wrap{max-width:1200px;margin:30px auto;display:flex;gap:20px;flex-wrap:wrap}
-.box{background:#fff;border-radius:16px;padding:20px;width:48%}
-label{font-weight:600;margin-top:12px;display:block}
-input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px}
-button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer}
+body{font-family:Arial,sans-serif;background:#f5f7fb;margin:0}
+.wrap{max-width:1000px;margin:20px auto;padding:0 14px}
+.box{background:#fff;border-radius:16px;padding:20px;margin-bottom:20px}
+h2,h3{margin-top:0}
+
+label{font-weight:600;margin-top:14px;display:block}
+input,textarea{
+  width:100%;padding:12px;border-radius:8px;
+  border:1px solid #ccc;margin-top:6px;font-size:15px
+}
+textarea{min-height:90px}
+
+button{
+  margin-top:18px;width:100%;padding:14px;
+  background:#0D3B66;color:#fff;border:none;
+  border-radius:12px;font-weight:600;
+  font-size:16px;cursor:pointer
+}
+
+/* preview */
 .preview{border:1px solid #ddd;border-radius:16px;overflow:hidden}
 .poster{aspect-ratio:2/3;background:#eee}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
-.pay{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;opacity:.7}
-.small{font-size:13px;color:#555}
-
-/* payment link generator */
-.gen{
-  margin-top:20px;
-  padding:14px;
-  background:#f1f5f9;
-  border-radius:12px;
+.pay{
+  margin-top:14px;padding:14px;
+  background:#0D3B66;color:#fff;
+  text-align:center;border-radius:12px;
+  opacity:.35;pointer-events:none
 }
-.gen h3{margin:0 0 10px;font-size:16px}
-.gen button{background:#2FB344}
-.gen-link{
-  margin-top:10px;
-  font-size:13px;
-  word-break:break-all;
-  color:#0D3B66;
+.small{font-size:13px;color:#555;margin-top:8px}
+
+/* copy/share buttons */
+.actions{display:none;margin-top:14px}
+.copy-btn{
+  padding:12px;background:#2FB344;color:#fff;
+  border-radius:12px;text-align:center;
+  font-weight:600;cursor:pointer;
+  animation:pulse 2s infinite
+}
+.copy-btn:hover{background:#239a37}
+
+.share-btn{
+  margin-top:10px;padding:12px;
+  background:#25D366;color:#fff;
+  border-radius:12px;text-align:center;
+  font-weight:600;cursor:pointer
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(47,179,68,.6)}
+  70%{box-shadow:0 0 0 14px rgba(47,179,68,0)}
+  100%{box-shadow:0 0 0 0 rgba(47,179,68,0)}
+}
+
+/* desktop */
+@media(min-width:900px){
+  .flex{display:flex;gap:20px}
+  .half{width:50%}
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="wrap flex">
 
-<!-- LEFT SIDE -->
-<div class="box">
+<!-- LEFT -->
+<div class="box half">
 <h2>Create Landing</h2>
 
 <label>Brand</label>
@@ -55,35 +87,27 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 <input id="title" oninput="sync()">
 
 <label>Date & Time</label>
-<input id="dt" oninput="sync()">
+<input type="datetime-local" id="dt" oninput="sync()">
 
-<!-- 🔥 PAYMENT LINK GENERATOR -->
-<div class="gen">
-  <h3>Generate Payment Link</h3>
-
-  <label>Your UPI ID</label>
-  <input id="upi" placeholder="example@upi">
-
-  <label>Amount (₹)</label>
-  <input id="amt" type="number">
-
-  <button onclick="generatePayLink()">Generate Link</button>
-
-  <div class="gen-link" id="plink"></div>
-</div>
-
-<label>Payment Link (Auto Filled)</label>
-<input id="pay">
+<label>Payment Link</label>
+<input id="pay" placeholder="Paste PayMoney payment link">
 
 <label>Description</label>
 <textarea id="desc" oninput="sync()"></textarea>
 
 <button onclick="generate()">Generate Landing Page</button>
+
+<!-- COPY & SHARE -->
+<div class="actions" id="actions">
+  <div class="copy-btn" onclick="copyLink()">Copy Landing Link</div>
+  <div class="share-btn" onclick="shareWA()">Share on WhatsApp</div>
+</div>
 </div>
 
-<!-- RIGHT SIDE PREVIEW -->
-<div class="box">
+<!-- RIGHT -->
+<div class="box half">
 <h3>Live Preview</h3>
+
 <div class="preview">
   <div class="poster" id="pimg"></div>
   <div class="c">
@@ -91,7 +115,7 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
     <h3 id="ptitle"></h3>
     <div class="small" id="pdt"></div>
     <p id="pdesc"></p>
-    <div class="pay">Pay Money</div>
+    <div class="pay">Pay Now (Disabled)</div>
     <div class="small">Powered by PayMoney</div>
   </div>
 </div>
@@ -101,12 +125,13 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 
 <script>
 let imageURL="";
+let landingURL="";
 
 function loadImg(e){
   const file=e.target.files[0];
   if(!file) return;
-  imageURL = URL.createObjectURL(file);
-  pimg.innerHTML = `<img src="${imageURL}">`;
+  imageURL=URL.createObjectURL(file);
+  pimg.innerHTML=`<img src="${imageURL}">`;
 }
 
 function sync(){
@@ -116,35 +141,9 @@ function sync(){
   pdesc.innerText=desc.value;
 }
 
-/* 🔥 PAYMENT LINK LOGIC */
-function generatePayLink(){
-  const u = upi.value.trim();
-  const a = amt.value;
-
-  if(!u || u.indexOf("@")===-1){
-    alert("Enter valid UPI ID");
-    return;
-  }
-  if(!a || a<=0){
-    alert("Enter valid amount");
-    return;
-  }
-
-  const link =
-    "upi://pay?pa="+encodeURIComponent(u)+
-    "&pn=PayMoney"+
-    "&am="+a+
-    "&cu=INR";
-
-  pay.value = link;        // 🔥 auto fill
-  plink.innerText = link;  // show link
-}
-
 function generate(){
-  if(!imageURL){
-    alert("Please select image");
-    return;
-  }
+  if(!imageURL){alert("Select image");return}
+  if(!pay.value){alert("Paste payment link");return}
 
   const data={
     brand:brand.value,
@@ -156,7 +155,19 @@ function generate(){
   };
 
   sessionStorage.setItem("paymoneyData",JSON.stringify(data));
-  window.open("landing.html","_blank");
+
+  landingURL = location.origin + "/landing.html";
+  actions.style.display="block";
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(landingURL);
+  alert("Landing link copied");
+}
+
+function shareWA(){
+  const txt = encodeURIComponent("Pay securely via PayMoney\n"+landingURL);
+  window.open("https://wa.me/?text="+txt,"_blank");
 }
 </script>
 
