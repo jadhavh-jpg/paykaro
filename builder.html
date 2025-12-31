@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>PayMoney Builder</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <style>
 body{font-family:Arial;background:#f5f7fb;margin:0}
-.wrap{max-width:1200px;margin:30px auto;display:flex;gap:20px}
-.box{background:#fff;border-radius:16px;padding:20px;width:50%}
+.wrap{max-width:1200px;margin:30px auto;display:flex;gap:20px;flex-wrap:wrap}
+.box{background:#fff;border-radius:16px;padding:20px;width:48%}
 label{font-weight:600;margin-top:12px;display:block}
 input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:6px}
 button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;border:none;border-radius:12px;font-weight:600;cursor:pointer}
@@ -15,8 +16,24 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 .poster{aspect-ratio:2/3;background:#eee}
 .poster img{width:100%;height:100%;object-fit:cover}
 .c{padding:16px}
-.pay{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;opacity:.4}
+.pay{margin-top:14px;padding:14px;background:#0D3B66;color:#fff;text-align:center;border-radius:12px;opacity:.7}
 .small{font-size:13px;color:#555}
+
+/* payment link generator */
+.gen{
+  margin-top:20px;
+  padding:14px;
+  background:#f1f5f9;
+  border-radius:12px;
+}
+.gen h3{margin:0 0 10px;font-size:16px}
+.gen button{background:#2FB344}
+.gen-link{
+  margin-top:10px;
+  font-size:13px;
+  word-break:break-all;
+  color:#0D3B66;
+}
 </style>
 </head>
 
@@ -24,6 +41,7 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 
 <div class="wrap">
 
+<!-- LEFT SIDE -->
 <div class="box">
 <h2>Create Landing</h2>
 
@@ -39,7 +57,22 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 <label>Date & Time</label>
 <input id="dt" oninput="sync()">
 
-<label>Payment Link</label>
+<!-- 🔥 PAYMENT LINK GENERATOR -->
+<div class="gen">
+  <h3>Generate Payment Link</h3>
+
+  <label>Your UPI ID</label>
+  <input id="upi" placeholder="example@upi">
+
+  <label>Amount (₹)</label>
+  <input id="amt" type="number">
+
+  <button onclick="generatePayLink()">Generate Link</button>
+
+  <div class="gen-link" id="plink"></div>
+</div>
+
+<label>Payment Link (Auto Filled)</label>
 <input id="pay">
 
 <label>Description</label>
@@ -48,6 +81,7 @@ button{margin-top:18px;width:100%;padding:14px;background:#0D3B66;color:#fff;bor
 <button onclick="generate()">Generate Landing Page</button>
 </div>
 
+<!-- RIGHT SIDE PREVIEW -->
 <div class="box">
 <h3>Live Preview</h3>
 <div class="preview">
@@ -71,8 +105,7 @@ let imageURL="";
 function loadImg(e){
   const file=e.target.files[0];
   if(!file) return;
-
-  imageURL = URL.createObjectURL(file);   // ðŸ”¥ REAL IMAGE CODE
+  imageURL = URL.createObjectURL(file);
   pimg.innerHTML = `<img src="${imageURL}">`;
 }
 
@@ -81,6 +114,30 @@ function sync(){
   ptitle.innerText=title.value;
   pdt.innerText=dt.value;
   pdesc.innerText=desc.value;
+}
+
+/* 🔥 PAYMENT LINK LOGIC */
+function generatePayLink(){
+  const u = upi.value.trim();
+  const a = amt.value;
+
+  if(!u || u.indexOf("@")===-1){
+    alert("Enter valid UPI ID");
+    return;
+  }
+  if(!a || a<=0){
+    alert("Enter valid amount");
+    return;
+  }
+
+  const link =
+    "upi://pay?pa="+encodeURIComponent(u)+
+    "&pn=PayMoney"+
+    "&am="+a+
+    "&cu=INR";
+
+  pay.value = link;        // 🔥 auto fill
+  plink.innerText = link;  // show link
 }
 
 function generate(){
