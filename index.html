@@ -2,159 +2,242 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Login Test</title>
+<title>PayMoney – Create Payment Links & Get Paid Instantly</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Firebase (ONLY WHAT IS NEEDED) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import {
-    getAuth,
-    RecaptchaVerifier,
-    signInWithPhoneNumber
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<meta name="description" content="Create payment links, share on WhatsApp and receive money instantly. No gateway charges. Built for Indian sellers.">
+<meta name="keywords" content="PayMoney, UPI payment, payment link, WhatsApp payment, India">
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBbdCgVVsvWH6o8NnMXMn0FyjNAyfD3Shc",
-    authDomain: "paymoney24-cd9ad.firebaseapp.com",
-    projectId: "paymoney24-cd9ad",
-    storageBucket: "paymoney24-cd9ad.firebasestorage.app",
-    messagingSenderId: "387349063100",
-    appId: "1:387349063100:web:875bf9639beffe968177b9"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // expose globally
-  window.auth = auth;
-  window.RecaptchaVerifier = RecaptchaVerifier;
-  window.signInWithPhoneNumber = signInWithPhoneNumber;
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:Arial}
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 20px;background:#fff;border-bottom:1px solid #ddd
-}
-.hero{
-  height:70vh;display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  background:#0d3b66;color:#fff
-}
-button{padding:12px 20px;border-radius:6px;border:none;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+body{background:#fff;color:#111;line-height:1.6}
 
-/* LOGIN MODAL */
-#loginModal{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.6);z-index:9999
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:100;
+  background:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05)
 }
-#loginBox{
-  max-width:360px;margin:12% auto;background:#fff;
-  padding:20px;border-radius:12px
+.logo img{height:48px}
+nav{display:flex;gap:18px}
+nav a{font-weight:600;font-size:14px;color:#333;text-decoration:none}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0d3b66,#1f8a70);
+  color:#fff;
+  padding:70px 20px;
 }
-input{width:100%;padding:10px;margin:8px 0}
+.hero-inner{
+  max-width:1100px;margin:auto;
+  display:grid;grid-template-columns:1.1fr .9fr;
+  gap:30px;align-items:center
+}
+.hero h1{font-size:38px;font-weight:800;line-height:1.2}
+.hero p{margin:14px 0 22px;opacity:.9}
+
+.btn-primary{
+  display:inline-block;
+  padding:14px 32px;
+  background:#fff;
+  color:#0d3b66;
+  font-weight:800;
+  border-radius:30px;
+  text-decoration:none;
+  transition:.3s;
+}
+.btn-primary:hover{transform:scale(1.03)}
+
+/* SECTION */
+.section{padding:60px 20px}
+.section-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:24px;
+}
+
+/* GRID */
+.cards-grid{
+  max-width:1100px;margin:auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:24px 16px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.06);
+  transition:.25s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(37,99,235,.2);
+}
+.card h4{
+  margin-top:6px;
+  font-size:16px;
+  font-weight:700;
+}
+
+/* SVG ICON */
+.icon{
+  width:32px;height:32px;
+  stroke:#2563eb;
+  fill:none;
+  stroke-width:2;
+  margin-bottom:6px;
+  transition:.25s;
+}
+.card:hover .icon{
+  stroke:#1e40af;
+  transform:scale(1.1);
+}
+
+/* WHO SECTION */
+.who-section{padding:40px 20px;text-align:center}
+
+/* USE SECTION */
+.use-section{padding:20px 20px;text-align:center}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{display:none}
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero h1{font-size:32px}
+
+  .cards-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:4px;
+    margin-bottom:0;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <b>PayMoney</b>
-  <a href="javascript:void(0)" onclick="openLogin()">Login / Sign Up</a>
+  <div class="logo"><img src="pmc.png" alt="PayMoney"></div>
+  <nav>
+    <a href="#who">Who</a>
+    <a href="#use">Use</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-  <h1>Create a Link. Share it. Get Paid.</h1>
-  <button onclick="openLogin()">Create Payment Link</button>
+  <div class="hero-inner">
+    <div>
+      <h1>Create a Link.<br>Share it.<br>Get Paid Instantly.</h1>
+      <p>No transaction charges. Free landing page.</p>
+      <a href="builder.html" class="btn-primary">Create Payment Link</a>
+    </div>
+  </div>
 </section>
 
-<!-- 🔐 LOGIN MODAL -->
-<div id="loginModal">
-  <div id="loginBox">
-    <h3>Login to continue</h3>
+<!-- WHO IS PAYMONEY FOR -->
+<section class="who-section" id="who">
+  <h2 class="section-title">Who Is PayMoney For?</h2>
 
-    <input id="phone" placeholder="Enter mobile number">
+  <div class="cards-grid">
 
-    <!-- reCAPTCHA ONLY ONCE -->
-    <div id="recaptcha-container"></div>
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M3 6h18l-2 10H5z"/>
+        <circle cx="9" cy="20" r="1"/>
+        <circle cx="15" cy="20" r="1"/>
+      </svg>
+      <h4>Online Sellers</h4>
+    </div>
 
-    <button onclick="sendOTP()">Send OTP</button>
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M2 7l10-4 10 4-10 4z"/>
+        <path d="M4 11v6h16v-6"/>
+      </svg>
+      <h4>Trainers & Coaches</h4>
+    </div>
 
-    <input id="otp" placeholder="Enter OTP">
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="16" rx="2"/>
+        <path d="M8 4v16"/>
+      </svg>
+      <h4>Consultants</h4>
+    </div>
 
-    <button onclick="verifyOTP()">Verify OTP</button>
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M21 11.5a8.5 8.5 0 1 1-4.5-7.6"/>
+        <path d="M16 3v5h5"/>
+      </svg>
+      <h4>WhatsApp / Instagram Sellers</h4>
+    </div>
 
-    <button onclick="closeLogin()" style="margin-top:10px">Cancel</button>
   </div>
-</div>
+</section>
 
-<script>
-let confirmationResult = null;
+<!-- WAYS TO USE -->
+<section class="use-section" id="use">
+  <h2 class="section-title">Ways to Use</h2>
 
-/* OPEN MODAL */
-function openLogin(){
-  document.getElementById("loginModal").style.display="block";
-  initRecaptcha();
-}
+  <div class="cards-grid">
 
-/* CLOSE MODAL */
-function closeLogin(){
-  document.getElementById("loginModal").style.display="none";
-}
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </svg>
+      <h4>Advance Payments</h4>
+    </div>
 
-/* INIT reCAPTCHA (ONLY ONCE) */
-function initRecaptcha(){
-  if (!window.recaptchaVerifier) {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      'recaptcha-container',
-      { size: 'invisible' },
-      window.auth
-    );
-  }
-}
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2l10 5-10 5-10-5z"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+      <h4>Fees Collection</h4>
+    </div>
 
-/* SEND OTP */
-function sendOTP(){
-  let phone = document.getElementById("phone").value.trim();
-  if(!phone){
-    alert("Enter mobile number");
-    return;
-  }
-  if(!phone.startsWith("+")){
-    phone = "+91" + phone;
-  }
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M21 8l-9-5-9 5 9 5z"/>
+        <path d="M3 13v6l9 5 9-5v-6"/>
+      </svg>
+      <h4>Digital Products</h4>
+    </div>
 
-  signInWithPhoneNumber(window.auth, phone, window.recaptchaVerifier)
-    .then((result)=>{
-      confirmationResult = result;
-      alert("OTP sent");
-    })
-    .catch(err=>{
-      alert(err.message);
-    });
-}
+    <div class="card">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2v20"/>
+        <path d="M5 6h14"/>
+        <path d="M5 18h14"/>
+      </svg>
+      <h4>Custom Amount</h4>
+    </div>
 
-/* VERIFY OTP */
-function verifyOTP(){
-  const code = document.getElementById("otp").value;
-  if(!confirmationResult){
-    alert("Send OTP first");
-    return;
-  }
+  </div>
+</section>
 
-  confirmationResult.confirm(code)
-    .then(()=>{
-      alert("Login successful");
-      localStorage.setItem("loggedIn","yes");
-      closeLogin();
-    })
-    .catch(()=>{
-      alert("Wrong OTP");
-    });
-}
-</script>
+<!-- FOOTER -->
+<footer class="section" id="contact">
+  <h2 class="section-title">Contact & Support</h2>
+  <p style="text-align:center">
+    Email: <b>support@paymoney24.in</b><br>
+    Working Hours: 10:00 AM – 5:00 PM
+  </p>
+</footer>
 
 </body>
 </html>
