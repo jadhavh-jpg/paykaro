@@ -256,38 +256,76 @@ nav a{font-weight:600;font-size:14px;color:#333;text-decoration:none}
     Working Hours: 10:00 AM – 5:00 PM
   </p>
 </footer>
-.footer-social{
-  display:flex;
-  gap:14px;
-}
+<footer class="pm-footer">
+  <div class="pm-footer-wrap">
+    <div class="pm-footer-left">
+      <strong>PayMoney</strong>
+      <span>· India’s Easy Payment Gateway</span>
+    </div>
 
-.footer-social a{
-  width:40px;
-  height:40px;
-  border-radius:50%;
+    <div class="pm-footer-right">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+    </div>
+  </div>
+
+  <div class="pm-footer-bottom">
+    © 2025 PayMoney. All rights reserved.
+  </div>
+</footer>
+
+
+.pm-footer-wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:22px 18px;
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  justify-content:center;
-  background:#222;
-  transition:0.3s ease;
+  gap:16px;
+  flex-wrap:wrap;
 }
 
-.footer-social a svg{
-  width:18px;
-  height:18px;
-  fill:#fff;
+.pm-footer-left{
+  font-size:15px;
+}
+.pm-footer-left strong{
+  color:#fff;
+  font-weight:700;
 }
 
-.footer-social a:hover{
-  transform:translateY(-4px) scale(1.1);
-  box-shadow:0 8px 18px rgba(0,0,0,.3);
+.pm-footer-right a{
+  color:#cbd5f5;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:14px;
+}
+.pm-footer-right a:hover{
+  color:#38bdf8;
 }
 
-.footer-social .fb:hover{background:#1877f2}
-.footer-social .ig:hover{background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af)}
-.footer-social .li:hover{background:#0a66c2}
-.footer-social .yt:hover{background:#ff0000}
+.pm-footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  text-align:center;
+  padding:12px;
+  font-size:13px;
+  color:#94a3b8;
+}
+
+/* 📱 Mobile */
+@media(max-width:600px){
+  .pm-footer-wrap{
+    flex-direction:column;
+    text-align:center;
+  }
+  .pm-footer-right a{
+    margin:0 10px;
+  }
+}
+
 
 </body>
 </html>
+
 
