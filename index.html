@@ -1219,43 +1219,49 @@ nav a{
 .footer-social .yt:hover{background:#ff0000}
 
 </style>
-.footer-info p{
+/* Footer container */
+.footer-info{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* One row */
+.footer-item{
   display:flex;
   align-items:center;
   gap:10px;
   font-size:14px;
-  color:#444;
-  margin:8px 0;
+  color:#fff;   /* dark bg ke liye */
 }
 
-.footer-info .icon{
+/* ICON SIZE CONTROL */
+.footer-item .icon{
   width:22px;
   height:22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  flex-shrink:0;
 }
 
-.footer-info svg{
-  width:20px;
-  height:20px;
-  fill:#2563eb;
-  transition:0.3s ease;
+.footer-item .icon svg{
+  width:22px !important;
+  height:22px !important;
+  fill:#3b82f6;
 }
 
-.footer-info p:hover svg{
-  transform:scale(1.1);
+/* Text control */
+.footer-item .text{
+  line-height:1.4;
 }
 
-.footer-info a{
-  color:#2563eb;
+.footer-item a{
+  color:#93c5fd;
   text-decoration:none;
-  font-weight:500;
 }
 
-.footer-info a:hover{
+.footer-item a:hover{
   text-decoration:underline;
 }
+
 
 </style>
 </head>
@@ -1902,6 +1908,7 @@ logoutBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
