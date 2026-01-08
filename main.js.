@@ -5,24 +5,39 @@ function $(id){
 
 // ---------- BUILDER PAGE LOGIC ----------
 function createLink(){
-  const params = new URLSearchParams({
-    title: $('title').value.trim(),
-    desc: $('desc').value.trim(),
-    amount: $('amount').value.trim(),
-    upi: $('upi').value.trim(),
-    color: $('color') ? $('color').value : '',
-    image: $('image').value.trim(),
-    video: $('video').value.trim(),
-    whatsapp: $('whatsapp').value.trim(),
-    group: $('group').value.trim()
-  });
+  const fileInput = document.getElementById('imageFile');
+  const file = fileInput.files[0];
 
-  if(!params.get('title') || !params.get('desc') || !params.get('amount') || !params.get('upi')){
-    alert("Please fill all required fields (*)");
-    return;
+  function proceed(imageData){
+    const params = new URLSearchParams({
+      title: $('title').value.trim(),
+      desc: $('desc').value.trim(),
+      amount: $('amount').value.trim(),
+      upi: $('upi').value.trim(),
+      color: $('color') ? $('color').value : '',
+      image: imageData || '',
+      video: $('video').value.trim(),
+      whatsapp: $('whatsapp').value.trim(),
+      group: $('group').value.trim()
+    });
+
+    if(!params.get('title') || !params.get('desc') || !params.get('amount') || !params.get('upi')){
+      alert("Please fill all required fields (*)");
+      return;
+    }
+
+    window.open("/lp.html?" + params.toString(), "_blank");
   }
 
-  window.open("/lp.html?" + params.toString(), "_blank");
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      proceed(e.target.result); // base64 image
+    };
+    reader.readAsDataURL(file);
+  }else{
+    proceed('');
+  }
 }
 
 // ---------- LANDING PAGE DATA LOAD ----------
@@ -72,3 +87,4 @@ function createLink(){
     title: q.get('title')
   };
 })();
+
