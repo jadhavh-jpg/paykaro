@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PayMoney – Create Payment Link</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;font-family:Inter,system-ui,Arial}
+body{margin:0;background:#f5f7fb}
+.container{
+  max-width:540px;
+  margin:40px auto;
+  background:#fff;
+  padding:26px;
+  border-radius:16px;
+  box-shadow:0 20px 45px rgba(0,0,0,.08)
+}
+h1{margin:0 0 18px;font-size:22px}
+label{
+  display:block;
+  margin-top:16px;
+  font-weight:600;
+  font-size:14px
+}
+input,textarea{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #dbe1ea;
+  font-size:14px
+}
+textarea{resize:vertical}
+small{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  color:#64748b;
+  line-height:1.4
+}
+button{
+  width:100%;
+  margin-top:26px;
+  padding:15px;
+  font-size:16px;
+  font-weight:800;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:linear-gradient(135deg,#4f46e5,#4338ca);
+  color:#fff;
+  box-shadow:0 12px 28px rgba(79,70,229,.35)
+}
+.note{
+  margin-top:14px;
+  font-size:12px;
+  color:#475569
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Create PayMoney Link</h1>
+
+  <label>Title *</label>
+  <input id="title" placeholder="e.g. Online Workshop Fee">
+
+  <label>Description *</label>
+  <textarea id="desc" rows="3" placeholder="Short details about this payment"></textarea>
+
+  <label>Amount (₹) *</label>
+  <input id="amount" type="number" placeholder="499">
+
+  <label>UPI ID *</label>
+  <input id="upi" placeholder="yourupi@bank">
+
+  <label>Theme Color (optional)</label>
+  <input id="color" type="color" value="#4f46e5">
+  <small>Landing page buttons & highlights will use this color</small>
+
+  <label>Poster / Image URL (optional)</label>
+  <input id="image" placeholder="https://example.com/poster.jpg">
+  <small>
+    Recommended image sizes:<br>
+    • <strong>1080 × 1080 px</strong> (1:1 – square)<br>
+    • <strong>1080 × 1920 px</strong> (9:16 – vertical)<br>
+    Use compressed images to avoid loading issues
+  </small>
+
+  <label>YouTube / Video Link (optional)</label>
+  <input id="video" placeholder="https://youtube.com/watch?v=xxxx">
+
+  <label>WhatsApp Number (optional)</label>
+  <input id="whatsapp" placeholder="91XXXXXXXXXX">
+
+  <label>WhatsApp Group Link (optional)</label>
+  <input id="group" placeholder="https://chat.whatsapp.com/...">
+
+  <button onclick="createLink()">Create Link</button>
+
+  <div class="note">
+    ✔ Mobile users: direct UPI payment<br>
+    ✔ Desktop users: QR code auto-generate
+  </div>
+</div>
+
+<script>
+function createLink(){
+  const params = new URLSearchParams({
+    title: title.value.trim(),
+    desc: desc.value.trim(),
+    amount: amount.value.trim(),
+    upi: upi.value.trim(),
+    color: color.value,
+    image: image.value.trim(),
+    video: video.value.trim(),
+    whatsapp: whatsapp.value.trim(),
+    group: group.value.trim()
+  });
+
+  if(!params.get('title') || !params.get('desc') || !params.get('amount') || !params.get('upi')){
+    alert("Please fill all required (*) fields");
+    return;
+  }
+
+  const landingURL = "lp.html?" + params.toString();
+  window.open(landingURL, "_blank");
+}
+</script>
+
+</body>
+</html>

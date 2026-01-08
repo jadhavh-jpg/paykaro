@@ -1,0 +1,32 @@
+(function(){
+  if(!window.PAYMENT_DATA) return;
+
+  const upiURL =
+    `upi://pay?pa=${PAYMENT_DATA.upi}` +
+    `&pn=${encodeURIComponent(PAYMENT_DATA.title)}` +
+    `&am=${PAYMENT_DATA.amount}` +
+    `&cu=INR`;
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if(isMobile){
+    // Mobile → direct UPI
+    if(document.getElementById('upiBtn')){
+      document.getElementById('upiBtn').href = upiURL;
+      document.getElementById('upiBtn').classList.remove('hide');
+    }
+  }else{
+    // Desktop → QR Code
+    if(window.QRCode && document.getElementById('qr')){
+      QRCode.toCanvas(
+        document.getElementById('qr'),
+        upiURL,
+        { width: 220 }
+      );
+      document.getElementById('qr').classList.remove('hide');
+      if(document.getElementById('qrNote')){
+        document.getElementById('qrNote').classList.remove('hide');
+      }
+    }
+  }
+})();

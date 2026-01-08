@@ -1,0 +1,74 @@
+// ---------- COMMON HELPER ----------
+function $(id){
+  return document.getElementById(id);
+}
+
+// ---------- BUILDER PAGE LOGIC ----------
+function createLink(){
+  const params = new URLSearchParams({
+    title: $('title').value.trim(),
+    desc: $('desc').value.trim(),
+    amount: $('amount').value.trim(),
+    upi: $('upi').value.trim(),
+    color: $('color') ? $('color').value : '',
+    image: $('image').value.trim(),
+    video: $('video').value.trim(),
+    whatsapp: $('whatsapp').value.trim(),
+    group: $('group').value.trim()
+  });
+
+  if(!params.get('title') || !params.get('desc') || !params.get('amount') || !params.get('upi')){
+    alert("Please fill all required fields (*)");
+    return;
+  }
+
+  window.open("/lp.html?" + params.toString(), "_blank");
+}
+
+// ---------- LANDING PAGE DATA LOAD ----------
+(function loadLanding(){
+  if(!location.search) return;
+
+  const q = new URLSearchParams(location.search);
+
+  // Theme color
+  if(q.get('color')){
+    document.documentElement.style.setProperty('--theme', q.get('color'));
+  }
+
+  // Basic content
+  if($('title')) $('title').innerText = q.get('title') || '';
+  if($('desc')) $('desc').innerText = q.get('desc') || '';
+  if($('amount')) $('amount').innerText = q.get('amount') || '';
+
+  // Poster
+  if(q.get('image') && $('poster')){
+    $('poster').src = q.get('image');
+    $('poster').classList.remove('hide');
+  }
+
+  // Video
+  if(q.get('video') && $('videoFrame')){
+    $('videoFrame').src = q.get('video').replace("watch?v=", "embed/");
+    $('videoBox').classList.remove('hide');
+  }
+
+  // WhatsApp
+  if(q.get('whatsapp') && $('waBtn')){
+    $('waBtn').href = "https://wa.me/" + q.get('whatsapp');
+    $('waBtn').classList.remove('hide');
+  }
+
+  // WhatsApp Group
+  if(q.get('group') && $('groupBtn')){
+    $('groupBtn').href = q.get('group');
+    $('groupBtn').classList.remove('hide');
+  }
+
+  // Save UPI data for qr.js
+  window.PAYMENT_DATA = {
+    upi: q.get('upi'),
+    amount: q.get('amount'),
+    title: q.get('title')
+  };
+})();
