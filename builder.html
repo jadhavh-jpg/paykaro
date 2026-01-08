@@ -82,7 +82,39 @@ button{
 
   <!-- 🔥 IMAGE UPLOAD (NEW) -->
   <label>Upload Poster Image (optional)</label>
-  <input type="file" id="imageFile" accept="image/*">
+  <input type="filasync function createLink(){
+
+  const file = imageFile.files[0];
+  let imageURL = image.value.trim(); // fallback URL
+
+  if(file){
+    const form = new FormData();
+    form.append("image", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: form
+    });
+
+    const data = await res.json();
+    imageURL = data.imageUrl; // 🔥 short URL
+  }
+
+  const params = new URLSearchParams({
+    title: title.value,
+    desc: desc.value,
+    amount: amount.value,
+    upi: upi.value,
+    color: color.value,
+    image: imageURL,
+    video: video.value,
+    whatsapp: whatsapp.value,
+    group: group.value
+  });
+
+  window.open("lp.html?" + params.toString(), "_blank");
+}
+e" id="imageFile" accept="image/*">
   <small>
     Recommended sizes:<br>
     • <strong>1080 × 1080 px</strong> (1:1)<br>
@@ -154,3 +186,4 @@ function createLink(){
 
 </body>
 </html>
+
