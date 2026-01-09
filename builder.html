@@ -2,112 +2,93 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pay & Join</title>
+<title>PayMoney24 – Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{margin:0;font-family:system-ui;background:#f8fafc}
-.card{
-  max-width:420px;
-  margin:30px auto;
-  background:#fff;
-  padding:20px;
-  border-radius:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.15);
-}
-.hero{text-align:center}
-.hero h2{margin:0}
-.hero p{color:#475569;margin:6px 0 0}
+body{margin:0;font-family:system-ui;background:#f1f5f9}
+.wrap{display:flex;min-height:100vh}
+.left{width:40%;padding:20px;background:#fff}
+.right{width:60%;display:flex;align-items:center;justify-content:center}
 
-img{
-  width:100%;
-  border-radius:16px;
-  margin:16px 0;
-}
-
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  font-weight:700;
-  margin-top:10px;
-  cursor:pointer;
-}
-.pay{background:#ef4444;color:#fff}
+h2{margin-top:0}
+input{width:100%;padding:10px;margin-bottom:10px}
+button{width:100%;padding:12px;border:none;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
+.copy{background:#0f172a;color:#fff}
 .wa{background:#22c55e}
 
-.qr{
-  display:none;
-  text-align:center;
-  margin-top:14px;
+iframe{
+  width:420px;
+  height:720px;
+  border:none;
+  border-radius:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
-.qr img{width:260px}
-
-small{color:#64748b}
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="hero">
-    <h2 id="title"></h2>
-    <p id="subtitle"></p>
+<div class="wrap">
+
+  <!-- BUILDER -->
+  <div class="left">
+    <h2>Create Landing Page</h2>
+
+    <input id="t" placeholder="Title" value="3-Day Yoga Class">
+    <input id="s" placeholder="Subtitle" value="Beginner Friendly · Limited Seats">
+    <input id="img" placeholder="Image URL (https://...)">
+    <input id="a" placeholder="Amount" value="500">
+    <input id="upi" placeholder="UPI ID" value="jadhav.h3@ybl">
+    <input id="wa" placeholder="WhatsApp Group Link">
+
+    <input id="linkBox" readonly>
+
+    <button class="copy" onclick="copyLink()">📋 Copy Link</button>
+    <button class="wa" onclick="shareWA()">📤 Share on WhatsApp</button>
   </div>
 
-  <img id="heroImg" style="display:none">
-
-  <h3 id="price"></h3>
-
-  <button class="btn pay" onclick="pay()">Pay & Join</button>
-  <button class="btn wa" onclick="joinWA()">Join WhatsApp Group</button>
-
-  <div class="qr" id="qrBox">
-    <p>Scan & Pay</p>
-    <img id="qrImg">
+  <!-- LIVE PREVIEW -->
+  <div class="right">
+    <iframe id="preview"></iframe>
   </div>
 
-  <small>
-    ✅ Secure UPI Payment<br>
-    ✅ Instant Confirmation<br>
-    ✅ Mobile Friendly
-  </small>
 </div>
 
 <script>
-const params = new URLSearchParams(location.search);
+function update(){
+  const t = tEl.value;
+  const s = sEl.value;
+  const img = imgEl.value;
+  const a = aEl.value;
+  const upi = upiEl.value;
+  const wa = waEl.value;
 
-title.innerText = params.get("t") || "";
-subtitle.innerText = params.get("s") || "";
-price.innerText = "Entry Fee: ₹" + (params.get("a") || "0");
+  const url =
+    location.origin + "/landing.html"
+    + "?t=" + encodeURIComponent(t)
+    + "&s=" + encodeURIComponent(s)
+    + "&img=" + encodeURIComponent(img)
+    + "&a=" + a
+    + "&upi=" + encodeURIComponent(upi)
+    + "&wa=" + encodeURIComponent(wa);
 
-const imgUrl = params.get("img");
-if(imgUrl && imgUrl.startsWith("http")){
-  heroImg.src = imgUrl;
-  heroImg.style.display = "block";
+  preview.src = url;
+  linkBox.value = url;
 }
 
-function pay(){
-  const upi =
-    "upi://pay?pa=" + params.get("upi")
-    + "&pn=PayMoney24"
-    + "&am=" + params.get("a")
-    + "&cu=INR";
-
-  // Mobile → direct QR (safe)
-  qrImg.src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="
-    + encodeURIComponent(upi);
-
-  qrBox.style.display = "block";
-  qrBox.scrollIntoView({behavior:"smooth"});
+function copyLink(){
+  navigator.clipboard.writeText(linkBox.value);
+  alert("Link copied");
+}
+function shareWA(){
+  window.open("https://wa.me/?text="+encodeURIComponent(linkBox.value));
 }
 
-function joinWA(){
-  const wa = params.get("wa");
-  if(wa) window.open(wa,"_blank");
-}
+const tEl=t,sEl=s,imgEl=img,aEl=a,upiEl=upi,waEl=wa;
+[tEl,sEl,imgEl,aEl,upiEl,waEl].forEach(i=>i.addEventListener("input",update));
+
+update();
 </script>
 
 </body>
