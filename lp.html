@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pay & Join</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:system-ui;background:#f8fafc}
+.card{max-width:420px;margin:20px auto;background:#fff;
+      padding:20px;border-radius:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,.1)}
+.hero{padding:18px;color:#fff;border-radius:16px;text-align:center}
+img,iframe{width:100%;border-radius:16px;margin:14px 0}
+.btn{width:100%;padding:14px;border:none;border-radius:999px;
+     font-size:16px;font-weight:700;margin:8px 0}
+.pay{background:#ef4444;color:#fff}
+.wa{background:#22c55e}
+.qr{display:none;text-align:center}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+<div id="hero" class="hero"></div>
+<div id="media"></div>
+
+<h3 id="price"></h3>
+
+<button class="btn pay" onclick="pay()">Pay & Join</button>
+<button class="btn wa" onclick="joinWA()">Join WhatsApp Group</button>
+
+<div class="qr" id="qr">
+<p>Scan to Pay</p>
+<img id="qrimg">
+</div>
+
+</div>
+
+<script>
+const q = new URLSearchParams(location.search);
+const upiData = `upi://pay?pa=${q.get("upi")}&pn=PayMoney24&am=${q.get("a")}&cu=INR`;
+
+hero.style.background = "#" + q.get("c");
+hero.innerHTML = `<h2>${q.get("t")}</h2><p>${q.get("s")}</p>`;
+price.innerText = "Entry Fee: ₹" + q.get("a");
+
+if(q.get("img")){
+  media.innerHTML = `<img src="${q.get("img")}">`;
+}else if(q.get("yt")){
+  media.innerHTML = `<iframe height="240" src="${q.get("yt").replace("watch?v=","embed/")}" allowfullscreen></iframe>`;
+}
+
+function pay(){
+  if(/Android|iPhone/i.test(navigator.userAgent)){
+    location.href = upiData;
+  }else{
+    qrimg.src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(upiData);
+    qr.style.display="block";
+  }
+}
+
+function joinWA(){
+  if(q.get("wa")) window.open(q.get("wa"));
+}
+</script>
+
+</body>
+</html>
