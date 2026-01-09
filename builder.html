@@ -1,198 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PayMoney24 – Instant UPI Payment</title>
-
+<meta charset="UTF-8">
+<title>Create Payment Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-:root{
-  --primary:#16a34a;
-  --dark:#0f172a;
-  --bg:#f8fafc;
-}
-*{box-sizing:border-box;font-family:Inter,system-ui,-apple-system}
-body{
-  margin:0;
-  background:var(--bg);
-  color:#0f172a;
-}
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:20px;
-}
-.card{
-  background:#fff;
-  border-radius:20px;
-  padding:22px;
-  box-shadow:0 20px 40px rgba(0,0,0,.08);
-}
-.hero{
-  background:linear-gradient(135deg,var(--primary),#22c55e);
-  color:#fff;
-  border-radius:20px;
-  padding:26px;
-  text-align:center;
-}
-.hero h1{margin:0;font-size:26px}
-.hero p{margin:8px 0 0;opacity:.9}
-
-.media img{
-  width:100%;
-  border-radius:16px;
-  margin:20px 0;
-}
-
-.price{
-  font-size:22px;
-  font-weight:800;
-  margin:10px 0;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  font-size:16px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.pay-btn{
-  background:#ef4444;
-  color:#fff;
-  margin-top:10px;
-}
-
-.wa-btn{
-  background:#22c55e;
-  color:#000;
-  margin-top:12px;
-}
-
-.features{
-  margin-top:16px;
-  font-size:14px;
-}
-.features p{
-  margin:6px 0;
-  color:#334155;
-}
-
-.qr{
-  display:none;
-  text-align:center;
-  margin-top:16px;
-}
-.qr img{
-  width:220px;
-  margin:auto;
-}
-
-footer{
-  text-align:center;
-  margin-top:16px;
-  font-size:12px;
-  color:#64748b;
-}
-  .share-btn{
-  background:#0f172a;
-  color:#fff;
-  margin-top:12px;
-}
-
+body{margin:0;font-family:system-ui;background:#f1f5f9}
+.wrap{display:flex;min-height:100vh}
+.left{width:45%;padding:20px;background:#fff}
+.right{width:55%;padding:20px}
+input,button{width:100%;padding:10px;margin:6px 0}
+button{background:#2563eb;color:#fff;border:none;border-radius:8px;font-weight:700}
+iframe{width:100%;height:100%;border:none;border-radius:16px}
+small{color:#64748b}
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<div class="container">
+<!-- BUILDER -->
+<div class="left">
+<h2>Create Landing Page</h2>
 
-  <div class="hero">
-    <h1>3-Day Yoga Class</h1>
-    <p>Beginner Friendly · Limited Seats</p>
-  </div>
+<label>Theme Color</label>
+<input type="color" id="color" value="#16a34a">
 
-  <div class="card">
+<label>Title</label>
+<input id="title" value="3-Day Yoga Class">
 
-    <div class="media">
-      <img src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=800" alt="Yoga">
-    </div>
+<label>Subtitle</label>
+<input id="sub" value="Beginner Friendly · Limited Seats">
 
-    <div class="price">Entry Fee: ₹500</div>
+<label>Image URL (recommended)</label>
+<input id="img" placeholder="https://example.com/image.jpg">
 
-    <button class="pay-btn" onclick="payNow()">Pay & Join</button>
-    <button class="share-btn" onclick="copyLink()">📋 Copy Page Link</button>
+<small>OR YouTube Link</small>
+<input id="yt" placeholder="https://youtube.com/watch?v=...">
 
-<button class="wa-btn" onclick="shareWhatsApp()">📤 Share on WhatsApp</button>
+<label>Amount (₹)</label>
+<input id="amt" value="500">
 
+<label>UPI ID</label>
+<input id="upi" value="jadhav.h3@ybl">
 
-    <div class="qr" id="qrBox">
-      <p>Scan & Pay</p>
-      <img id="qrImg">
-    </div>
+<label>WhatsApp Group Link</label>
+<input id="wa">
 
-    <button class="wa-btn" onclick="joinWhatsApp()">Join WhatsApp Group</button>
+<button onclick="generate()">Generate Page</button>
 
-    <div class="features">
-      <p>✅ Secure UPI Payment</p>
-      <p>✅ Instant Confirmation</p>
-      <p>✅ Mobile Friendly</p>
-    </div>
+<input id="link" readonly>
+<button onclick="copy()">📋 Copy Link</button>
+<button onclick="share()">📤 Share WhatsApp</button>
+</div>
 
-  </div>
-
-  <footer>
-    © 2026 PayMoney24 · Simple · Fast · Trusted
-  </footer>
+<!-- PREVIEW -->
+<div class="right">
+<iframe id="preview"></iframe>
+</div>
 
 </div>
 
 <script>
-const UPI_ID = "jadhav.h3@ybl";
-const NAME = "PayMoney24";
-const AMOUNT = "500";
-const WA_LINK = "https://chat.whatsapp.com/";
-
-function payNow(){
-  const upiData =
-    `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(NAME)}&am=${AMOUNT}&cu=INR`;
-
-  const qr =
-    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiData)}`;
-
-  document.getElementById("qrImg").src = qr;
-  document.getElementById("qrBox").style.display = "block";
-  document.getElementById("qrBox").scrollIntoView({behavior:"smooth"});
-}
-
-function joinWhatsApp(){
-  window.open(WA_LINK,"_blank");
-}
-
-function copyLink(){
-  const url = window.location.href;
-  navigator.clipboard.writeText(url).then(()=>{
-    alert("Page link copied! Share it on WhatsApp.");
+function generate(){
+  const p = new URLSearchParams({
+    t:title.value,
+    s:sub.value,
+    img:img.value,
+    yt:yt.value,
+    a:amt.value,
+    upi:upi.value,
+    wa:wa.value,
+    c:color.value.replace("#","")
   });
+
+  const url = location.origin + "/lp.html?" + p.toString();
+  link.value = url;
+  preview.src = url;
 }
 
-function shareWhatsApp(){
-  const text = encodeURIComponent(
-    "Join this program & pay securely via UPI:\n" + window.location.href
-  );
-  window.open("https://wa.me/?text=" + text, "_blank");
+function copy(){
+  navigator.clipboard.writeText(link.value);
+  alert("Link copied");
+}
+
+function share(){
+  window.open("https://wa.me/?text=" + encodeURIComponent(link.value));
 }
 </script>
 
-
-
-
 </body>
 </html>
-
-
-
-
