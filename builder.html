@@ -6,16 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== RESET ===== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#f1f5f9;color:#0f172a}
 
-/* ===== PAGE ===== */
-body{
-  background:#f1f5f9;
-  color:#0f172a;
-}
-
-/* ===== LAYOUT ===== */
 .page{
   display:flex;
   flex-direction:column;
@@ -25,90 +18,61 @@ body{
 
 .left,.right{width:100%}
 
-/* ===== BUILDER ===== */
+/* BUILDER */
 .left{
   background:#fff;
   padding:20px;
   border-radius:20px;
   box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
-
-.left h2{
-  margin-bottom:16px;
-}
-
+.left h2{margin-bottom:16px}
 .left input{
   width:100%;
   padding:14px;
   margin-bottom:12px;
   border-radius:10px;
   border:1px solid #cbd5e1;
-  font-size:15px;
 }
 
-/* ===== BUTTONS ===== */
+/* PREVIEW */
+.right{
+  background:#fff;
+  border-radius:26px;
+  padding:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  text-align:center;
+}
+
+.preview-img{
+  width:100%;
+  max-height:200px;
+  object-fit:cover;
+  border-radius:16px;
+  margin-bottom:12px;
+  display:none;
+}
+
+.price{
+  font-size:22px;
+  font-weight:800;
+  margin:14px 0;
+}
+
 .btn{
   width:100%;
   padding:14px;
   border:none;
   border-radius:999px;
   font-weight:700;
-  cursor:pointer;
   margin-top:8px;
 }
 
-.copy{background:#0f172a;color:#fff}
+.pay{background:#ef4444;color:#fff}
 .wa{background:#22c55e;color:#000}
+.copy{background:#0f172a;color:#fff}
 
-/* ===== PREVIEW ===== */
-.right{
-  background:#fff;
-  border-radius:26px;
-  padding:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.15);
-}
-
-.preview h2{
-  text-align:center;
-}
-
-.preview p{
-  text-align:center;
-  color:#475569;
-  margin-top:6px;
-}
-
-.price{
-  text-align:center;
-  font-size:22px;
-  font-weight:800;
-  margin:14px 0;
-}
-
-.pay{
-  background:#ef4444;
-  color:#fff;
-}
-
-.wa-btn{
-  background:#22c55e;
-  color:#000;
-}
-
-.points{
-  margin-top:16px;
-  text-align:center;
-  color:#475569;
-  font-size:14px;
-}
-
-/* ===== DESKTOP ===== */
 @media(min-width:900px){
-  .page{
-    flex-direction:row;
-    max-width:1200px;
-    margin:auto;
-  }
+  .page{flex-direction:row;max-width:1200px;margin:auto}
   .left,.right{flex:1}
 }
 </style>
@@ -118,50 +82,57 @@ body{
 
 <div class="page">
 
-  <!-- BUILDER -->
-  <div class="left">
-    <h2>Create Landing Page</h2>
+<!-- BUILDER -->
+<div class="left">
+  <h2>Create Landing Page</h2>
 
-    <input id="title" placeholder="3-Day Yoga Class">
-    <input id="desc" placeholder="Beginner Friendly · Limited Seats">
-    <input id="img" placeholder="Image URL (optional)">
-    <input id="amount" placeholder="500">
-    <input id="upi" placeholder="jadhav.h3@ybl">
-    <input id="wa" placeholder="WhatsApp Group Link">
+  <input id="title" placeholder="3-Day Yoga Class">
+  <input id="desc" placeholder="Beginner Friendly · Limited Seats">
+  <input type="file" id="imageFile" accept="image/*">
+  <input id="amount" placeholder="500">
+  <input id="upi" placeholder="jadhav.h3@ybl">
+  <input id="wa" placeholder="WhatsApp Group Link">
 
-    <input id="link" readonly>
+  <input id="link" readonly placeholder="Generated link">
 
-    <button class="btn copy" onclick="copyLink()">📋 Copy Link</button>
-    <button class="btn wa" onclick="shareWA()">📲 Share on WhatsApp</button>
-  </div>
+  <button class="btn copy" onclick="copyLink()">📋 Copy Link</button>
+  <button class="btn wa" onclick="shareWA()">📲 Share on WhatsApp</button>
+</div>
 
-  <!-- PREVIEW -->
-  <div class="right preview">
-    <h2 id="pTitle">3-Day Yoga Class</h2>
-    <p id="pDesc">Beginner Friendly · Limited Seats</p>
+<!-- PREVIEW -->
+<div class="right">
+  <img id="pImg" class="preview-img">
 
-    <div class="price">Entry Fee: ₹<span id="pAmount">500</span></div>
+  <h2 id="pTitle">3-Day Yoga Class</h2>
+  <p id="pDesc">Beginner Friendly · Limited Seats</p>
 
-    <button class="btn pay">Pay & Join</button>
-    <button class="btn wa-btn">Join WhatsApp Group</button>
+  <div class="price">Entry Fee: ₹<span id="pAmount">500</span></div>
 
-    <div class="points">
-      ✅ Secure UPI Payment<br>
-      ✅ Instant Confirmation<br>
-      ✅ Mobile Friendly
-    </div>
-  </div>
+  <button class="btn pay">Pay & Join</button>
+  <button class="btn wa">Join WhatsApp Group</button>
+
+  <p style="margin-top:12px;color:#475569;font-size:14px">
+    ✅ Secure UPI Payment<br>
+    ✅ Instant Confirmation<br>
+    ✅ Mobile Friendly
+  </p>
+</div>
 
 </div>
 
 <script>
 const title = document.getElementById("title");
 const desc = document.getElementById("desc");
-const img = document.getElementById("img");
 const amount = document.getElementById("amount");
 const upi = document.getElementById("upi");
 const wa = document.getElementById("wa");
 const link = document.getElementById("link");
+const imgFile = document.getElementById("imageFile");
+
+const pTitle = document.getElementById("pTitle");
+const pDesc = document.getElementById("pDesc");
+const pAmount = document.getElementById("pAmount");
+const pImg = document.getElementById("pImg");
 
 function updatePreview(){
   pTitle.innerText = title.value || "3-Day Yoga Class";
@@ -174,14 +145,26 @@ function updatePreview(){
     "&d=" + encodeURIComponent(desc.value) +
     "&a=" + encodeURIComponent(amount.value) +
     "&u=" + encodeURIComponent(upi.value) +
-    "&w=" + encodeURIComponent(wa.value) +
-    "&i=" + encodeURIComponent(img.value);
+    "&w=" + encodeURIComponent(wa.value);
 
   link.value = url;
 }
 
-[title,desc,img,amount,upi,wa].forEach(i=>{
+[title,desc,amount,upi,wa].forEach(i=>{
   i.addEventListener("input", updatePreview);
+});
+
+/* IMAGE PREVIEW (NO URL, NO CRASH) */
+imgFile.addEventListener("change", e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    pImg.src = reader.result;
+    pImg.style.display = "block";
+  };
+  reader.readAsDataURL(file);
 });
 
 function copyLink(){
