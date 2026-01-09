@@ -2,62 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Create Landing Page</title>
+<title>PayMoney – Landing Page Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ImageKit -->
+<script src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
 body{background:#f1f5f9;color:#0f172a}
 
-.page{
+/* LAYOUT */
+.wrapper{
   display:flex;
   flex-direction:column;
-  gap:20px;
-  padding:16px;
+  gap:16px;
+  padding:14px;
 }
-
-.left,.right{width:100%}
 
 /* BUILDER */
-.left{
+.builder{
   background:#fff;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 12px 30px rgba(0,0,0,.08);
+  padding:18px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
-.left h2{margin-bottom:16px}
-.left input{
+.builder h2{margin-bottom:12px}
+.builder input, .builder button{
   width:100%;
   padding:14px;
-  margin-bottom:12px;
+  margin-bottom:10px;
   border-radius:10px;
   border:1px solid #cbd5e1;
+  font-size:15px;
 }
+.builder button{
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+}
+.upload{background:#2563eb;color:#fff}
+.copy{background:#0f172a;color:#fff}
+.wa{background:#22c55e;color:#000}
 
 /* PREVIEW */
-.right{
+.preview{
   background:#fff;
-  border-radius:26px;
-  padding:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.15);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
   text-align:center;
 }
-
-.preview-img{
+.preview img{
   width:100%;
-  max-height:200px;
+  max-height:220px;
   object-fit:cover;
-  border-radius:16px;
-  margin-bottom:12px;
+  border-radius:14px;
+  margin-bottom:10px;
   display:none;
 }
-
 .price{
   font-size:22px;
   font-weight:800;
-  margin:14px 0;
+  margin:12px 0;
 }
-
 .btn{
   width:100%;
   padding:14px;
@@ -66,51 +74,47 @@ body{background:#f1f5f9;color:#0f172a}
   font-weight:700;
   margin-top:8px;
 }
-
 .pay{background:#ef4444;color:#fff}
-.wa{background:#22c55e;color:#000}
-.copy{background:#0f172a;color:#fff}
+.join{background:#22c55e;color:#000}
 
+/* DESKTOP */
 @media(min-width:900px){
-  .page{flex-direction:row;max-width:1200px;margin:auto}
-  .left,.right{flex:1}
+  .wrapper{flex-direction:row;max-width:1200px;margin:auto}
+  .builder,.preview{flex:1}
 }
 </style>
 </head>
 
 <body>
 
-<div class="page">
+<div class="wrapper">
 
 <!-- BUILDER -->
-<div class="left">
+<div class="builder">
   <h2>Create Landing Page</h2>
 
   <input id="title" placeholder="3-Day Yoga Class">
   <input id="desc" placeholder="Beginner Friendly · Limited Seats">
-  <input type="file" id="imageFile" accept="image/*">
   <input id="amount" placeholder="500">
   <input id="upi" placeholder="jadhav.h3@ybl">
   <input id="wa" placeholder="WhatsApp Group Link">
 
-  <input id="link" readonly placeholder="Generated link">
+  <button class="upload" onclick="uploadImage()">📷 Upload Image</button>
 
-  <button class="btn copy" onclick="copyLink()">📋 Copy Link</button>
-  <button class="btn wa" onclick="shareWA()">📲 Share on WhatsApp</button>
+  <input id="finalLink" readonly placeholder="Generated link">
+
+  <button class="copy" onclick="copyLink()">📋 Copy Link</button>
+  <button class="wa" onclick="shareWA()">📲 Share on WhatsApp</button>
 </div>
 
 <!-- PREVIEW -->
-<div class="right">
-  <img id="pImg" class="preview-img">
-
+<div class="preview">
+  <img id="pImg">
   <h2 id="pTitle">3-Day Yoga Class</h2>
   <p id="pDesc">Beginner Friendly · Limited Seats</p>
-
   <div class="price">Entry Fee: ₹<span id="pAmount">500</span></div>
-
   <button class="btn pay">Pay & Join</button>
-  <button class="btn wa">Join WhatsApp Group</button>
-
+  <button class="btn join">Join WhatsApp Group</button>
   <p style="margin-top:12px;color:#475569;font-size:14px">
     ✅ Secure UPI Payment<br>
     ✅ Instant Confirmation<br>
@@ -121,21 +125,50 @@ body{background:#f1f5f9;color:#0f172a}
 </div>
 
 <script>
+/* IMAGEKIT INIT */
+const imagekit = new ImageKit({
+  publicKey : "YOUR_PUBLIC_KEY",
+  urlEndpoint : "https://ik.imagekit.io/YOUR_ID"
+});
+
+let imageURL = "";
+
+/* ELEMENTS */
 const title = document.getElementById("title");
 const desc = document.getElementById("desc");
 const amount = document.getElementById("amount");
 const upi = document.getElementById("upi");
 const wa = document.getElementById("wa");
-const link = document.getElementById("link");
-const imgFile = document.getElementById("imageFile");
+const finalLink = document.getElementById("finalLink");
 
+const pImg = document.getElementById("pImg");
 const pTitle = document.getElementById("pTitle");
 const pDesc = document.getElementById("pDesc");
 const pAmount = document.getElementById("pAmount");
-const pImg = document.getElementById("pImg");
 
-function updatePreview(){
-  pTitle.innerText = title.value || "3-Day Yoga Class";
+/* IMAGE UPLOAD */
+function uploadImage(){
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/*";
+  input.onchange = ()=>{
+    imagekit.upload({
+      file: input.files[0],
+      fileName: "paymoney_" + Date.now()
+    }, (err, res)=>{
+      if(err){ alert("Upload failed"); return; }
+      imageURL = res.url;
+      pImg.src = imageURL;
+      pImg.style.display = "block";
+      update();
+    });
+  };
+  input.click();
+}
+
+/* UPDATE PREVIEW + LINK */
+function update(){
+  pTitle.innerText = title.value || "";
   pDesc.innerText = desc.value || "";
   pAmount.innerText = amount.value || "0";
 
@@ -145,41 +178,29 @@ function updatePreview(){
     "&d=" + encodeURIComponent(desc.value) +
     "&a=" + encodeURIComponent(amount.value) +
     "&u=" + encodeURIComponent(upi.value) +
-    "&w=" + encodeURIComponent(wa.value);
+    "&w=" + encodeURIComponent(wa.value) +
+    "&img=" + encodeURIComponent(imageURL);
 
-  link.value = url;
+  finalLink.value = url;
 }
 
 [title,desc,amount,upi,wa].forEach(i=>{
-  i.addEventListener("input", updatePreview);
+  i.addEventListener("input", update);
 });
 
-/* IMAGE PREVIEW (NO URL, NO CRASH) */
-imgFile.addEventListener("change", e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    pImg.src = reader.result;
-    pImg.style.display = "block";
-  };
-  reader.readAsDataURL(file);
-});
-
+/* ACTIONS */
 function copyLink(){
-  navigator.clipboard.writeText(link.value);
+  navigator.clipboard.writeText(finalLink.value);
   alert("Link copied");
 }
-
 function shareWA(){
   window.open(
-    "https://wa.me/?text=" + encodeURIComponent(link.value),
+    "https://wa.me/?text=" + encodeURIComponent(finalLink.value),
     "_blank"
   );
 }
 
-updatePreview();
+update();
 </script>
 
 </body>
