@@ -88,8 +88,36 @@ function copy(){
 function share(){
   window.open("https://wa.me/?text=" + encodeURIComponent(link.value));
 }
+  <script>
+let uploadedImage = "";
+
+document.getElementById("imageInput").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  // size check (500KB limit)
+  if (file.size > 500 * 1024) {
+    alert("Image size too large. Please upload under 500KB.");
+    this.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    uploadedImage = e.target.result;
+
+    const img = document.getElementById("previewImg");
+    img.src = uploadedImage;
+    img.style.display = "block";
+  };
+
+  reader.readAsDataURL(file);
+});
+</script>
+
 </script>
 
 </body>
 </html>
+
 
