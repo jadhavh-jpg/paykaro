@@ -1,54 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>PayMoney24 – Builder</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Landing Page Builder</title>
 
 <style>
-body{margin:0;font-family:system-ui;background:#f1f5f9}
-.wrap{display:flex;min-height:100vh}
-.left{width:40%;padding:20px;background:#fff}
-.right{width:60%;display:flex;align-items:center;justify-content:center}
+/* ===== RESET ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  background:#f1f5f9;
+  color:#0f172a;
+}
 
-h2{margin-top:0}
-input{width:100%;padding:10px;margin-bottom:10px}
-button{width:100%;padding:12px;border:none;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
-.copy{background:#0f172a;color:#fff}
-.wa{background:#22c55e}
+/* ===== LAYOUT (MOBILE FIRST) ===== */
+.page-wrap{
+  display:flex;
+  flex-direction:column;     /* mobile: stack */
+  gap:16px;
+  padding:12px;
+}
 
-iframe{
-  width:420px;
-  height:720px;
+.left,.right{width:100%}
+
+/* ===== BUILDER ===== */
+.left{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.left h3{margin-bottom:10px}
+.left input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+}
+
+/* ===== PREVIEW ===== */
+#preview{
+  width:100%;
+  height:560px;
   border:none;
-  border-radius:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 900px){
+  .page-wrap{
+    flex-direction:row;      /* desktop: side-by-side */
+    align-items:flex-start;
+  }
+  .left,.right{flex:1}
+  .right{
+    position:sticky;
+    top:16px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="page-wrap">
 
   <!-- BUILDER -->
   <div class="left">
-    <h2>Create Landing Page</h2>
+    <h3>Create Landing Page</h3>
 
-    <input id="t" placeholder="Title" value="3-Day Yoga Class">
-    <input id="s" placeholder="Subtitle" value="Beginner Friendly · Limited Seats">
-    <input id="img" placeholder="Image URL (https://...)">
-    <input id="a" placeholder="Amount" value="500">
-    <input id="upi" placeholder="UPI ID" value="jadhav.h3@ybl">
-    <input id="wa" placeholder="WhatsApp Group Link">
+    <input id="title" placeholder="Title">
+    <input id="desc" placeholder="Description">
+    <input id="amount" placeholder="Amount">
+    <input id="upi" placeholder="UPI ID">
 
-    <input id="linkBox" readonly>
-
-    <button class="copy" onclick="copyLink()">📋 Copy Link</button>
-    <button class="wa" onclick="shareWA()">📤 Share on WhatsApp</button>
+    <!-- IMAGE UPLOAD (GALLERY) -->
+    <input type="file" id="imageFile" accept="image/*">
   </div>
 
-  <!-- LIVE PREVIEW -->
+  <!-- PREVIEW -->
   <div class="right">
     <iframe id="preview"></iframe>
   </div>
@@ -56,39 +90,43 @@ iframe{
 </div>
 
 <script>
-function update(){
-  const t = tEl.value;
-  const s = sEl.value;
-  const img = imgEl.value;
-  const a = aEl.value;
-  const upi = upiEl.value;
-  const wa = waEl.value;
+/* ===== LIVE PREVIEW (NO BACKEND) ===== */
+const iframe = document.getElementById('preview');
 
-  const url =
-    location.origin + "/landing.html"
-    + "?t=" + encodeURIComponent(t)
-    + "&s=" + encodeURIComponent(s)
-    + "&img=" + encodeURIComponent(img)
-    + "&a=" + a
-    + "&upi=" + encodeURIComponent(upi)
-    + "&wa=" + encodeURIComponent(wa);
-
-  preview.src = url;
-  linkBox.value = url;
+function updatePreview(data){
+  const q = new URLSearchParams(data).toString();
+  iframe.src = 'lp.html?' + q;
 }
 
-function copyLink(){
-  navigator.clipboard.writeText(linkBox.value);
-  alert("Link copied");
-}
-function shareWA(){
-  window.open("https://wa.me/?text="+encodeURIComponent(linkBox.value));
-}
+/* Text fields → preview */
+['title','desc','amount','upi'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>{
+    updatePreview({
+      title: title.value,
+      desc: desc.value,
+      amount: amount.value,
+      upi: upi.value
+    });
+  });
+});
 
-const tEl=t,sEl=s,imgEl=img,aEl=a,upiEl=upi,waEl=wa;
-[tEl,sEl,imgEl,aEl,upiEl,waEl].forEach(i=>i.addEventListener("input",update));
+/* Image upload → preview (base64, temporary) */
+document.getElementById('imageFile').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
 
-update();
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    updatePreview({
+      title: title.value,
+      desc: desc.value,
+      amount: amount.value,
+      upi: upi.value,
+      image: reader.result   // temporary preview
+    });
+  };
+  reader.readAsDataURL(file);
+});
 </script>
 
 </body>
