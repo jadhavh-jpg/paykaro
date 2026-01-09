@@ -81,6 +81,7 @@ body{
 <body>
 
 <div class="card">
+<img id="heroImg" style="width:100%;border-radius:16px;display:none">
 
   <div class="hero">
     <h2 id="title"></h2>
@@ -156,6 +157,12 @@ function joinWA(){
     alert("WhatsApp group link not available");
   }
 }
+  const img = new URLSearchParams(location.search).get("img");
+if(img){
+  heroImg.src = img;
+  heroImg.style.display = "block";
+}
+
 </script>
 
 </body>
