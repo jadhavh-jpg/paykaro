@@ -166,24 +166,39 @@ function pay(){
   }
 }
 <\/script>
-
 </body></html>`;
 
-  document.getElementById("frame").srcdoc = html;
+document.getElementById("frame").srcdoc = html;
 
-  const finalLink =
-    location.origin + "/?t=" + encodeURIComponent(t);
-  document.getElementById("linkBox").value = finalLink;
+const finalLink =
+  location.origin + "/landing.html"
+  + "?t=" + encodeURIComponent(t)
+  + "&s=" + encodeURIComponent(s)
+  + "&img=" + encodeURIComponent(img)
+  + "&a=" + encodeURIComponent(amt)
+  + "&upi=" + encodeURIComponent(upi)
+  + "&wa=" + encodeURIComponent(wa)
+  + "&c=" + encodeURIComponent(color);
+
+document.getElementById("linkBox").value = finalLink;
 }
 
 function copyLink(){
-  navigator.clipboard.writeText(document.getElementById("linkBox").value);
+  const link = document.getElementById("linkBox").value;
+  navigator.clipboard.writeText(link);
   alert("Link copied");
 }
+
 function shareWA(){
-  window.open("https://wa.me/?text="+encodeURIComponent(document.getElementById("linkBox").value));
+  const link = document.getElementById("linkBox").value;
+  window.open(
+    "https://wa.me/?text=" + encodeURIComponent("Pay & Join:\n" + link),
+    "_blank"
+  );
 }
+
 </script>
 
 </body>
 </html>
+
