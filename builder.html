@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney – Landing Page Builder</title>
+<title>PayMoney – Smart Landing Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ImageKit -->
@@ -10,35 +10,56 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f1f5f9;color:#0f172a}
+body{background:#f8fafc;color:#0f172a}
 
 /* LAYOUT */
-.wrapper{
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:16px;
   display:flex;
   flex-direction:column;
-  gap:16px;
-  padding:14px;
+  gap:18px;
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
 /* BUILDER */
-.builder{
-  background:#fff;
-  padding:18px;
-  border-radius:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+.builder h2{margin-bottom:14px}
+.field{
+  margin-bottom:12px;
 }
-.builder h2{margin-bottom:12px}
-.builder input, .builder button{
+.field label{
+  font-size:13px;
+  color:#475569;
+  display:block;
+  margin-bottom:6px;
+}
+.field input{
   width:100%;
   padding:14px;
-  margin-bottom:10px;
-  border-radius:10px;
-  border:1px solid #cbd5e1;
+  border-radius:12px;
+  border:1.5px solid #cbd5e1;
   font-size:15px;
 }
-.builder button{
+.field input.error{
+  border-color:#ef4444;
+}
+
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:14px;
   border:none;
+  border-radius:999px;
   font-weight:700;
+  margin-top:10px;
   cursor:pointer;
 }
 .upload{background:#2563eb;color:#fff}
@@ -47,18 +68,14 @@ body{background:#f1f5f9;color:#0f172a}
 
 /* PREVIEW */
 .preview{
-  background:#fff;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
   text-align:center;
 }
 .preview img{
   width:100%;
   max-height:220px;
   object-fit:cover;
-  border-radius:14px;
-  margin-bottom:10px;
+  border-radius:16px;
+  margin-bottom:12px;
   display:none;
 }
 .price{
@@ -66,20 +83,17 @@ body{background:#f1f5f9;color:#0f172a}
   font-weight:800;
   margin:12px 0;
 }
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  font-weight:700;
-  margin-top:8px;
-}
 .pay{background:#ef4444;color:#fff}
 .join{background:#22c55e;color:#000}
+.note{
+  margin-top:12px;
+  font-size:14px;
+  color:#475569;
+}
 
 /* DESKTOP */
 @media(min-width:900px){
-  .wrapper{flex-direction:row;max-width:1200px;margin:auto}
+  .container{flex-direction:row}
   .builder,.preview{flex:1}
 }
 </style>
@@ -87,48 +101,71 @@ body{background:#f1f5f9;color:#0f172a}
 
 <body>
 
-<div class="wrapper">
+<div class="container">
 
 <!-- BUILDER -->
-<div class="builder">
+<div class="card builder">
   <h2>Create Landing Page</h2>
 
-  <input id="title" placeholder="3-Day Yoga Class">
-  <input id="desc" placeholder="Beginner Friendly · Limited Seats">
-  <input id="amount" placeholder="500">
-  <input id="upi" placeholder="jadhav.h3@ybl">
-  <input id="wa" placeholder="WhatsApp Group Link">
+  <div class="field">
+    <label>Title</label>
+    <input id="title" placeholder="3-Day Yoga Class">
+  </div>
 
-  <button class="upload" onclick="uploadImage()">📷 Upload Image</button>
+  <div class="field">
+    <label>Description</label>
+    <input id="desc" placeholder="Beginner Friendly · Limited Seats">
+  </div>
 
-  <input id="finalLink" readonly placeholder="Generated link">
+  <div class="field">
+    <label>Amount (₹)</label>
+    <input id="amount" placeholder="500">
+  </div>
 
-  <button class="copy" onclick="copyLink()">📋 Copy Link</button>
-  <button class="wa" onclick="shareWA()">📲 Share on WhatsApp</button>
+  <div class="field">
+    <label>UPI ID (example: name@ybl)</label>
+    <input id="upi" placeholder="jadhav.h3@ybl">
+  </div>
+
+  <div class="field">
+    <label>WhatsApp Group Link</label>
+    <input id="wa" placeholder="https://chat.whatsapp.com/...">
+  </div>
+
+  <button class="btn upload" onclick="uploadImage()">📷 Upload Image</button>
+
+  <div class="field">
+    <label>Final Link</label>
+    <input id="finalLink" readonly>
+  </div>
+
+  <button class="btn copy" onclick="copyLink()">📋 Copy Link</button>
+  <button class="btn wa" onclick="shareWA()">📲 Share on WhatsApp</button>
 </div>
 
 <!-- PREVIEW -->
-<div class="preview">
+<div class="card preview">
   <img id="pImg">
   <h2 id="pTitle">3-Day Yoga Class</h2>
   <p id="pDesc">Beginner Friendly · Limited Seats</p>
   <div class="price">Entry Fee: ₹<span id="pAmount">500</span></div>
   <button class="btn pay">Pay & Join</button>
   <button class="btn join">Join WhatsApp Group</button>
-  <p style="margin-top:12px;color:#475569;font-size:14px">
+  <div class="note">
     ✅ Secure UPI Payment<br>
     ✅ Instant Confirmation<br>
     ✅ Mobile Friendly
-  </p>
+  </div>
 </div>
 
 </div>
 
 <script>
-/* IMAGEKIT INIT */
+/* IMAGEKIT (UNSIGNED) */
 const imagekit = new ImageKit({
-  publicKey : "YOUR_PUBLIC_KEY",
-  urlEndpoint : "https://ik.imagekit.io/YOUR_ID"
+  publicKey : "public_Xj0iozLeRR",
+  urlEndpoint : "https://ik.imagekit.io/i6fiiwx2",
+  authenticationEndpoint : null
 });
 
 let imageURL = "";
@@ -146,24 +183,28 @@ const pTitle = document.getElementById("pTitle");
 const pDesc = document.getElementById("pDesc");
 const pAmount = document.getElementById("pAmount");
 
+/* UPI VALIDATION */
+function validUPI(v){
+  return /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(v);
+}
+
 /* IMAGE UPLOAD */
 function uploadImage(){
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.onchange = ()=>{
+  const i=document.createElement("input");
+  i.type="file"; i.accept="image/*";
+  i.onchange=()=>{
     imagekit.upload({
-      file: input.files[0],
-      fileName: "paymoney_" + Date.now()
-    }, (err, res)=>{
-      if(err){ alert("Upload failed"); return; }
-      imageURL = res.url;
-      pImg.src = imageURL;
-      pImg.style.display = "block";
+      file:i.files[0],
+      fileName:"paymoney_"+Date.now()
+    },(e,r)=>{
+      if(e){ alert("Upload failed"); return; }
+      imageURL=r.url;
+      pImg.src=imageURL;
+      pImg.style.display="block";
       update();
     });
   };
-  input.click();
+  i.click();
 }
 
 /* UPDATE PREVIEW + LINK */
@@ -172,20 +213,25 @@ function update(){
   pDesc.innerText = desc.value || "";
   pAmount.innerText = amount.value || "0";
 
-  const url =
-    location.origin + "/landing.html?" +
-    "t=" + encodeURIComponent(title.value) +
-    "&d=" + encodeURIComponent(desc.value) +
-    "&a=" + encodeURIComponent(amount.value) +
-    "&u=" + encodeURIComponent(upi.value) +
-    "&w=" + encodeURIComponent(wa.value) +
-    "&img=" + encodeURIComponent(imageURL);
+  if(upi.value && !validUPI(upi.value)){
+    upi.classList.add("error");
+    return;
+  }else{
+    upi.classList.remove("error");
+  }
 
-  finalLink.value = url;
+  finalLink.value =
+    location.origin + "/landing.html?" +
+    "t="+encodeURIComponent(title.value)+
+    "&d="+encodeURIComponent(desc.value)+
+    "&a="+encodeURIComponent(amount.value)+
+    "&u="+encodeURIComponent(upi.value)+
+    "&w="+encodeURIComponent(wa.value)+
+    "&img="+encodeURIComponent(imageURL);
 }
 
-[title,desc,amount,upi,wa].forEach(i=>{
-  i.addEventListener("input", update);
+[title,desc,amount,upi,wa].forEach(el=>{
+  el.addEventListener("input",update);
 });
 
 /* ACTIONS */
@@ -195,7 +241,7 @@ function copyLink(){
 }
 function shareWA(){
   window.open(
-    "https://wa.me/?text=" + encodeURIComponent(finalLink.value),
+    "https://wa.me/?text="+encodeURIComponent(finalLink.value),
     "_blank"
   );
 }
