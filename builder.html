@@ -1,25 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Landing Page Builder</title>
+<meta charset="UTF-8">
+<title>Create Landing Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 /* ===== RESET ===== */
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+
+/* ===== PAGE ===== */
 body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
   background:#f1f5f9;
   color:#0f172a;
 }
 
-/* ===== LAYOUT (MOBILE FIRST) ===== */
-.page-wrap{
+/* ===== LAYOUT ===== */
+.page{
   display:flex;
-  flex-direction:column;     /* mobile: stack */
-  gap:16px;
-  padding:12px;
+  flex-direction:column;
+  gap:20px;
+  padding:16px;
 }
 
 .left,.right{width:100%}
@@ -27,106 +28,175 @@ body{
 /* ===== BUILDER ===== */
 .left{
   background:#fff;
-  border-radius:16px;
-  padding:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-.left h3{margin-bottom:10px}
-.left input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #cbd5e1;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
 }
 
-/* ===== PREVIEW ===== */
-#preview{
+.left h2{
+  margin-bottom:16px;
+}
+
+.left input{
   width:100%;
-  height:560px;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+  font-size:15px;
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+  width:100%;
+  padding:14px;
   border:none;
-  border-radius:20px;
+  border-radius:999px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+.copy{background:#0f172a;color:#fff}
+.wa{background:#22c55e;color:#000}
+
+/* ===== PREVIEW ===== */
+.right{
   background:#fff;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
+  border-radius:26px;
+  padding:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.preview h2{
+  text-align:center;
+}
+
+.preview p{
+  text-align:center;
+  color:#475569;
+  margin-top:6px;
+}
+
+.price{
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  margin:14px 0;
+}
+
+.pay{
+  background:#ef4444;
+  color:#fff;
+}
+
+.wa-btn{
+  background:#22c55e;
+  color:#000;
+}
+
+.points{
+  margin-top:16px;
+  text-align:center;
+  color:#475569;
+  font-size:14px;
 }
 
 /* ===== DESKTOP ===== */
-@media (min-width: 900px){
-  .page-wrap{
-    flex-direction:row;      /* desktop: side-by-side */
-    align-items:flex-start;
+@media(min-width:900px){
+  .page{
+    flex-direction:row;
+    max-width:1200px;
+    margin:auto;
   }
   .left,.right{flex:1}
-  .right{
-    position:sticky;
-    top:16px;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="page-wrap">
+<div class="page">
 
   <!-- BUILDER -->
   <div class="left">
-    <h3>Create Landing Page</h3>
+    <h2>Create Landing Page</h2>
 
-    <input id="title" placeholder="Title">
-    <input id="desc" placeholder="Description">
-    <input id="amount" placeholder="Amount">
-    <input id="upi" placeholder="UPI ID">
+    <input id="title" placeholder="3-Day Yoga Class">
+    <input id="desc" placeholder="Beginner Friendly · Limited Seats">
+    <input id="img" placeholder="Image URL (optional)">
+    <input id="amount" placeholder="500">
+    <input id="upi" placeholder="jadhav.h3@ybl">
+    <input id="wa" placeholder="WhatsApp Group Link">
 
-    <!-- IMAGE UPLOAD (GALLERY) -->
-    <input type="file" id="imageFile" accept="image/*">
+    <input id="link" readonly>
+
+    <button class="btn copy" onclick="copyLink()">📋 Copy Link</button>
+    <button class="btn wa" onclick="shareWA()">📲 Share on WhatsApp</button>
   </div>
 
   <!-- PREVIEW -->
-  <div class="right">
-    <iframe id="preview"></iframe>
+  <div class="right preview">
+    <h2 id="pTitle">3-Day Yoga Class</h2>
+    <p id="pDesc">Beginner Friendly · Limited Seats</p>
+
+    <div class="price">Entry Fee: ₹<span id="pAmount">500</span></div>
+
+    <button class="btn pay">Pay & Join</button>
+    <button class="btn wa-btn">Join WhatsApp Group</button>
+
+    <div class="points">
+      ✅ Secure UPI Payment<br>
+      ✅ Instant Confirmation<br>
+      ✅ Mobile Friendly
+    </div>
   </div>
 
 </div>
 
 <script>
-/* ===== LIVE PREVIEW (NO BACKEND) ===== */
-const iframe = document.getElementById('preview');
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+const img = document.getElementById("img");
+const amount = document.getElementById("amount");
+const upi = document.getElementById("upi");
+const wa = document.getElementById("wa");
+const link = document.getElementById("link");
 
-function updatePreview(data){
-  const q = new URLSearchParams(data).toString();
-  iframe.src = 'lp.html?' + q;
+function updatePreview(){
+  pTitle.innerText = title.value || "3-Day Yoga Class";
+  pDesc.innerText = desc.value || "";
+  pAmount.innerText = amount.value || "0";
+
+  const url =
+    location.origin + "/landing.html?" +
+    "t=" + encodeURIComponent(title.value) +
+    "&d=" + encodeURIComponent(desc.value) +
+    "&a=" + encodeURIComponent(amount.value) +
+    "&u=" + encodeURIComponent(upi.value) +
+    "&w=" + encodeURIComponent(wa.value) +
+    "&i=" + encodeURIComponent(img.value);
+
+  link.value = url;
 }
 
-/* Text fields → preview */
-['title','desc','amount','upi'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', ()=>{
-    updatePreview({
-      title: title.value,
-      desc: desc.value,
-      amount: amount.value,
-      upi: upi.value
-    });
-  });
+[title,desc,img,amount,upi,wa].forEach(i=>{
+  i.addEventListener("input", updatePreview);
 });
 
-/* Image upload → preview (base64, temporary) */
-document.getElementById('imageFile').addEventListener('change', e=>{
-  const file = e.target.files[0];
-  if(!file) return;
+function copyLink(){
+  navigator.clipboard.writeText(link.value);
+  alert("Link copied");
+}
 
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    updatePreview({
-      title: title.value,
-      desc: desc.value,
-      amount: amount.value,
-      upi: upi.value,
-      image: reader.result   // temporary preview
-    });
-  };
-  reader.readAsDataURL(file);
-});
+function shareWA(){
+  window.open(
+    "https://wa.me/?text=" + encodeURIComponent(link.value),
+    "_blank"
+  );
+}
+
+updatePreview();
 </script>
 
 </body>
