@@ -52,9 +52,17 @@ iframe{
   <div class="right">
     <iframe id="preview"></iframe>
   </div>
+<div class="wrapper">
+
+  <div class="builder">
+    <!-- LEFT FORM -->
+  </div>
+
+  <div class="preview">
+    <!-- RIGHT PREVIEW CARD / iframe -->
+  </div>
 
 </div>
-
 <script>
 function update(){
   const t = tEl.value;
@@ -89,7 +97,54 @@ const tEl=t,sEl=s,imgEl=img,aEl=a,upiEl=upi,waEl=wa;
 [tEl,sEl,imgEl,aEl,upiEl,waEl].forEach(i=>i.addEventListener("input",update));
 
 update();
+  /* MAIN LAYOUT FIX */
+.wrapper{
+  display:flex;
+  min-height:100vh;
+  background:#f8fafc;
+}
+
+/* LEFT BUILDER */
+.builder{
+  width:38%;
+  padding:16px;
+  overflow-y:auto;
+}
+
+/* RIGHT PREVIEW */
+.preview{
+  width:62%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+/* PREVIEW CARD */
+.preview iframe,
+.preview .card{
+  width:100%;
+  max-width:420px;
+}
+
+/* 🔥 MOBILE FIX */
+@media (max-width:768px){
+  .wrapper{
+    flex-direction:column;
+  }
+
+  .builder,
+  .preview{
+    width:100%;
+  }
+
+  .preview{
+    padding:12px;
+  }
+}
+
 </script>
 
 </body>
 </html>
+
