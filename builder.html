@@ -2,110 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney Builder</title>
+<title>PayMoney24 – Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Cloudinary Upload Widget -->
-<script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f3f4f6}
-.container{max-width:1100px;margin:auto;padding:16px;display:flex;flex-direction:column;gap:16px}
-.card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.1)}
-input,button{width:100%;padding:14px;margin:8px 0;border-radius:10px;border:1px solid #cbd5e1}
-button{border:none;font-weight:700;cursor:pointer}
-.upload{background:#2563eb;color:#fff}
-.copy{background:#111827;color:#fff}
-.wa{background:#22c55e;color:#000}
-.preview img{width:100%;border-radius:14px;display:none;margin-bottom:10px}
-@media(min-width:900px){.container{flex-direction:row}.card{flex:1}}
+body{margin:0;font-family:system-ui;background:#f1f5f9}
+.wrap{display:flex;min-height:100vh}
+.left{width:40%;padding:20px;background:#fff}
+.right{width:60%;display:flex;align-items:center;justify-content:center}
+
+h2{margin-top:0}
+input{width:100%;padding:10px;margin-bottom:10px}
+button{width:100%;padding:12px;border:none;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
+.copy{background:#0f172a;color:#fff}
+.wa{background:#22c55e}
+
+iframe{
+  width:420px;
+  height:720px;
+  border:none;
+  border-radius:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrap">
 
-<!-- BUILDER -->
-<div class="card">
-  <h3>Create Landing Page</h3>
-  <input id="title" placeholder="3-Day Yoga Class">
-  <input id="desc" placeholder="Beginner Friendly · Limited Seats">
-  <input id="amount" placeholder="500">
-  <input id="upi" placeholder="jadhav.h3@ybl">
-  <input id="wa" placeholder="WhatsApp Group Link">
+  <!-- BUILDER -->
+  <div class="left">
+    <h2>Create Landing Page</h2>
 
-  <button class="upload" onclick="uploadImage()">📷 Upload Image</button>
+    <input id="t" placeholder="Title" value="3-Day Yoga Class">
+    <input id="s" placeholder="Subtitle" value="Beginner Friendly · Limited Seats">
+    <input id="img" placeholder="Image URL (https://...)">
+    <input id="a" placeholder="Amount" value="500">
+    <input id="upi" placeholder="UPI ID" value="jadhav.h3@ybl">
+    <input id="wa" placeholder="WhatsApp Group Link">
 
-  <input id="finalLink" readonly placeholder="Final link">
-  <button class="copy" onclick="copyLink()">📋 Copy Link</button>
-  <button class="wa" onclick="shareWA()">📲 Share on WhatsApp</button>
-</div>
+    <input id="linkBox" readonly>
 
-<!-- PREVIEW -->
-<div class="card preview">
-  <img id="img">
-  <h2 id="pt"></h2>
-  <p id="pd"></p>
-  <h3>₹ <span id="pa"></span></h3>
-</div>
+    <button class="copy" onclick="copyLink()">📋 Copy Link</button>
+    <button class="wa" onclick="shareWA()">📤 Share on WhatsApp</button>
+  </div>
+
+  <!-- LIVE PREVIEW -->
+  <div class="right">
+    <iframe id="preview"></iframe>
+  </div>
 
 </div>
 
 <script>
-/* ===== CLOUDINARY UPLOAD (STABLE) ===== */
-let imageURL = "";
-
-function uploadImage(){
-  cloudinary.openUploadWidget({
-    cloudName: "ddusj34vn",
-    uploadPreset: "paymoney_unsigned",
-    sources: ["local","camera"],
-    multiple: false
-  }, function(error, result){
-    if(error){
-      alert("Upload failed");
-      console.error(error);
-      return;
-    }
-    if(result.event === "success"){
-      imageURL = result.info.secure_url;
-      img.src = imageURL;
-      img.style.display = "block";
-      update();
-    }
-  });
-}
-
-/* ===== UPDATE PREVIEW + LINK ===== */
 function update(){
-  pt.innerText = title.value || "";
-  pd.innerText = desc.value || "";
-  pa.innerText = amount.value || "";
+  const t = tEl.value;
+  const s = sEl.value;
+  const img = imgEl.value;
+  const a = aEl.value;
+  const upi = upiEl.value;
+  const wa = waEl.value;
 
-  finalLink.value =
-    location.origin + "/landing.html?" +
-    "t=" + encodeURIComponent(title.value) +
-    "&d=" + encodeURIComponent(desc.value) +
-    "&a=" + encodeURIComponent(amount.value) +
-    "&u=" + encodeURIComponent(upi.value) +
-    "&w=" + encodeURIComponent(wa.value) +
-    "&img=" + encodeURIComponent(imageURL);
+  const url =
+    location.origin + "/landing.html"
+    + "?t=" + encodeURIComponent(t)
+    + "&s=" + encodeURIComponent(s)
+    + "&img=" + encodeURIComponent(img)
+    + "&a=" + a
+    + "&upi=" + encodeURIComponent(upi)
+    + "&wa=" + encodeURIComponent(wa);
+
+  preview.src = url;
+  linkBox.value = url;
 }
-
-[title,desc,amount,upi,wa].forEach(i=>i.addEventListener("input",update));
 
 function copyLink(){
-  navigator.clipboard.writeText(finalLink.value);
+  navigator.clipboard.writeText(linkBox.value);
   alert("Link copied");
 }
 function shareWA(){
-  window.open(
-    "https://wa.me/?text=" + encodeURIComponent(finalLink.value),
-    "_blank"
-  );
+  window.open("https://wa.me/?text="+encodeURIComponent(linkBox.value));
 }
+
+const tEl=t,sEl=s,imgEl=img,aEl=a,upiEl=upi,waEl=wa;
+[tEl,sEl,imgEl,aEl,upiEl,waEl].forEach(i=>i.addEventListener("input",update));
 
 update();
 </script>
