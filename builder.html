@@ -2,111 +2,233 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PayMoney24 – Builder</title>
+<title>PayMoney – Payment Landing Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
-body{margin:0;font-family:system-ui;background:#f1f5f9}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb}
+.wrap{max-width:1200px;margin:20px auto;padding:0 14px}
+.flex{display:flex;gap:20px}
+@media(max-width:900px){.flex{flex-direction:column}}
+.box{background:#fff;border-radius:18px;padding:20px;width:50%}
+@media(max-width:900px){.box{width:100%}}
 
-/* MAIN LAYOUT */
-.wrap{
-  display:flex;
-  min-height:100vh;
+label{font-weight:600;margin-top:12px;display:block}
+input,textarea{width:100%;padding:12px;border-radius:8px;border:1px solid #ccc;margin-top:6px}
+textarea{min-height:90px}
+
+button{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  font-size:16px;font-weight:600;cursor:pointer;margin-top:14px
 }
+.primary{background:#0D3B66;color:#fff}
+.copy{background:#2FB344;color:#fff}
+.wa{background:#25D366;color:#fff}
 
-/* LEFT */
-.left{
-  width:40%;
-  padding:20px;
-  background:#fff;
+/* ===== PREVIEW ===== */
+.preview{text-align:center}
+.logo{
+  width:110px;height:110px;margin:0 auto 10px;
+  border-radius:16px;background:#eee;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden
 }
+.logo img{width:100%;height:100%;object-fit:contain}
 
-/* RIGHT */
-.right{
-  width:60%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+.poster{
+  aspect-ratio:2/3;background:#ddd;
+  border-radius:14px;overflow:hidden
 }
+.poster img{width:100%;height:100%;object-fit:cover}
 
-h2{margin-top:0}
-input{width:100%;padding:10px;margin-bottom:10px}
-button{width:100%;padding:12px;border:none;border-radius:8px;font-weight:700;margin-top:8px;cursor:pointer}
-.copy{background:#0f172a;color:#fff}
-.wa{background:#22c55e}
-
-iframe{
-  width:100%;
-  max-width:420px;
-  height:720px;
-  border:none;
-  border-radius:24px;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
+.brand{
+  background:#0D3B66;color:#fff;
+  padding:10px;border-radius:12px;margin-top:12px
 }
+.date{margin-top:8px;font-size:14px;color:#555}
+.desc{margin:12px 0;color:#333;font-size:14px}
+.note{font-size:13px;color:#777;margin-top:10px}
 
-/* 🔥 MOBILE FIX */
-@media(max-width:768px){
-  .wrap{flex-direction:column}
-  .left,.right{width:100%}
+/* ===== LANDING ===== */
+.pay-mobile{
+  background:#2FB344;color:#fff;
+  padding:14px;border-radius:14px;
+  font-size:16px;font-weight:600;
+  margin-top:14px;text-align:center;
+  text-decoration:none;display:block
 }
+.pay-qr{
+  background:#1f3c88;color:#fff;
+  padding:14px;border-radius:14px;
+  font-size:16px;font-weight:600;
+  margin-top:12px;text-align:center;
+  cursor:pointer
+}
+.qr-box{margin-top:14px;display:none;text-align:center}
+.footer{margin-top:16px;font-size:13px;color:#777}
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="wrap" id="builder">
+  <div class="flex">
 
-  <div class="left">
-    <h2>Create Landing Page</h2>
+    <!-- ===== BUILDER ===== -->
+    <div class="box">
+      <h2>Create Payment Landing</h2>
 
-    <input id="t" value="3-Day Yoga Class">
-    <input id="s" value="Beginner Friendly · Limited Seats">
-    <input id="img" placeholder="Image URL">
-    <input id="a" value="500">
-    <input id="upi" value="jadhav.h3@ybl">
-    <input id="wa" placeholder="WhatsApp Group Link">
+      <label>Logo (optional)</label>
+      <input type="file" accept="image/*" onchange="loadLogo(event)">
 
-    <input id="linkBox" readonly>
+      <label>Poster Image</label>
+      <input type="file" accept="image/*" onchange="loadPoster(event)">
 
-    <button class="copy" onclick="copyLink()">📋 Copy Link</button>
-    <button class="wa" onclick="shareWA()">📤 Share on WhatsApp</button>
+      <label>Brand Name</label>
+      <input id="brand" oninput="sync()">
+
+      <label>Date & Time</label>
+      <input type="datetime-local" id="dt" oninput="sync()">
+
+      <label>UPI ID</label>
+      <input id="upi">
+
+      <label>Amount (INR)</label>
+      <input id="amount" type="number">
+
+      <label>Description</label>
+      <textarea id="desc" oninput="sync()"></textarea>
+
+      <button class="primary" onclick="generate()">Generate Landing Page</button>
+
+      <div id="actions" style="display:none">
+        <button class="copy" onclick="copyLink()">Copy Link</button>
+        <button class="wa" onclick="shareWA()">Share WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- ===== LIVE PREVIEW (NO PAYMENT BUTTONS) ===== -->
+    <div class="box preview">
+      <div class="logo" id="pLogo">LOGO</div>
+      <div class="poster" id="pPoster"></div>
+      <div class="brand" id="pBrand">Brand Name</div>
+      <div class="date" id="pDate">Date & Time</div>
+      <div class="desc" id="pDesc">Description</div>
+      <div class="note">Preview only – payment buttons appear on landing page</div>
+    </div>
+
   </div>
-
-  <div class="right">
-    <iframe id="preview"></iframe>
-  </div>
-
 </div>
 
+<!-- ===== LANDING CONTAINER (SEPARATE, GESTURE SAFE) ===== -->
+<div id="landing"></div>
+
 <script>
-const tEl=t,sEl=s,imgEl=img,aEl=a,upiEl=upi,waEl=wa;
+let posterURL="", logoURL="", landingLink="";
 
-function update(){
-  const url =
-    location.origin + "/landing.html"
-    + "?t=" + encodeURIComponent(tEl.value)
-    + "&s=" + encodeURIComponent(sEl.value)
-    + "&img=" + encodeURIComponent(imgEl.value)
-    + "&a=" + aEl.value
-    + "&upi=" + encodeURIComponent(upiEl.value)
-    + "&wa=" + encodeURIComponent(waEl.value);
-
-  preview.src = url;
-  linkBox.value = url;
+/* ===== IMAGE LOAD ===== */
+function loadPoster(e){
+  posterURL = URL.createObjectURL(e.target.files[0]);
+  pPoster.innerHTML = `<img src="${posterURL}">`;
+}
+function loadLogo(e){
+  logoURL = URL.createObjectURL(e.target.files[0]);
+  pLogo.innerHTML = `<img src="${logoURL}">`;
 }
 
-[tEl,sEl,imgEl,aEl,upiEl,waEl].forEach(i=>i.addEventListener("input",update));
-update();
-
-function copyLink(){
-  navigator.clipboard.writeText(linkBox.value);
-  alert("Link copied");
+/* ===== PREVIEW SYNC ===== */
+function sync(){
+  pBrand.innerText = brand.value || "Brand Name";
+  pDate.innerText = dt.value || "Date & Time";
+  pDesc.innerText = desc.value || "Description";
 }
-function shareWA(){
-  window.open("https://wa.me/?text="+encodeURIComponent(linkBox.value));
+
+/* ===== GENERATE LANDING ===== */
+function generate(){
+  if(!posterURL || !upi.value || !amount.value){
+    alert("Poster, UPI & Amount required");
+    return;
+  }
+
+  const upiLink =
+    `upi://pay?pa=${encodeURIComponent(upi.value)}`+
+    `&pn=${encodeURIComponent(brand.value||"PayMoney")}`+
+    `&am=${encodeURIComponent(String(amount.value))}`+
+    `&cu=INR`+
+    `&tn=${encodeURIComponent("PayMoney Payment")}`+
+    `&tr=PM${Date.now()}`;
+
+  const id = Date.now();
+  localStorage.setItem("landing_"+id, JSON.stringify({
+    logo: logoURL,
+    poster: posterURL,
+    brand: brand.value,
+    dt: dt.value,
+    desc: desc.value,
+    upi: upiLink
+  }));
+
+  landingLink = location.origin + location.pathname + "?view=landing&id=" + id;
+  actions.style.display="block";
+}
+
+function copyLink(){navigator.clipboard.writeText(landingLink)}
+function shareWA(){window.open("https://wa.me/?text="+encodeURIComponent(landingLink))}
+
+/* ===== LANDING MODE (NO body.innerHTML) ===== */
+const q = new URLSearchParams(location.search);
+if(q.get("view")==="landing"){
+  const d = JSON.parse(localStorage.getItem("landing_"+q.get("id")));
+  if(!d){
+    document.getElementById("landing").innerHTML = "Invalid link";
+  }else{
+    document.getElementById("builder").style.display="none";
+    document.getElementById("landing").innerHTML = `
+      <div class="wrap">
+        <div class="box preview">
+          ${d.logo?`<div class="logo"><img src="${d.logo}"></div>`:""}
+          <div class="poster"><img src="${d.poster}"></div>
+          <div class="brand">${d.brand||"PayMoney"}</div>
+          <div class="date">${d.dt||""}</div>
+          <div class="desc">${d.desc||""}</div>
+
+          <a class="pay-mobile"
+   href="${d.upi}"
+   target="_self"
+   rel="noopener">
+   📱 Open UPI App (Google Pay / PhonePe)
+</a>
+
+<div class="pay-qr" onclick="showQR('${d.upi}')">
+  💻 Scan & Pay (QR Code)
+</div>
+
+<div class="note">
+  If asked, tap <b>Continue</b> to open your UPI app
+</div>
+
+
+          <div class="qr-box" id="qrBox"></div>
+
+          <div class="footer">© 2026 PayMoney • India</div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function showQR(link){
+  const box=document.getElementById("qrBox");
+  box.style.display="block";
+  box.innerHTML="";
+  QRCode.toCanvas(document.createElement("canvas"),link,(err,canvas)=>{
+    box.appendChild(canvas);
+  });
 }
 </script>
 
 </body>
 </html>
+
